@@ -1,4 +1,11 @@
-function AboutCard({ key, title, description, className }) {
+interface AboutCardProps {
+  key?: React.Key;
+  title: string;
+  description: string;
+  className?: string;
+}
+
+function AboutCard({ key, title, description, className }: AboutCardProps) {
   return (
     <div
       key={key}

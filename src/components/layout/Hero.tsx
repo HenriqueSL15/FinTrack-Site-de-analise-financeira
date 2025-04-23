@@ -14,11 +14,8 @@ function Hero() {
           financeiros com nossa plataforma intuitiva e fácil de usar.
         </p>
         <div className="flex gap-6">
-          <Button size={"hero"} className="cursor-pointer">
+          <Button size={"lg"} className="cursor-pointer">
             Comece agora <ArrowRight />
-          </Button>
-          <Button variant={"outline"} size={"hero"} className="cursor-pointer">
-            Ver demonstração
           </Button>
         </div>
       </div>
