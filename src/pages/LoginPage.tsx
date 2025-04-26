@@ -13,7 +13,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext.tsx";
 import { Eye, EyeClosed } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -38,6 +39,7 @@ const formSchema = z.object({
 function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,8 +49,18 @@ function LoginPage() {
     },
   });
 
-  function formSubmitHandler() {
-    console.log(form.getValues());
+  async function formSubmitHandler() {
+    try {
+      const { email, password } = form.getValues();
+      const response = await login(email, password);
+
+      if (response) {
+        navigate("/");
+        console.log(response.data);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -121,10 +133,10 @@ function LoginPage() {
 
           <div className="w-7/10 py-5 flex flex-col items-center">
             <FormDescription className="text-neutral-500">
-              Não tem uma conta?{" "}
+              Não tem uma conta?
               <Button
                 variant={"link"}
-                className="cursor-pointer p-0"
+                className="cursor-pointer p-1"
                 onClick={() => navigate("/register")}
               >
                 Crie conta

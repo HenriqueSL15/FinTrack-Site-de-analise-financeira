@@ -13,9 +13,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../contexts/AuthContext.tsx";
 import { Eye, EyeClosed } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const formSchema = z.object({
   name: z.string().refine((name) => name.length > 2, {
@@ -41,6 +43,7 @@ const formSchema = z.object({
 function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { register } = useContext(AuthContext);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,8 +54,19 @@ function RegisterPage() {
     },
   });
 
-  function formSubmitHandler() {
-    console.log(form.getValues());
+  async function formSubmitHandler() {
+    try {
+      const userData = form.getValues();
+      const response = await register(userData);
+
+      if (response.status == 201) {
+        console.log(response.data.userWithoutPassword);
+        navigate("/login");
+        return response;
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   return (
@@ -134,7 +148,7 @@ function RegisterPage() {
             />
           </div>
           <Button className="cursor-pointer mt-5 w-9/12" type="submit">
-            Entrar
+            Registrar
           </Button>
 
           <div className="w-7/10 py-5 flex flex-col items-center">
