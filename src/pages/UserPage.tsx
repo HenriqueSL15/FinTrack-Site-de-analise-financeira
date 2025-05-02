@@ -3,6 +3,7 @@ import { AuthContext } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "@/components/layout/Sidebar";
 import Dashboard from "@/components/layout/Dashboard";
+import Transactions from "@/components/layout/Transactions";
 
 function UserPage() {
   const { user, isLoading } = useContext(AuthContext);
@@ -24,7 +25,7 @@ function UserPage() {
 
   const options: Options = {
     dashboard: <Dashboard />,
-    transactions: <div>Transactions</div>,
+    transactions: <Transactions />,
     categories: <div>Categories</div>,
     budgets: <div>Budgets</div>,
     goals: <div>Goals</div>,

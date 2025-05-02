@@ -17,7 +17,6 @@ import { useState, useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext.tsx";
 import { Eye, EyeClosed } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 const formSchema = z.object({
   name: z.string().refine((name) => name.length > 2, {
@@ -59,8 +58,7 @@ function RegisterPage() {
       const userData = form.getValues();
       const response = await register(userData);
 
-      if (response.status == 201) {
-        console.log(response.data.userWithoutPassword);
+      if (response.message == "Usuário criado com sucesso!") {
         navigate("/login");
         return response;
       }
