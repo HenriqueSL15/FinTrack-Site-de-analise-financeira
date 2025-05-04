@@ -2,7 +2,10 @@ import axios from "axios";
 import { Input } from "../ui/input";
 import { Search } from "lucide-react";
 import NewTransactionDialog from "./NewTransactionDialog.tsx";
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from "@/contexts/AuthContext.tsx";
+import { useQuery } from "@tanstack/react-query";
+import { formatCurrency } from "@/utils/currencyUtils.ts";
 
 // Função para obter todas as informações relacionadas ao usuário
 const getUserInformation = async (userId: number) => {
@@ -31,7 +34,22 @@ const getUserInformation = async (userId: number) => {
   }
 };
 
+const convertType = (type: string): string => {
+  if (type === "income") return "Receita";
+  if (type === "expense") return "Despesa";
+
+  return "Outro";
+};
+
 function Transactions() {
+  const { user, isLoading } = useContext(AuthContext);
+
+  const { data, isLoading: isLoadingUserInfo } = useQuery({
+    queryKey: ["userInfo", user?.id],
+    queryFn: () => getUserInformation(user?.id),
+    enabled: !!user?.id,
+  });
+
   return (
     <div className="w-full h-screen p-8 space-y-10">
       <h1 className="text-3xl font-bold mb-2 text-zinc-900">Transações</h1>
@@ -73,13 +91,19 @@ function Transactions() {
             </tr>
           </thead>
           <tbody className="w-full">
-            <tr className="border-t border-gray-200 hover:bg-gray-100 transition-all">
-              <td className="p-4">12/04/2025</td>
-              <td>Compra de café</td>
-              <td>Alimentação</td>
-              <td>Despesa</td>
-              <td>R$ 10,00</td>
-            </tr>
+            {data?.transactions.map((transaction) => {
+              return (
+                <tr className="border-t border-gray-200 hover:bg-gray-100 transition-all">
+                  <td className="p-4">
+                    {transaction.createdAt.split("T")[0].replaceAll("-", "/")}
+                  </td>
+                  <td>{transaction.description}</td>
+                  <td>{transaction.category.name}</td>
+                  <td>{convertType(transaction.type)}</td>
+                  <td>{formatCurrency(transaction.amount, user?.currency)}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

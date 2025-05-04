@@ -25,14 +25,18 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
-import { useState } from "react";
-import { z } from "zod";
+import { useContext, useState, useEffect } from "react";
+import { number, z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { AuthContext } from "@/contexts/AuthContext.tsx";
+import { convertToBRL } from "@/utils/currencyUtils.ts";
 
 // Schema de validação com Zod
 const transactionFormSchema = z.object({
-  type: z.enum(["Despesa", "Receita"], {
+  type: z.enum(["expense", "income"], {
     required_error: "Selecione o tipo de transação",
   }),
   description: z.string().min(3, {
@@ -56,14 +60,50 @@ const transactionFormSchema = z.object({
   }),
 });
 
+// Função para obter todas as informações relacionadas ao usuário
+const getUserInformation = async (userId: number) => {
+  try {
+    try {
+      // Usando Promise.all para fazer requisições paralelas
+      const [transactionsRes, categoriesRes, budgetsRes, goalsRes] =
+        await Promise.all([
+          axios.get(`http://localhost:3000/transaction/${userId}`),
+          axios.get(`http://localhost:3000/category/${userId}`),
+          axios.get(`http://localhost:3000/budget/${userId}`),
+          axios.get(`http://localhost:3000/goal/${userId}`),
+        ]);
+      return {
+        transactions: transactionsRes.data.transactions,
+        categories: categoriesRes.data.categories,
+        budgets: budgetsRes.data.budgets,
+        goals: goalsRes.data.goals,
+      };
+    } catch (error) {
+      console.error("Error fetching dashboard data:", error);
+      throw error;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 function NewTransactionDialog() {
   const [open, setOpen] = useState(false);
+  const { user, isLoading } = useContext(AuthContext);
+
+  const queryClient = useQueryClient();
+
+  const { data, isLoading: isLoadingUserInfo } = useQuery({
+    queryKey: ["userInfo", user?.id],
+    queryFn: () => getUserInformation(user?.id),
+    enabled: !!user?.id,
+  });
 
   // Configuraão do formulário
   const form = useForm<z.infer<typeof transactionFormSchema>>({
     resolver: zodResolver(transactionFormSchema),
     defaultValues: {
-      type: "Despesa",
+      type: "expense",
       description: "",
       amount: "",
       category: "",
@@ -71,8 +111,40 @@ function NewTransactionDialog() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof transactionFormSchema>) {
+  async function onSubmit(values: z.infer<typeof transactionFormSchema>) {
+    try {
+      const categoryId = data?.categories.find(
+        (category) => category.name === values.category
+      )?.id;
+
+      // Convete o valor da moeda do suuário para BRL antes de salvar
+      const amountInBRL = convertToBRL(
+        parseFloat(values.amount.replace(",", ".")),
+        user?.currency || "BRL"
+      );
+
+      const response = await axios.post(
+        `http://localhost:3000/transaction/${user?.id}/${categoryId}`,
+        {
+          description: values.description,
+          amount: amountInBRL,
+          type: values.type,
+          date: values.date,
+        }
+      );
+
+      if (response.data.message === "Transação criada com sucesso!") {
+        console.log("Transação criada com sucesso!");
+
+        // Invalida a consulta de transações para atualizar a UI
+        queryClient.invalidateQueries({ queryKey: ["userInfo", user?.id] });
+      }
+    } catch (err) {
+      console.log(err);
+    }
     console.log(values);
+    setOpen(false);
+    form.reset();
   }
 
   return (
@@ -106,21 +178,21 @@ function NewTransactionDialog() {
                     >
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem
-                          value="Despesa"
-                          id="despesa"
+                          value="expense"
+                          id="expense"
                           className="cursor-pointer"
                         />
-                        <label htmlFor="despesa" className="cursor-pointer">
+                        <label htmlFor="expense" className="cursor-pointer">
                           Despesa
                         </label>
                       </div>
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem
-                          value="Receita"
-                          id="receita"
+                          value="income"
+                          id="income"
                           className="cursor-pointer"
                         />
-                        <label htmlFor="receita" className="cursor-pointer">
+                        <label htmlFor="income" className="cursor-pointer">
                           Receita
                         </label>
                       </div>
@@ -154,7 +226,7 @@ function NewTransactionDialog() {
               name="amount"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Valor (R$)</FormLabel>
+                  <FormLabel>Valor ({user?.currency})</FormLabel>
                   <FormControl>
                     <Input className="h-10" placeholder="0,00" {...field} />
                   </FormControl>
@@ -179,12 +251,15 @@ function NewTransactionDialog() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="alimentacao">Alimentação</SelectItem>
-                      <SelectItem value="transporte">Transporte</SelectItem>
-                      <SelectItem value="lazer">Lazer</SelectItem>
-                      <SelectItem value="saude">Saúde</SelectItem>
-                      <SelectItem value="educacao">Educação</SelectItem>
-                      <SelectItem value="outros">Outros</SelectItem>
+                      {data?.categories.map((category) => {
+                        if (category.type === "goal") return null;
+                        return (
+                          <SelectItem key={category.id} value={category.name}>
+                            {category.name}
+                          </SelectItem>
+                        );
+                      })}
+                      {/* <SelectItem value="outros">Outros</SelectItem> */}
                     </SelectContent>
                   </Select>
                 </FormItem>

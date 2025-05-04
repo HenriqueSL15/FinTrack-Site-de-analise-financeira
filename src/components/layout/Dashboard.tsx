@@ -14,6 +14,7 @@ import axios from "axios";
 import AreaChart from "./AreaChart.tsx";
 import FinancialCard from "../common/FinancialCard.tsx";
 import { AuthContext } from "@/contexts/AuthContext.tsx";
+import { formatCurrency } from "@/utils/currencyUtils.ts";
 
 // Interface para as transações
 interface Transaction {
@@ -69,14 +70,6 @@ const calculateTotalSavings = (transactions: Transaction[]): number => {
     .reduce((total, transaction) => total + transaction.amount, 0);
 };
 
-// Função para formatar valores monetários
-const formatCurrency = (value: number): string => {
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(value);
-};
-
 // Função para obter todas as informações relacionadas ao usuário
 const getUserInformation = async (userId: number) => {
   try {
@@ -128,27 +121,27 @@ function Dashboard() {
       <div className="w-full h-2/10 flex gap-5">
         <FinancialCard
           title="Saldo Atual"
-          value={formatCurrency(balance)}
+          value={formatCurrency(balance, user?.currency)}
           subtitle="Atualizado hoje"
           icon={CircleDollarSign}
         />
         <FinancialCard
           title="Receitas"
-          value={formatCurrency(totalIncome)}
+          value={formatCurrency(totalIncome, user?.currency)}
           subtitle="+15% em relação ao mês anterior"
           icon={ArrowUp}
           iconColor="green"
         />
         <FinancialCard
           title="Despesas"
-          value={formatCurrency(totalExpenses)}
+          value={formatCurrency(totalExpenses, user?.currency)}
           subtitle="-2% em relação ao mês anterior"
           icon={ArrowDown}
           iconColor="red"
         />
         <FinancialCard
           title="Economias"
-          value={formatCurrency(totalSavings)}
+          value={formatCurrency(totalSavings, user?.currency)}
           subtitle="+8.5% em relação ao mês anterior"
           icon={Wallet}
           iconColor="gray"
