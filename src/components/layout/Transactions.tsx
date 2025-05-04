@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Input } from "../ui/input";
-import { Button } from "../ui/button";
-import { Search, Plus } from "lucide-react";
+import { Search } from "lucide-react";
+import NewTransactionDialog from "./NewTransactionDialog.tsx";
 import React from "react";
 
 // Função para obter todas as informações relacionadas ao usuário
@@ -49,9 +49,7 @@ function Transactions() {
               />
               <Search className="absolute left-3 top-3 w-4 h-4" color="gray" />
             </div>
-            <Button className="w-40 h-10 cursor-pointer'">
-              <Plus /> Nova Transação
-            </Button>
+            <NewTransactionDialog />
           </div>
         </div>
         <table className="w-full">
