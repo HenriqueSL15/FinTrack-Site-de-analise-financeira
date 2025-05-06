@@ -7,7 +7,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "@/contexts/AuthContext.tsx";
 import { useQuery } from "@tanstack/react-query";
 import { formatCurrency } from "@/utils/currencyUtils.ts";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUp, ArrowDown } from "lucide-react";
 
 // Função para obter todas as informações relacionadas ao usuário
 const getUserInformation = async (userId: number) => {
@@ -162,7 +162,7 @@ function Transactions() {
               <th className="text-start text-neutral-500 font-medium text-sm">
                 Tipo
               </th>
-              <th className="text-start text-neutral-500 font-medium text-sm">
+              <th className="text-neutral-500 font-medium text-sm text-end">
                 Valor
               </th>
             </tr>
@@ -170,8 +170,8 @@ function Transactions() {
           <tbody className="w-full">
             {getCurrentPageTransactions().map((transaction) => {
               return (
-                <tr className="border-t border-gray-200 hover:bg-gray-100 transition-all font-medium">
-                  <td className="p-4">
+                <tr className="border-t border-gray-200 hover:bg-gray-100 transition-all text-sm">
+                  <td className="p-4 w-[20%]">
                     {transaction.createdAt.split("T")[0].replaceAll("-", "/")}
                   </td>
                   <td className="min-w-20">{transaction.description}</td>
@@ -180,19 +180,24 @@ function Transactions() {
                     <h1
                       className={`${
                         transaction.type === "income"
-                          ? "bg-green-500 text-white"
-                          : "bg-red-500 text-white"
-                      } w-20 p-0.5 text-center rounded-full hover:bg-gray-100 hover:text-black transition-all cursor-default`}
+                          ? "bg-emerald-100 text-emerald-800"
+                          : "bg-rose-100 text-rose-800"
+                      }  w-25 h-7 text-center rounded-full hover:bg-gray-100 transition-all cursor-default flex items-center justify-center gap-1`}
                     >
+                      {transaction.type === "income" ? (
+                        <ArrowUp size={18} />
+                      ) : (
+                        <ArrowDown size={18} />
+                      )}
                       {convertType(transaction.type)}
                     </h1>
                   </td>
                   <td
                     className={`${
                       transaction.type === "income"
-                        ? "text-green-500"
-                        : "text-red-500"
-                    }`}
+                        ? "text-emerald-600"
+                        : "text-rose-600"
+                    } w-[5%] text-end `}
                   >
                     {formatCurrency(transaction.amount, user?.currency)}
                   </td>
