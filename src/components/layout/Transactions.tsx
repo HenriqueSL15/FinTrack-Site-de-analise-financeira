@@ -8,33 +8,7 @@ import { AuthContext } from "@/contexts/AuthContext.tsx";
 import { useQuery } from "@tanstack/react-query";
 import { formatCurrency } from "@/utils/currencyUtils.ts";
 import { ArrowLeft, ArrowRight, ArrowUp, ArrowDown } from "lucide-react";
-
-// Função para obter todas as informações relacionadas ao usuário
-const getUserInformation = async (userId: number) => {
-  try {
-    try {
-      // Usando Promise.all para fazer requisições paralelas
-      const [transactionsRes, categoriesRes, budgetsRes, goalsRes] =
-        await Promise.all([
-          axios.get(`http://localhost:3000/transaction/${userId}`),
-          axios.get(`http://localhost:3000/category/${userId}`),
-          axios.get(`http://localhost:3000/budget/${userId}`),
-          axios.get(`http://localhost:3000/goal/${userId}`),
-        ]);
-      return {
-        transactions: transactionsRes.data.transactions,
-        categories: categoriesRes.data.categories,
-        budgets: budgetsRes.data.budgets,
-        goals: goalsRes.data.goals,
-      };
-    } catch (error) {
-      console.error("Error fetching dashboard data:", error);
-      throw error;
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
+import getUserInformation from "@/utils/userInfoUtils.ts";
 
 const convertType = (type: string): string => {
   if (type === "income") return "Receita";
