@@ -3,7 +3,7 @@ import { Input } from "../ui/input";
 import { Search } from "lucide-react";
 import { Button } from "../ui/button.tsx";
 import NewTransactionDialog from "./NewTransactionDialog.tsx";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "@/contexts/AuthContext.tsx";
 import { useQuery } from "@tanstack/react-query";
 import { formatCurrency } from "@/utils/currencyUtils.ts";
@@ -80,6 +80,7 @@ interface Transaction {
 
 function Transactions() {
   const { user, isLoading } = useContext(AuthContext);
+  const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
   const transactionsPerPage = 6;
@@ -98,8 +99,15 @@ function Transactions() {
   const getCurrentPageTransactions = (): Transaction[] => {
     const startIndex = (currentPage - 1) * transactionsPerPage;
     const endIndex = startIndex + transactionsPerPage;
+    let filteredData = data?.transactions || [];
 
-    return data?.transactions?.slice(startIndex, endIndex) || [];
+    if (search) {
+      filteredData = filteredData.filter((transaction) =>
+        transaction.description.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    return filteredData?.slice(startIndex, endIndex);
   };
 
   // Navegar entre páginas
@@ -116,8 +124,6 @@ function Transactions() {
     }
   };
 
-  console.log(currentPage);
-
   return (
     <div className="w-full h-screen p-8 space-y-10">
       <h1 className="text-3xl font-bold mb-2 text-zinc-900">Transações</h1>
@@ -132,6 +138,7 @@ function Transactions() {
               <Input
                 className="bg-white w-50 h-10 pl-8"
                 placeholder={"Buscar transações..."}
+                onChange={(e) => setSearch(e.target.value)}
               />
               <Search className="absolute left-3 top-3 w-4 h-4" color="gray" />
             </div>
@@ -165,7 +172,7 @@ function Transactions() {
                   <td className="p-4">
                     {transaction.createdAt.split("T")[0].replaceAll("-", "/")}
                   </td>
-                  <td>{transaction.description}</td>
+                  <td className="min-w-20">{transaction.description}</td>
                   <td>{transaction.category.name}</td>
                   <td>
                     <h1
