@@ -105,6 +105,8 @@ function Transactions() {
       filteredData = filteredData.filter((transaction) =>
         transaction.description.toLowerCase().includes(search.toLowerCase())
       );
+
+      return filteredData;
     }
 
     return filteredData?.slice(startIndex, endIndex);
