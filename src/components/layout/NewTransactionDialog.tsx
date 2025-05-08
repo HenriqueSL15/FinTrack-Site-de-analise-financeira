@@ -33,6 +33,7 @@ import axios from "axios";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "@/contexts/AuthContext.tsx";
 import { convertToBRL } from "@/utils/currencyUtils.ts";
+import getUserInformation from "@/utils/userInfoUtils";
 
 // Schema de validação com Zod
 const transactionFormSchema = z.object({
@@ -59,33 +60,6 @@ const transactionFormSchema = z.object({
     message: "Data inválida",
   }),
 });
-
-// Função para obter todas as informações relacionadas ao usuário
-const getUserInformation = async (userId: number) => {
-  try {
-    try {
-      // Usando Promise.all para fazer requisições paralelas
-      const [transactionsRes, categoriesRes, budgetsRes, goalsRes] =
-        await Promise.all([
-          axios.get(`http://localhost:3000/transaction/${userId}`),
-          axios.get(`http://localhost:3000/category/${userId}`),
-          axios.get(`http://localhost:3000/budget/${userId}`),
-          axios.get(`http://localhost:3000/goal/${userId}`),
-        ]);
-      return {
-        transactions: transactionsRes.data.transactions,
-        categories: categoriesRes.data.categories,
-        budgets: budgetsRes.data.budgets,
-        goals: goalsRes.data.goals,
-      };
-    } catch (error) {
-      console.error("Error fetching dashboard data:", error);
-      throw error;
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
 
 function NewTransactionDialog() {
   const [open, setOpen] = useState(false);
@@ -117,7 +91,7 @@ function NewTransactionDialog() {
         (category) => category.name === values.category
       )?.id;
 
-      // Convete o valor da moeda do suuário para BRL antes de salvar
+      // Converte o valor da moeda do suuário para BRL antes de salvar
       const amountInBRL = convertToBRL(
         parseFloat(values.amount.replace(",", ".")),
         user?.currency || "BRL"
@@ -259,7 +233,6 @@ function NewTransactionDialog() {
                           </SelectItem>
                         );
                       })}
-                      {/* <SelectItem value="outros">Outros</SelectItem> */}
                     </SelectContent>
                   </Select>
                 </FormItem>
