@@ -127,7 +127,7 @@ function NewBudgetDialog() {
               name="budgetLimit"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Data ({user?.currency})</FormLabel>
+                  <FormLabel>Valor orçado ({user?.currency})</FormLabel>
                   <FormControl>
                     <Input type="number" />
                   </FormControl>
