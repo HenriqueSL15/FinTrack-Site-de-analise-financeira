@@ -63,13 +63,29 @@ function NewBudgetDialog() {
     resolver: zodResolver(budgetFormSchema),
     defaultValues: {
       category: "",
-      monthYear: new Date().toISOString().split("T")[0],
+      monthYear: new Date().toISOString(),
       budgetLimit: 1,
     },
   });
 
   async function onSubmit(values: z.infer<typeof budgetFormSchema>) {
+    try {
+      const categoryId = data?.categories?.find(
+        (category) => category.name === values.category
+      ).id;
+
+      const response = await axios.post(
+        `http://localhost:3000/budget/${user?.id}/${categoryId}`,
+        {
+          monthYear: values.monthYear,
+          limitAmount: values.budgetLimit,
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
     console.log(values);
+
     setOpen(false);
     form.reset();
   }
@@ -129,8 +145,15 @@ function NewBudgetDialog() {
                 <FormItem>
                   <FormLabel>Valor orçado ({user?.currency})</FormLabel>
                   <FormControl>
-                    <Input type="number" />
+                    <Input
+                      type="number"
+                      {...field}
+                      onChange={(e) =>
+                        field.onChange(parseFloat(e.target.value) || 0)
+                      }
+                    />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />

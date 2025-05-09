@@ -32,13 +32,30 @@ function Budgets() {
         <NewBudgetDialog />
       </div>
       <div className="grid grid-cols-3 w-full gap-5">
-        <BudgetCard
+        {data?.budgets.map((budget) => {
+          return (
+            <BudgetCard
+              key={budget.id}
+              title={budget.category.name}
+              budgeted={formatCurrency(budget.limitAmount, user?.currency)}
+              spent={formatCurrency(budget.spentAmount, user?.currency)}
+              remaining={formatCurrency(
+                budget.limitAmount - budget.spentAmount,
+                user?.currency
+              )}
+              percentage={Math.round(
+                (budget.spentAmount / budget.limitAmount) * 100
+              )}
+            />
+          );
+        })}
+        {/* <BudgetCard
           title="Alimentação"
           budgeted={formatCurrency(800, user?.currency)}
           spent={formatCurrency(250, user?.currency)}
           remaining={formatCurrency(550, user?.currency)}
           percentage={31}
-        />
+        /> */}
       </div>
     </div>
   );
