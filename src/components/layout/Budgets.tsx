@@ -7,6 +7,17 @@ import getUserInformation from "@/utils/userInfoUtils.ts";
 import { formatCurrency } from "@/utils/currencyUtils.ts";
 import NewBudgetDialog from "./NewBudgetDialog.tsx";
 
+function getSpentAmount(budget, transactions) {
+  let total = 0;
+  transactions?.map((transaction) => {
+    if (transaction.categoryId === budget.categoryId) {
+      if (transaction.type === "expense") total += transaction.amount;
+    }
+  });
+  console.log(total);
+  return total;
+}
+
 function Budgets() {
   const { user, isLoading } = useContext(AuthContext);
 
@@ -33,29 +44,25 @@ function Budgets() {
       </div>
       <div className="grid grid-cols-3 w-full gap-5">
         {data?.budgets.map((budget) => {
+          const spentAmount = getSpentAmount(budget, data?.transactions);
+          const formatedSpentAmount = formatCurrency(
+            spentAmount,
+            user?.currency
+          );
           return (
             <BudgetCard
               key={budget.id}
               title={budget.category.name}
               budgeted={formatCurrency(budget.limitAmount, user?.currency)}
-              spent={formatCurrency(budget.spentAmount, user?.currency)}
+              spent={formatCurrency(spentAmount, user?.currency)}
               remaining={formatCurrency(
-                budget.limitAmount - budget.spentAmount,
+                budget.limitAmount - spentAmount,
                 user?.currency
               )}
-              percentage={Math.round(
-                (budget.spentAmount / budget.limitAmount) * 100
-              )}
+              percentage={Math.round((spentAmount / budget.limitAmount) * 100)}
             />
           );
         })}
-        {/* <BudgetCard
-          title="Alimentação"
-          budgeted={formatCurrency(800, user?.currency)}
-          spent={formatCurrency(250, user?.currency)}
-          remaining={formatCurrency(550, user?.currency)}
-          percentage={31}
-        /> */}
       </div>
     </div>
   );

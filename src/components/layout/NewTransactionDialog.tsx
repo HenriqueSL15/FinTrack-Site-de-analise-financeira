@@ -65,6 +65,10 @@ function NewTransactionDialog() {
   const [open, setOpen] = useState(false);
   const { user, isLoading } = useContext(AuthContext);
 
+  const [selectedType, setSelectedType] = useState<"expense" | "income">(
+    "expense"
+  );
+
   const queryClient = useQueryClient();
 
   const { data, isLoading: isLoadingUserInfo } = useQuery({
@@ -85,6 +89,32 @@ function NewTransactionDialog() {
     },
   });
 
+  // Função para atualizar o tipo com base na categoria selecionada
+  const updateTypeBasedOnCategory = (categoryName: string) => {
+    const selectedCategory = data?.categories.find(
+      (category) => category.name === categoryName
+    );
+
+    if (selectedCategory) {
+      // Atualiza o tipo com base no tipo da categoria
+      const newType = selectedCategory.type as "expense" | "income";
+      form.setValue("type", newType);
+      setSelectedType(newType);
+    }
+  };
+
+  // Observe as mudanças no valor do tipo no formulário
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === "type") {
+        setSelectedType(value.type as "expense" | "income");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [form.watch]);
+
+  // Função que envia as informações do form
   async function onSubmit(values: z.infer<typeof transactionFormSchema>) {
     try {
       const categoryId = data?.categories.find(
@@ -146,29 +176,17 @@ function NewTransactionDialog() {
                   <FormLabel>Tipo de Transação</FormLabel>
                   <FormControl>
                     <RadioGroup
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      value={selectedType}
                       className="flex gap-4"
+                      disabled
                     >
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value="expense"
-                          id="expense"
-                          className="cursor-pointer"
-                        />
-                        <label htmlFor="expense" className="cursor-pointer">
-                          Despesa
-                        </label>
+                        <RadioGroupItem value="expense" id="expense" />
+                        <label>Despesa</label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value="income"
-                          id="income"
-                          className="cursor-pointer"
-                        />
-                        <label htmlFor="income" className="cursor-pointer">
-                          Receita
-                        </label>
+                        <RadioGroupItem value="income" id="income" />
+                        <label>Receita</label>
                       </div>
                     </RadioGroup>
                   </FormControl>
@@ -216,7 +234,10 @@ function NewTransactionDialog() {
                 <FormItem>
                   <FormLabel>Categoria</FormLabel>
                   <Select
-                    onValueChange={field.onChange}
+                    onValueChange={(e) => {
+                      field.onChange(e);
+                      updateTypeBasedOnCategory(e);
+                    }}
                     defaultValue={field.value}
                   >
                     <FormControl className="w-full">
