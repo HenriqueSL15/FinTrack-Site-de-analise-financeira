@@ -3,6 +3,7 @@ import { Input } from "../ui/input";
 import { Search } from "lucide-react";
 import { Button } from "../ui/button.tsx";
 import NewTransactionDialog from "./NewTransactionDialog.tsx";
+import NewCategoryDialog from "./NewCategoryDialog.tsx";
 import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "@/contexts/AuthContext.tsx";
 import { useQuery } from "@tanstack/react-query";
@@ -110,6 +111,7 @@ function Transactions() {
         <div className="flex justify-between items-center mb-10">
           <h1 className="text-2xl font-semibold">Histórico de Transações</h1>
           <div className="flex gap-3 w-1/2 justify-end">
+            <NewCategoryDialog />
             <div className="relative">
               <Input
                 className="bg-white w-50 h-10 pl-8"

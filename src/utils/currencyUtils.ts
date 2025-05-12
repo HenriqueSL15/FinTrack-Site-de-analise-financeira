@@ -40,6 +40,19 @@ export function formatCurrency(
   }).format(convertedValue);
 }
 
+// Função para converter uma string formatada em um número
+export function parseCurrencyString(currencyString: string): number {
+  // Remove símbolos de moeda, pontos de milhar e espaços
+  const cleanedString = currencyString
+    .replace(/[R$€$£¥]/g, "")
+    .replace(/\s/g, "")
+    .replace(/\./g, "")
+    .replace(",", ".");
+
+  // Converte para número
+  return parseFloat(cleanedString);
+}
+
 // Função para converter para o REAL (BRL)
 export function convertToBRL(
   value: number,

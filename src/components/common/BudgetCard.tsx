@@ -1,4 +1,5 @@
 import { Progress } from "../ui/progress";
+import { parseCurrencyString } from "@/utils/currencyUtils";
 
 interface BudgetCardProps {
   title: string;
@@ -15,6 +16,8 @@ function BudgetCard({
   remaining,
   percentage,
 }: BudgetCardProps) {
+  const remainingNumber = parseCurrencyString(remaining);
+
   return (
     <div className="bg-neutral-50 border border-neutral-300 rounded-lg p-5 flex flex-col gap-2">
       <h1 className=" font-semibold">{title}</h1>
@@ -35,7 +38,13 @@ function BudgetCard({
         <div>
           <h1 className="font-medium">Restante:</h1>
           {/* Usar a formatação */}
-          <h2 className="text-emerald-600">{remaining}</h2>
+          <h2
+            className={` ${
+              remainingNumber <= 0 ? "text-rose-600" : "text-emerald-600"
+            } `}
+          >
+            {remaining}
+          </h2>
         </div>
       </div>
     </div>

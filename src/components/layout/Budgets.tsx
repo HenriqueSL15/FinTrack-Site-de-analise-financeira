@@ -14,7 +14,7 @@ function getSpentAmount(budget, transactions) {
       if (transaction.type === "expense") total += transaction.amount;
     }
   });
-  console.log(total);
+
   return total;
 }
 
@@ -45,10 +45,7 @@ function Budgets() {
       <div className="grid grid-cols-3 w-full gap-5">
         {data?.budgets.map((budget) => {
           const spentAmount = getSpentAmount(budget, data?.transactions);
-          const formatedSpentAmount = formatCurrency(
-            spentAmount,
-            user?.currency
-          );
+
           return (
             <BudgetCard
               key={budget.id}

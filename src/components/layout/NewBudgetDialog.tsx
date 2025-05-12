@@ -8,7 +8,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -21,7 +20,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
@@ -32,7 +30,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "@/contexts/AuthContext.tsx";
-import { convertToBRL } from "@/utils/currencyUtils.ts";
 import getUserInformation from "@/utils/userInfoUtils.ts";
 
 function NewBudgetDialog() {
@@ -81,6 +78,13 @@ function NewBudgetDialog() {
           limitAmount: values.budgetLimit,
         }
       );
+
+      if (response.status === 201) {
+        console.log("Orçamento criado com sucesso!");
+
+        // Invalida a consulta de orçamentos para atualizar a UI
+        queryClient.invalidateQueries({ queryKey: ["userInfo", user?.id] });
+      }
     } catch (err) {
       console.log(err);
     }
