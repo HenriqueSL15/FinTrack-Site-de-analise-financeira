@@ -103,12 +103,24 @@ function NewCategoryDialog() {
                       className="flex gap-4"
                     >
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="expense" id="expense" />
-                        <label htmlFor="expense">Despesa</label>
+                        <RadioGroupItem
+                          value="expense"
+                          id="expense"
+                          className="cursor-pointer"
+                        />
+                        <label htmlFor="expense" className="cursor-pointer">
+                          Despesa
+                        </label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="income" id="income" />
-                        <label htmlFor="income">Receita</label>
+                        <RadioGroupItem
+                          value="income"
+                          id="income"
+                          className="cursor-pointer"
+                        />
+                        <label htmlFor="income" className="cursor-pointer">
+                          Receita
+                        </label>
                       </div>
                     </RadioGroup>
                   </FormControl>
