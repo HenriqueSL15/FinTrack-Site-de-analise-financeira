@@ -5,10 +5,11 @@ import Sidebar from "@/components/layout/Sidebar";
 import Dashboard from "@/components/layout/Dashboard";
 import Transactions from "@/components/layout/Transactions";
 import Budgets from "@/components/layout/Budgets";
+import Reports from "@/components/layout/Reports";
 
 function UserPage() {
   const { user, isLoading } = useContext(AuthContext);
-  const [selectedOption, setSelectedOption] = useState("dashboard");
+  const [selectedOption, setSelectedOption] = useState("reports");
   const navigate = useNavigate();
 
   if (!isLoading && !user) {
@@ -18,8 +19,8 @@ function UserPage() {
   interface Options {
     dashboard: JSX.Element;
     transactions: JSX.Element;
-    categories: JSX.Element;
     budgets: JSX.Element;
+    reports: JSX.Element;
     goals: JSX.Element;
     settings: JSX.Element;
   }
@@ -27,8 +28,8 @@ function UserPage() {
   const options: Options = {
     dashboard: <Dashboard />,
     transactions: <Transactions />,
-    categories: <Budgets />,
-    budgets: <div>Budgets</div>,
+    budgets: <Budgets />,
+    reports: <Reports />,
     goals: <div>Goals</div>,
     settings: <div>Settings</div>,
   };

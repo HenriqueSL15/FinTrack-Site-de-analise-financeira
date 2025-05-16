@@ -43,14 +43,14 @@ function Sidebar({ setSelectedOption }) {
         <Button
           variant={"ghost"}
           className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
-          onClick={() => setSelectedOption("categories")}
+          onClick={() => setSelectedOption("budgets")}
         >
           <Wallet /> Orçamentos
         </Button>
         <Button
           variant={"ghost"}
           className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
-          onClick={() => setSelectedOption("budgets")}
+          onClick={() => setSelectedOption("reports")}
         >
           <ChartColumnIncreasing /> Relatórios
         </Button>
