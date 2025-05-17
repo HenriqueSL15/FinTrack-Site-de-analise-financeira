@@ -16,6 +16,7 @@ import {
 } from "chart.js";
 import getUserInformation from "@/utils/userInfoUtils.ts";
 import { processTransactionsForChart } from "@/utils/chartDataUtils.ts";
+import { formatCurrency } from "@/utils/currencyUtils.ts";
 
 ChartJS.register(
   CategoryScale,
@@ -70,6 +71,7 @@ function AreaChart() {
   };
 
   const options = {
+    animation: false,
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -78,6 +80,13 @@ function AreaChart() {
       },
 
       tooltip: {
+        callbacks: {
+          label: function (tooltipItem) {
+            const label = tooltipItem.label || "";
+            const value = tooltipItem.raw || 0;
+            return `${label}: ${formatCurrency(value, user?.currency)}`;
+          },
+        },
         mode: "index" as const,
         intersect: false,
       },
@@ -87,7 +96,7 @@ function AreaChart() {
         ticks: {
           // Formata os valores do eixo Y para mostrar R$
           callback: function (value: any) {
-            return "R$" + value;
+            return formatCurrency(Number(value), user?.currency);
           },
         },
         min: 0, // Começa do zero

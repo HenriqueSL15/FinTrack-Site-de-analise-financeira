@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "@/contexts/AuthContext";
-import { useContext, useMemo } from "react";
-
+import { useContext } from "react";
+import { formatCurrency } from "@/utils/currencyUtils";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -83,6 +83,7 @@ function IncomeVsExpenseChart({
   };
 
   const options = {
+    animation: false,
     responsive: true,
     mainainAspectRatio: false,
     plugins: {
@@ -92,13 +93,20 @@ function IncomeVsExpenseChart({
       tooltip: {
         mode: "index" as const,
         intersect: false,
+        callbacks: {
+          label: function (context: any) {
+            const label = context.dataset.label || "";
+            const value = context.parsed.y || 0;
+            return `${label}: ${formatCurrency(value, user?.currency)}`;
+          },
+        },
       },
     },
     scale: {
       y: {
         ticks: {
-          callback: function (value: any) {
-            return "R$" + value;
+          callback: function (value: number | string) {
+            return formatCurrency(Number(value), user?.currency);
           },
         },
         min: 0,

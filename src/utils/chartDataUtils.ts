@@ -132,3 +132,76 @@ export function processTransactionsForChart(
     expenseData,
   };
 }
+
+export function processTransactionsPerCategory(
+  transactions: Transaction[],
+  isLoadingUserInfo: boolean,
+  amountOfMonths: number
+): { labels: string[]; chartData: number[] } | null {
+  const currentDate = new Date();
+  const last6Months = Array.from({ length: 6 }, (_, i) => {
+    const date = new Date(currentDate);
+
+    date.setMonth(currentDate.getMonth() - i);
+    return date;
+  }).reverse();
+
+  if (!transactions || isLoadingUserInfo) return null;
+
+  // Encontrar a data da transação mais antiga
+  let oldestTransactionDate = new Date();
+  if (transactions.length > 0) {
+    // Assumindo que transactions tem um campo createdAt ou date
+    oldestTransactionDate = transactions.reduce((oldest, transaction) => {
+      const transDate = new Date(transaction.createdAt);
+      return transDate < oldest ? transDate : oldest;
+    }, new Date());
+  }
+
+  // Determinar quantos meses de dados temos
+  const monthsWithData = Math.min(
+    amountOfMonths,
+    (currentDate.getFullYear() - oldestTransactionDate.getFullYear()) * 12 +
+      (currentDate.getMonth() - oldestTransactionDate.getMonth()) +
+      1
+  );
+
+  // Usar apenas os meses para os quais temos dados
+  const relevantMonths = last6Months.slice(6 - monthsWithData);
+
+  if (!transactions || isLoadingUserInfo) return null;
+
+  const categoryMap = new Map<string, number>();
+
+  // Agrupar transações por categoria
+  transactions.forEach((transaction) => {
+    const category = transaction.category.name;
+    const amount = transaction.amount;
+    const transactionType = transaction.type;
+
+    for (let i = 0; i < relevantMonths.length; i++) {
+      const monthDate = relevantMonths[i];
+
+      if (
+        new Date(transaction.createdAt).getMonth() ===
+        new Date(monthDate).getMonth()
+      ) {
+        if (transactionType === "expense") {
+          if (categoryMap.has(category)) {
+            categoryMap.set(category, categoryMap.get(category)! + amount);
+          } else {
+            categoryMap.set(category, amount);
+          }
+        }
+      }
+    }
+  });
+
+  const labels = Array.from(categoryMap.keys());
+  const chartData = Array.from(categoryMap.values());
+
+  return {
+    labels,
+    chartData,
+  };
+}
