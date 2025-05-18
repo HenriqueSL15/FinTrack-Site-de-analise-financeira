@@ -1,0 +1,186 @@
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { Plus } from "lucide-react";
+import { useContext, useState, useEffect } from "react";
+import { number, z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { AuthContext } from "@/contexts/AuthContext.tsx";
+import getUserInformation from "@/utils/userInfoUtils.ts";
+
+function NewGoalDialog() {
+  const { user, isLoading } = useContext(AuthContext);
+  const [open, setOpen] = useState(false);
+
+  const { data, isLoading: isLoadingUserInfo } = useQuery({
+    queryKey: ["userInfo", user?.id],
+    queryFn: () => getUserInformation(user?.id),
+    enabled: !!user?.id,
+  });
+
+  // Schema de validação com Zod
+  const goalFormSchema = z.object({
+    name: z.string().min(1, { message: "Nome é obrigatório" }),
+    goal: z.string().refine((val) => !isNaN(parseFloat(val)), {
+      message: "Digite um número válido",
+    }),
+    monthYear: z
+      .string()
+      .min(1, { message: "Data é obrigatória" })
+      .refine((val) => !isNaN(Date.parse(val)), { message: "Data inválida" }),
+  });
+
+  const queryClient = useQueryClient();
+
+  // Configuração do formulário
+  const form = useForm<z.infer<typeof goalFormSchema>>({
+    resolver: zodResolver(goalFormSchema),
+    defaultValues: {
+      name: "",
+      monthYear: new Date().toISOString(),
+      goal: "",
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof goalFormSchema>) {
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/goal/${user?.id}`,
+        {
+          description: values.name,
+          targetDate: new Date(values.monthYear).toISOString(),
+          targetAmount: parseFloat(values.goal),
+        }
+      );
+
+      if (response.status === 201) {
+        console.log("Objetivo criado com sucesso!");
+
+        // Invalida a consulta de orçamentos para atualizar a UI
+        queryClient.invalidateQueries({ queryKey: ["userInfo", user?.id] });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    console.log(values);
+
+    setOpen(false);
+    form.reset();
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button className="min-w-40 h-10 cursor-pointer flex justify-around gap-4">
+          <Plus /> Novo Objetivo
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Adicionar Orçamento</DialogTitle>
+        </DialogHeader>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-8 mt-5"
+          >
+            {/* Nome da meta */}
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nome da Meta</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      {...field}
+                      className="h-10"
+                      placeholder="Digite o nome da meta"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Valor meta */}
+            <FormField
+              control={form.control}
+              name="goal"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Meta ({user?.currency})</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      {...field}
+                      placeholder="Digite o valor da meta (só os números)"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Data limite */}
+            <FormField
+              control={form.control}
+              name="monthYear"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Data limite:</FormLabel>
+                  <FormControl>
+                    <Input type="date" {...field} className="h-10" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className="flex justify-end gap-4">
+              <Button
+                className="w-20"
+                onClick={() => {
+                  setOpen(false);
+                  form.reset();
+                }}
+                type="button"
+                variant={"outline"}
+              >
+                Cancelar
+              </Button>
+              <Button type="submit">Salvar</Button>
+            </div>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+export default NewGoalDialog;

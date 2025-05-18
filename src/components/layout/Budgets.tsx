@@ -10,8 +10,15 @@ import NewBudgetDialog from "./NewBudgetDialog.tsx";
 function getSpentAmount(budget, transactions) {
   let total = 0;
   transactions?.map((transaction) => {
-    if (transaction.categoryId === budget.categoryId) {
-      if (transaction.type === "expense") total += transaction.amount;
+    const transDate = new Date(transaction.createdAt);
+    const currentDate = new Date();
+    const isSameMonth =
+      transDate.getMonth() === currentDate.getMonth() &&
+      transDate.getFullYear() === currentDate.getFullYear();
+    if (isSameMonth) {
+      if (transaction.categoryId === budget.categoryId) {
+        if (transaction.type === "expense") total += transaction.amount;
+      }
     }
   });
 

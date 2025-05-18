@@ -6,10 +6,11 @@ import Dashboard from "@/components/layout/Dashboard";
 import Transactions from "@/components/layout/Transactions";
 import Budgets from "@/components/layout/Budgets";
 import Reports from "@/components/layout/Reports";
+import Goals from "@/components/layout/Goals";
 
 function UserPage() {
   const { user, isLoading } = useContext(AuthContext);
-  const [selectedOption, setSelectedOption] = useState("reports");
+  const [selectedOption, setSelectedOption] = useState("goals");
   const navigate = useNavigate();
 
   if (!isLoading && !user) {
@@ -30,7 +31,7 @@ function UserPage() {
     transactions: <Transactions />,
     budgets: <Budgets />,
     reports: <Reports />,
-    goals: <div>Goals</div>,
+    goals: <Goals />,
     settings: <div>Settings</div>,
   };
 
