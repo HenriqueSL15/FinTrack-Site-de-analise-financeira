@@ -13,7 +13,6 @@ const getUserInformation = async (userId: number) => {
           axios.get(`http://localhost:3000/goal/${userId}`),
         ]);
 
-      console.log(goalsRes);
       return {
         transactions: transactionsRes.data.transactions,
         categories: categoriesRes.data.categories,

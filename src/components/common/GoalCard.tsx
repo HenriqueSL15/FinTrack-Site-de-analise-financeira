@@ -1,25 +1,28 @@
 import { Progress } from "../ui/progress";
-import { parseCurrencyString } from "@/utils/currencyUtils";
+import { Button } from "../ui/button";
 import { formatCurrency } from "@/utils/currencyUtils";
 import { useContext } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
+import UpdatedGoalDialog from "../layout/UpdateGoalDialog";
 
 interface GoalCardProps {
   title: string;
   targetAmount: number;
   spent: number;
-  remaining: string;
+  daysRemaining: number;
   percentage: number;
   date: string;
+  id: string;
 }
 
 function GoalCard({
   title,
   targetAmount,
   spent,
-  remaining,
+  daysRemaining,
   percentage,
   date,
+  id,
 }: GoalCardProps) {
   const { user } = useContext(AuthContext);
 
@@ -36,7 +39,6 @@ function GoalCard({
           {percentage}% utilizado
         </h1>
       </div>
-
       <div className="grid grid-cols-2 gap-2 text-sm">
         <div>
           <h1 className="font-medium">Meta:</h1>
@@ -46,7 +48,7 @@ function GoalCard({
         <div>
           <h1 className="font-medium">Economizado:</h1>
           {/* Usar a formatação */}
-          <h2>{spent}</h2>
+          <h2>{formatCurrency(spent, user?.currency)}</h2>
         </div>
         <div>
           <h1 className="font-medium">Data alvo:</h1>
@@ -56,9 +58,10 @@ function GoalCard({
         <div>
           <h1 className="font-medium">Dias restantes:</h1>
           {/* Usar a formatação */}
-          <h2>30</h2>
+          <h2>{daysRemaining}</h2>
         </div>
       </div>
+      <UpdatedGoalDialog goal={{ title, targetAmount, spent, date, id }} />
     </div>
   );
 }

@@ -14,9 +14,16 @@ function Goals() {
     enabled: !!user?.id,
   });
 
-  if (!isLoadingUserInfo && data) {
-    console.log(data);
-  }
+  // Função para calcular os dias restantes até a data alvo
+  const calculateRemaingDays = (date: string): number => {
+    const targetDate = new Date(date);
+    const currentDate = new Date();
+    const timeDiff = targetDate.getTime() - currentDate.getTime();
+    const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+    // Se a diferença for negativa, significa que a data já passou
+    return daysDiff < 0 ? 0 : daysDiff;
+  };
 
   return (
     <div className="w-full h-screen p-8 space-y-10">
@@ -39,11 +46,12 @@ function Goals() {
               title={goal.description}
               targetAmount={goal.targetAmount}
               spent={goal.currentAmount}
-              remaining={String(goal.targetAmount - goal.currentAmount)}
+              daysRemaining={calculateRemaingDays(goal.targetDate)}
               percentage={Math.round(
                 (goal.currentAmount / goal.targetAmount) * 100
               )}
               date={goal.targetDate}
+              id={goal.id}
             />
           );
         })}
