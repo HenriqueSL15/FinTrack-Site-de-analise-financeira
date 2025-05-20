@@ -20,11 +20,15 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
-import { formatCurrency } from "@/utils/currencyUtils";
+import {
+  convertToBRL,
+  formatCurrency,
+  parseCurrencyString,
+} from "@/utils/currencyUtils";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useMutation } from "@tanstack/react-query";
+
 import getUserInformation from "@/utils/userInfoUtils";
 import { toISODate } from "@/utils/dateUtils";
 import axios from "axios";
@@ -61,11 +65,30 @@ function UpdatedGoalDialog({ goal }) {
     resolver: zodResolver(goalFormSchema),
     defaultValues: {
       name: goal.title,
-      targetAmount: goal.targetAmount,
-      currentAmount: goal.spent,
+      targetAmount: parseCurrencyString(
+        formatCurrency(goal.targetAmount, user?.currency)
+      ),
+      currentAmount: parseCurrencyString(
+        formatCurrency(goal.spent, user?.currency)
+      ),
       targetDate: toISODate(goal.date),
     },
   });
+
+  useEffect(() => {
+    if (open) {
+      form.reset({
+        name: goal.title,
+        targetAmount: parseCurrencyString(
+          formatCurrency(goal.targetAmount, user?.currency)
+        ),
+        currentAmount: parseCurrencyString(
+          formatCurrency(goal.spent, user?.currency)
+        ),
+        targetDate: toISODate(goal.date),
+      });
+    }
+  }, [open, goal, user?.currency, form]);
 
   async function onSubmit(values: z.infer<typeof goalFormSchema>) {
     try {
@@ -73,8 +96,8 @@ function UpdatedGoalDialog({ goal }) {
         `http://localhost:3000/goal/${user?.id}/${goal.id}`,
         {
           description: values.name,
-          targetAmount: values.targetAmount,
-          currentAmount: values.currentAmount,
+          targetAmount: convertToBRL(values.targetAmount, user?.currency),
+          currentAmount: convertToBRL(values.currentAmount, user?.currency),
           targetDate: new Date(values.targetDate).toISOString(),
         }
       );

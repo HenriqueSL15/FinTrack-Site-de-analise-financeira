@@ -82,7 +82,7 @@ function AreaChart() {
       tooltip: {
         callbacks: {
           label: function (tooltipItem) {
-            const label = tooltipItem.label || "";
+            const label = tooltipItem.dataset.label || "";
             const value = tooltipItem.raw || 0;
             return `${label}: ${formatCurrency(value, user?.currency)}`;
           },

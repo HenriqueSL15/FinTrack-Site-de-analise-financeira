@@ -25,12 +25,6 @@ export function formatCurrency(
   value: number,
   currency: SupportedCurrency = "BRL"
 ): string {
-  const currencySymbols: Record<SupportedCurrency, string> = {
-    BRL: "R$",
-    USD: "$",
-    EUR: "€",
-  };
-
   const convertedValue = convertCurrency(value, currency);
 
   return new Intl.NumberFormat("pt-BR", {
@@ -41,16 +35,30 @@ export function formatCurrency(
 }
 
 // Função para converter uma string formatada em um número
-export function parseCurrencyString(currencyString: string): number {
-  // Remove símbolos de moeda, pontos de milhar e espaços
-  const cleanedString = currencyString
-    .replace(/[R$€$£¥]/g, "")
-    .replace(/\s/g, "")
-    .replace(/\./g, "")
-    .replace(",", ".");
+export function parseCurrencyString(value: string): number {
+  if (!value) return 0;
 
-  // Converte para número
-  return parseFloat(cleanedString);
+  // Remove qualquer símbolo de moeda e espaços
+  let cleaned = value.replace(/[^\d.,-]/g, "").trim();
+
+  // Se tem vírgula e ponto, decide pelo último como decimal
+  if (cleaned.includes(",") && cleaned.includes(".")) {
+    if (cleaned.lastIndexOf(",") > cleaned.lastIndexOf(".")) {
+      // Ex: 1.234,56 -> 1234.56
+      cleaned = cleaned.replace(/\./g, "").replace(",", ".");
+    } else {
+      // Ex: 1,234.56 -> 1234.56
+      cleaned = cleaned.replace(/,/g, "");
+    }
+  } else if (cleaned.includes(",")) {
+    // Só vírgula: assume decimal brasileiro
+    cleaned = cleaned.replace(/\./g, "").replace(",", ".");
+  } else {
+    // Só ponto ou só número
+    cleaned = cleaned.replace(/,/g, "");
+  }
+
+  return parseFloat(cleaned) || 0;
 }
 
 // Função para converter para o REAL (BRL)
@@ -59,5 +67,5 @@ export function convertToBRL(
   userCurrency: SupportedCurrency
 ): number {
   if (userCurrency === "BRL") return value;
-  return value / conversionRates[userCurrency];
+  return value * conversionRates[userCurrency];
 }
