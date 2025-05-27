@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext.tsx";
+import { ThemeContext } from "@/contexts/ThemeContext.tsx";
 import { useForm } from "react-hook-form";
 import {
   Select,
@@ -13,12 +14,13 @@ import {
   SelectValue,
 } from "../ui/select.tsx";
 import { Button } from "../ui/button.tsx";
-import { Input } from "../ui/input.tsx";
 import { Label } from "../ui/label.tsx";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group.tsx";
+import axios from "axios";
 
 function Settings() {
-  const { user, isLoading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const { updateTheme } = useContext(ThemeContext);
 
   const formSchema = z.object({
     theme: z.enum(["light", "dark", "system"]),
@@ -38,8 +40,7 @@ function Settings() {
       user?.currency &&
       user?.theme &&
       (form.getValues("currency") !== user.currency ||
-        form.getValues("theme") !== user.theme ||
-        form.getValues("weekStartDay") !== user.weekStartDay)
+        form.getValues("theme") !== user.theme)
     ) {
       form.reset({
         theme: user.theme,
@@ -47,14 +48,34 @@ function Settings() {
       });
     }
   }, [user?.currency, user?.theme, form]);
-
+  console.log(user);
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
-    console.log("Form data:", data);
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/users/${user?.id}`,
+        form.getValues(),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("Settings updated succesfully:", response.data);
+
+        updateTheme(response.data.user.theme);
+      }
+    } catch (err) {
+      console.log("Error updating settings:", err);
+    }
   };
 
   return (
     <div className="w-full h-screen p-8 space-y-10">
-      <h1 className="text-3xl font-bold mb-2 text-zinc-900">Configurações</h1>
+      <h1 className="text-3xl font-bold mb-2 text-zinc-900 dark:text-zinc-100">
+        Configurações
+      </h1>
       <h2 className="text-neutral-500">
         Personalize suas preferências de uso.
       </h2>

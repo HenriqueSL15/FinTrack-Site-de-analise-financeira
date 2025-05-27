@@ -4,6 +4,7 @@ import axios from "axios";
 // Interface para o tipo do contexto
 interface AuthContextType {
   user: any | null;
+
   login: (email: string, password: string) => Promise<any>;
   logout: () => Promise<void>;
   register: (userData: any) => Promise<any>;
@@ -14,6 +15,7 @@ interface AuthContextType {
 // Cria contexto de autenticação
 export const AuthContext = createContext<AuthContextType>({
   user: null,
+
   login: async () => null,
   logout: async () => {},
   register: async () => null,
@@ -127,6 +129,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
+
         login,
         logout,
         register,
