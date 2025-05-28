@@ -23,7 +23,7 @@ function Hero() {
         <h1 className="text-6xl font-bold">
           Simplifique suas finanças pessoais
         </h1>
-        <p className="text-lg text-gray-500 max-w-7/10">
+        <p className="text-lg text-gray-500 max-w-7/10 dark:text-gray-300">
           Acompanhe seus gastos, defina orçamentos e alcance seus objetivos
           financeiros com nossa plataforma intuitiva e fácil de usar.
         </p>

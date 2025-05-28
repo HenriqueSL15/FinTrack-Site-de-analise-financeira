@@ -19,7 +19,7 @@ function BudgetCard({
   const remainingNumber = parseCurrencyString(remaining);
 
   return (
-    <div className="bg-neutral-50 border border-neutral-300 rounded-lg p-5 flex flex-col gap-2">
+    <div className="bg-neutral-50 border border-neutral-300 dark:border-[#2e2e2e] dark:bg-[#1f1f1f] rounded-lg p-5 flex flex-col gap-2">
       <h1 className=" font-semibold">{title}</h1>
       <Progress value={percentage} className="h-2 [&>div]:bg-emerald-600" />
       <h1 className="text-xs text-muted-foreground">{percentage}% utilizado</h1>

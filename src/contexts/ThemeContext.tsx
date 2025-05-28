@@ -17,11 +17,9 @@ export const ThemeContext = createContext<ThemeContextType>({
 
 export const ThemeProvider = ({ children }) => {
   const { user, isLoading } = useContext(AuthContext);
-  console.log("user:", user, "isLoading:", isLoading);
 
   // Função para obter o tema do usuário
   const getUserTheme = (user) => {
-    console.log(user);
     if (!user || !user.theme) return "light"; // fallback
     if (user.theme === "system") {
       return window.matchMedia("(prefers-color-scheme: dark)").matches

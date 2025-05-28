@@ -39,11 +39,13 @@ function Budgets() {
   });
 
   return (
-    <div className="w-full h-screen p-8 space-y-10">
+    <div className="w-full h-screen p-8 space-y-10 dark:bg-[#1a1a1a]">
       <div className="flex justify-between items-center">
         <div className="flex flex-col">
-          <h1 className="text-3xl font-bold mb-2 text-zinc-900">Orçamentos</h1>
-          <h2 className="text-neutral-500">
+          <h1 className="text-3xl font-bold mb-2 text-zinc-900 dark:text-white">
+            Orçamentos
+          </h1>
+          <h2 className="text-neutral-500 dark:text-neutral-400">
             Defina e acompanhe seus orçamentos mensais por categoria.
           </h2>
         </div>

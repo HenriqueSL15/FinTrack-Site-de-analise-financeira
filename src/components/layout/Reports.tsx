@@ -20,9 +20,11 @@ function Reports() {
   };
 
   return (
-    <div className="w-full h-screen p-8 space-y-10">
-      <h1 className="text-3xl font-bold mb-2 text-zinc-900">Relatórios</h1>
-      <h2 className="text-neutral-500">
+    <div className="w-full min-h-screen p-8 space-y-10 dark:bg-[#1a1a1a]">
+      <h1 className="text-3xl font-bold mb-2 text-zinc-900 dark:text-white">
+        Relatórios
+      </h1>
+      <h2 className="text-neutral-500 dark:text-neutral-400">
         Visualize e gerencie seus relatórios financeiros.
       </h2>
       <div className="w-full flex gap-2">
@@ -43,7 +45,7 @@ function Reports() {
           <ChartColumn /> Receitas vs Despesas
         </Button>
       </div>
-      <div className="w-full flex gap-5 min-h-2/10 rounded-lg border shadow-sm bg-neutral-50">
+      <div className="w-full flex gap-5  rounded-lg border shadow-sm bg-neutral-50 dark:bg-[#1f1f1f] dark:border-[#2e2e2e]">
         {options[selectedReport]}
       </div>
     </div>

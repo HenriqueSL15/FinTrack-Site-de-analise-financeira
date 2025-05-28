@@ -14,7 +14,7 @@ function IncomeVsExpenseReport() {
   return (
     <div className="w-full h-full p-8 space-y-10">
       <div className="mb-10 flex justify-between">
-        <h1 className="text-3xl font-bold mb-2 text-zinc-900">
+        <h1 className="text-3xl font-semibold mb-2 text-zinc-900 dark:text-zinc-100">
           Análise mensal
         </h1>
         <Select
@@ -32,8 +32,9 @@ function IncomeVsExpenseReport() {
           </SelectContent>
         </Select>
       </div>
-
-      <IncomeVsExpenseChart amountOfMonths={amountOfMonths} />
+      <div className="max-w-2xl max-h-[400px] w-full h-full ">
+        <IncomeVsExpenseChart amountOfMonths={amountOfMonths} />
+      </div>
     </div>
   );
 }

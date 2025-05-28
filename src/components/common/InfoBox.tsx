@@ -75,12 +75,14 @@ function InfoBox({ variant }: InfoBoxProps) {
   return (
     <div
       className={`${
-        variant === "about" ? "bg-gray-100" : "bg-white"
+        variant === "about"
+          ? "bg-gray-100 dark:bg-[#1a1a1a]"
+          : "bg-white dark:bg-black"
       } h-6/10 px-26 w-full flex flex-col items-center gap-2`}
     >
       <div className="w-full h-1/2 flex flex-col justify-center items-center gap-5">
         <h1 className="text-3xl font-bold">{sectionTitles[variant]}</h1>
-        <h2 className="max-w-4/10 break-words text-center text-gray-500">
+        <h2 className="max-w-4/10 break-words text-center text-gray-500 dark:text-neutral-300">
           {sectionDescriptions[variant]}
         </h2>
       </div>

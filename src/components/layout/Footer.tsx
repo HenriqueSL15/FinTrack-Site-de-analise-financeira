@@ -31,7 +31,7 @@ const icons: React.ReactNode[] = [
 
 function Footer() {
   return (
-    <div className="px-26 py-8 w-full h-4/12 bg-white flex justify-between">
+    <div className="px-26 py-8 w-full h-4/12 bg-white flex justify-between dark:bg-[#1a1a1a]">
       <div className="w-1/4">
         <div className="flex flex-col h-full justify-between">
           <div className="flex flex-col gap-2">

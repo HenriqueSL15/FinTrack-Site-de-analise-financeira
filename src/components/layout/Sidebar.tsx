@@ -14,10 +14,10 @@ function Sidebar({ setSelectedOption }) {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full h-screen py-6">
+    <div className="w-full min-h-screen py-6 dark:bg-[#1f1f1f]">
       <h1 className="text-2xl font-bold mb-10 px-6">FinTrack</h1>
 
-      <div className="space-y-2 w-full h-screen px-3">
+      <div className="space-y-2 w-full min-h-full px-3">
         <Button
           variant={"ghost"}
           className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"

@@ -64,11 +64,11 @@ function LoginPage() {
   }
 
   return (
-    <div className="w-full h-screen flex justify-center items-center">
+    <div className="w-full h-screen flex justify-center items-center dark:bg-[#1a1a1a]">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(formSubmitHandler)}
-          className="bg-zinc-50 rounded-lg border border-neutral-200 flex flex-col items-center w-1/3 min-h-2/4"
+          className="bg-zinc-50 rounded-lg border border-neutral-200 flex flex-col items-center w-1/3 min-h-2/4 dark:bg-[#1f1f1f] dark:border-[#2e2e2e]"
         >
           <div className="w-7/10 py-5 flex flex-col items-center">
             <FormLabel className="text-2xl font-semibold mb-1">

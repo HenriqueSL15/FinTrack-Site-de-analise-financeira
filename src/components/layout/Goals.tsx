@@ -26,13 +26,13 @@ function Goals() {
   };
 
   return (
-    <div className="w-full h-screen p-8 space-y-10">
+    <div className="w-full h-screen p-8 space-y-10 dark:bg-[#1A1A1A]">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold mb-2 text-zinc-900">
+          <h1 className="text-3xl font-bold mb-2 text-zinc-900 dark:text-white">
             Objetivos Financeiros
           </h1>
-          <h2 className="text-neutral-500">
+          <h2 className="text-neutral-500 dark:text-neutral-400">
             Acompanhe o progresso de suas metas financeiras.
           </h2>
         </div>

@@ -20,7 +20,7 @@ import axios from "axios";
 
 function Settings() {
   const { user } = useContext(AuthContext);
-  const { updateTheme } = useContext(ThemeContext);
+  const { theme, updateTheme } = useContext(ThemeContext);
 
   const formSchema = z.object({
     theme: z.enum(["light", "dark", "system"]),
@@ -30,7 +30,7 @@ function Settings() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      theme: user?.theme,
+      theme: theme,
       currency: user?.currency,
     },
   });
@@ -43,12 +43,12 @@ function Settings() {
         form.getValues("theme") !== user.theme)
     ) {
       form.reset({
-        theme: user.theme,
+        theme: typeof theme === "string" ? theme : user?.theme,
         currency: user.currency,
       });
     }
   }, [user?.currency, user?.theme, form]);
-  console.log(user);
+
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
       const response = await axios.put(
@@ -72,11 +72,11 @@ function Settings() {
   };
 
   return (
-    <div className="w-full h-screen p-8 space-y-10">
-      <h1 className="text-3xl font-bold mb-2 text-zinc-900 dark:text-zinc-100">
+    <div className="w-full h-screen p-8 space-y-10 bg-white dark:bg-[#1a1a1a]">
+      <h1 className="text-3xl font-bold mb-2  text-zinc-900 dark:text-zinc-100">
         Configurações
       </h1>
-      <h2 className="text-neutral-500">
+      <h2 className="text-neutral-500 dark:text-neutral-400">
         Personalize suas preferências de uso.
       </h2>
       <Form {...form}>
@@ -90,8 +90,10 @@ function Settings() {
             name="theme"
             render={({ field }) => {
               return (
-                <div className="flex flex-col space-y-6 w-full bg-neutral-50 border-1 border-neutral-200 rounded-lg p-6">
-                  <Label className="text-2xl text-zinc-900">Aparência</Label>
+                <div className="flex flex-col space-y-6 w-full bg-neutral-50 border-1 border-neutral-200 dark:border-[#2E2E2E] dark:bg-[#1f1f1f] rounded-lg p-6">
+                  <Label className="text-2xl text-zinc-900 dark:text-white">
+                    Aparência
+                  </Label>
                   <FormItem>
                     <FormLabel className="text-base">Tema</FormLabel>
                     <RadioGroup
@@ -103,7 +105,7 @@ function Settings() {
                         <RadioGroupItem
                           value="light"
                           id="light"
-                          className="border-1 border-black cursor-pointer"
+                          className="border-1 border-black dark:border-white cursor-pointer"
                         />
                         <Label htmlFor="light" className="cursor-pointer">
                           Claro
@@ -113,7 +115,7 @@ function Settings() {
                         <RadioGroupItem
                           value="dark"
                           id="dark"
-                          className="border-1 border-black cursor-pointer"
+                          className="border-1 border-black dark:border-white cursor-pointer"
                         />
                         <Label htmlFor="dark" className="cursor-pointer">
                           Escuro
@@ -123,7 +125,7 @@ function Settings() {
                         <RadioGroupItem
                           value="system"
                           id="system"
-                          className="border-1 border-black cursor-pointer"
+                          className="border-1 border-black dark:border-white cursor-pointer"
                         />
                         <Label htmlFor="system" className="cursor-pointer">
                           Sistema
@@ -142,8 +144,8 @@ function Settings() {
             name="currency"
             render={({ field }) => {
               return (
-                <div className="flex flex-col space-y-6 w-full bg-neutral-50 border-1 border-neutral-200 rounded-lg p-6">
-                  <Label className="text-2xl text-zinc-900">
+                <div className="flex flex-col space-y-6 w-full bg-neutral-50 border-1 border-neutral-200 dark:border-[#2E2E2E] dark:bg-[#1f1f1f] rounded-lg p-6">
+                  <Label className="text-2xl text-zinc-900 dark:text-white">
                     Preferências Regionais
                   </Label>
                   <FormItem>

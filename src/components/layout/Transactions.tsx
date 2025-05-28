@@ -102,19 +102,21 @@ function Transactions() {
   };
 
   return (
-    <div className="w-full h-screen p-8 space-y-10">
-      <h1 className="text-3xl font-bold mb-2 text-zinc-900">Transações</h1>
-      <h2 className="text-neutral-500">
+    <div className="w-full h-screen p-8 space-y-10 dark:bg-[#1a1a1a]">
+      <h1 className="text-3xl font-bold mb-2 text-zinc-900 dark:text-white">
+        Transações
+      </h1>
+      <h2 className="text-neutral-500 dark:text-neutral-400">
         Visualize e gerencie suas transações financeiras.
       </h2>
-      <div className="w-full h-[73%] overflow-y-auto bg-gray-50 border border-gray-200 rounded-lg p-5">
+      <div className="w-full h-[73%] overflow-y-auto bg-gray-50 border border-gray-200 rounded-lg p-5 dark:border-[#2e2e2e] dark:bg-[#1f1f1f]">
         <div className="flex justify-between items-center mb-10">
           <h1 className="text-2xl font-semibold">Histórico de Transações</h1>
           <div className="flex gap-3 w-1/2 justify-end">
             <NewCategoryDialog />
             <div className="relative">
               <Input
-                className="bg-white w-50 h-10 pl-8"
+                className="bg-white w-50 h-10 pl-8 dark:bg-neutral-900"
                 placeholder={"Buscar transações..."}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -138,7 +140,7 @@ function Transactions() {
               <th className="text-start text-neutral-500 font-medium text-sm">
                 Tipo
               </th>
-              <th className="text-neutral-500 font-medium text-sm text-end">
+              <th className="text-neutral-500 font-medium text-sm text-end pr-4">
                 Valor
               </th>
             </tr>
@@ -146,7 +148,7 @@ function Transactions() {
           <tbody className="w-full">
             {getCurrentPageTransactions().map((transaction) => {
               return (
-                <tr className="border-t border-gray-200 hover:bg-gray-100 transition-all text-sm">
+                <tr className="border-t border-gray-200 dark:border-[#2e2e2e] hover:bg-gray-100  dark:hover:bg-neutral-800 transition-all text-sm">
                   <td className="p-4 w-[20%]">
                     {transaction.createdAt.split("T")[0].replaceAll("-", "/")}
                   </td>
@@ -158,7 +160,7 @@ function Transactions() {
                         transaction.type === "income"
                           ? "bg-emerald-100 text-emerald-800"
                           : "bg-rose-100 text-rose-800"
-                      }  w-25 h-7 text-center rounded-full hover:bg-gray-100 transition-all cursor-default flex items-center justify-center gap-1`}
+                      }  w-25 h-7 text-center rounded-full  transition-all cursor-default flex items-center justify-center gap-1`}
                     >
                       {transaction.type === "income" ? (
                         <ArrowUp size={18} />
@@ -173,7 +175,7 @@ function Transactions() {
                       transaction.type === "income"
                         ? "text-emerald-600"
                         : "text-rose-600"
-                    } w-[5%] text-end `}
+                    } w-[5%] text-end pr-4`}
                   >
                     {formatCurrency(transaction.amount, user?.currency)}
                   </td>

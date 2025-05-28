@@ -12,9 +12,9 @@ function CategoryReport() {
   const [amountOfMonths, setAmountOfMonths] = useState(6);
 
   return (
-    <div className="w-full h-screen p-8 space-y-10">
+    <div className="w-full p-8 space-y-10">
       <div className="flex justify-between mb-10">
-        <h1 className="text-3xl font-semibold mb-2 text-zinc-900">
+        <h1 className="text-3xl font-semibold mb-2 text-zinc-900 dark:text-zinc-100">
           Distribuição de gastos
         </h1>
         <Select
@@ -32,7 +32,7 @@ function CategoryReport() {
           </SelectContent>
         </Select>
       </div>
-      <div className="w-full flex gap-5 h-4/10 items-center justify-center mt-20">
+      <div className="w-full flex gap-5 h-7/10 items-center justify-center mt-20">
         <CategoryReportChart amountOfMonths={amountOfMonths} />
       </div>
     </div>
