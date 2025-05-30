@@ -1,19 +1,9 @@
 import { Progress } from "../ui/progress";
-import { Button } from "../ui/button";
 import { formatCurrency } from "@/utils/currencyUtils";
 import { useContext } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
-import UpdatedGoalDialog from "../layout/UpdateGoalDialog";
-
-interface GoalCardProps {
-  title: string;
-  targetAmount: number;
-  spent: number;
-  daysRemaining: number;
-  percentage: number;
-  date: string;
-  id: string;
-}
+import UpdatedGoalDialog from "../layout/Goal/UpdateGoalDialog";
+import GoalCardProps from "@/types/goalCard";
 
 function GoalCard({
   title,
@@ -53,7 +43,7 @@ function GoalCard({
         <div>
           <h1 className="font-medium">Data alvo:</h1>
           {/* Usar a formatação */}
-          <h2>{date.split("T")[0].replaceAll("-", "/")}</h2>
+          <h2>{date.split("T")[0].replace(/-/g, "/")}</h2>
         </div>
         <div>
           <h1 className="font-medium">Dias restantes:</h1>

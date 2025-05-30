@@ -2,12 +2,12 @@ import { JSX, useContext, useState } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "@/components/layout/Sidebar";
-import Dashboard from "@/components/layout/Dashboard";
-import Transactions from "@/components/layout/Transactions";
-import Budgets from "@/components/layout/Budgets";
-import Reports from "@/components/layout/Reports";
-import Goals from "@/components/layout/Goals";
-import Settings from "@/components/layout/Settings";
+import Dashboard from "@/components/layout/Dashboard/Dashboard";
+import Transactions from "@/components/layout/Transactions/Transactions";
+import Budgets from "@/components/layout/Budget/Budgets";
+import Reports from "@/components/layout/Reports/Reports.tsx";
+import Goals from "@/components/layout/Goal/Goals";
+import Settings from "@/components/layout//Settings/Settings";
 
 function UserPage() {
   const { user, isLoading } = useContext(AuthContext);

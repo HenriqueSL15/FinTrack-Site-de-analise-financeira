@@ -6,27 +6,12 @@ import {
 
 import AboutCard from "./AboutCard.tsx";
 import TestimonialCard from "./TestimonialCard.tsx";
-
-type InfoBoxVariant = "about" | "testimonial";
-
-interface InfoBoxProps {
-  variant: InfoBoxVariant;
-}
-
-interface SectionContent {
-  about: string;
-  testimonial: string;
-}
-
-interface CardContent {
-  about: string[];
-  testimonial: string[];
-}
-
-interface IconContent {
-  about: React.ReactNode[];
-  [key: string]: React.ReactNode[] | undefined;
-}
+import {
+  CardContent,
+  IconContent,
+  InfoBoxProps,
+  SectionContent,
+} from "@/types/infoBox.ts";
 
 function InfoBox({ variant }: InfoBoxProps) {
   const sectionTitles: SectionContent = {
@@ -98,9 +83,9 @@ function InfoBox({ variant }: InfoBoxProps) {
             />
           ) : (
             <TestimonialCard
+              key={index}
               title={title}
               description={cardDescriptions[variant][index]}
-              key={index}
               className={"bg-gray-100"}
             />
           );

@@ -1,11 +1,11 @@
-interface AboutCardProps {
-  key?: React.Key;
-  title: string;
-  description: string;
-  className?: string;
-}
+import TestimonialCardProps from "@/types/testimonialCard";
 
-function AboutCard({ key, title, description, className }: AboutCardProps) {
+function AboutCard({
+  key,
+  title,
+  description,
+  className,
+}: TestimonialCardProps) {
   return (
     <div
       key={key}

@@ -10,7 +10,11 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-function Sidebar({ setSelectedOption }) {
+function Sidebar({
+  setSelectedOption,
+}: {
+  setSelectedOption: (option: string) => void;
+}) {
   const navigate = useNavigate();
 
   return (

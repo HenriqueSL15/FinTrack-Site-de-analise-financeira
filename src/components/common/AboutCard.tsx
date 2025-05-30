@@ -1,10 +1,4 @@
-interface AboutCardProps {
-  key?: React.Key;
-  title: string;
-  description: string;
-  icon?: React.ReactNode;
-  className?: string;
-}
+import AboutCardProps from "@/types/aboutCard";
 
 function AboutCard({
   key,

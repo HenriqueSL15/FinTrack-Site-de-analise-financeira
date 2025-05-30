@@ -1,14 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
-
-// Interface para o tipo do contexto
-interface ThemeContextType {
-  theme: string;
-  updateTheme: (theme: Theme) => void;
-}
-
-// Interface para o usuário
-type Theme = string;
+import { Theme, ThemeContextType } from "@/types/themeContext";
 
 export const ThemeContext = createContext<ThemeContextType>({
   theme: "",
@@ -30,14 +22,12 @@ export const ThemeProvider = ({ children }) => {
   };
 
   // Inicializa o theme com base no user
-  const [theme, setTheme] = useState(undefined);
+  const [theme, setTheme] = useState("");
 
   // Atualiza o theme sempre que o user mudar
   useEffect(() => {
     if (user && !isLoading) {
-      console.log("daljfdlsjfçlkaj");
       const res = getUserTheme(user);
-      console.log(res);
       setTheme(res);
     }
   }, [user, isLoading]);

@@ -1,9 +1,9 @@
-import Header from "../components/layout/Header.tsx";
-import Hero from "../components/layout/Hero.tsx";
-import About from "../components/layout/About.tsx";
-import Testimonials from "../components/layout/Testimonials.tsx";
-import CTABanner from "../components/layout/CTABanner.tsx";
-import Footer from "../components/layout/Footer.tsx";
+import Header from "../components/layout/Landing Page/Header.tsx";
+import Hero from "../components/layout/Landing Page/Hero.tsx";
+import About from "../components/layout/Landing Page/About.tsx";
+import Testimonials from "../components/layout/Landing Page/Testimonials.tsx";
+import CTABanner from "../components/layout/Landing Page/CTABanner.tsx";
+import Footer from "../components/layout/Landing Page/Footer.tsx";
 
 function LandingPage() {
   return (
