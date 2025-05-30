@@ -1,13 +1,4 @@
-import { LucideIcon } from "lucide-react";
-import React from "react";
-
-interface FinancialCardProps {
-  title: string;
-  value: string;
-  subtitle: string;
-  icon: LucideIcon;
-  iconColor?: string;
-}
+import FinancialCardProps from "@/types/financialCardsProps";
 
 function FinancialCard({
   title,

@@ -10,8 +10,12 @@ import {
   calculateTotalSavings,
 } from "@/utils/transactionUtils";
 import { useQuery } from "@tanstack/react-query";
-
 import { AuthContext } from "@/contexts/AuthContext.tsx";
+import {
+  calculateMonthlyExpenseChangePercentage,
+  calculateMonthlyIncomeChangePercentage,
+  calculateMonthlySavingsChangePercentage,
+} from "./financialCardsUtils";
 
 function FinancialCards() {
   const { user } = useContext(AuthContext);
@@ -28,33 +32,42 @@ function FinancialCards() {
   const totalExpenses = data ? calculateTotalExpenses(data.transactions) : 0;
   const totalSavings = data ? calculateTotalSavings(data.transactions) : 0;
 
+  const incomeChange = calculateMonthlyIncomeChangePercentage(
+    data?.transactions
+  );
+  const expenseChange = calculateMonthlyExpenseChangePercentage(
+    data?.transactions
+  );
+  const savingsChange = calculateMonthlySavingsChangePercentage(
+    data?.transactions
+  );
+
   const info = [
     {
       title: "Saldo Atual",
       value: formatCurrency(balance, user?.currency),
-      subtitle: "Atualizado hoje",
       icon: CircleDollarSign,
     },
     {
       title: "Receitas",
       value: formatCurrency(totalIncome, user?.currency),
-      subtitle: "+15% em relação ao mês anterior",
-      icon: ArrowUp,
-      iconColor: "green",
+      subtitle: incomeChange?.subtitle,
+      icon: incomeChange?.iconColor === "green" ? ArrowUp : ArrowDown,
+      iconColor: incomeChange?.iconColor,
     },
     {
       title: "Despesas",
       value: formatCurrency(totalExpenses, user?.currency),
-      subtitle: "-2% em relação ao mês anterior",
-      icon: ArrowDown,
-      iconColor: "red",
+      subtitle: expenseChange?.subtitle,
+      icon: expenseChange?.iconColor === "green" ? ArrowUp : ArrowDown,
+      iconColor: expenseChange?.iconColor,
     },
     {
       title: "Economias",
       value: formatCurrency(totalSavings, user?.currency),
-      subtitle: "+8.5% em relação ao mês anterior",
+      subtitle: savingsChange?.subtitle,
       icon: Wallet,
-      iconColor: "gray",
+      iconColor: savingsChange?.iconColor,
     },
   ];
 
