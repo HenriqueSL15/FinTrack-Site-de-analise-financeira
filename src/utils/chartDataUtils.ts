@@ -1,71 +1,38 @@
+import Transaction from "@/types/transaction";
+
 interface AllMonths {
   [key: number]: string;
 }
 
 const allMonths: AllMonths = {
-  1: "Janeiro",
-  2: "Fevereiro",
-  3: "Março",
-  4: "Abril",
-  5: "Maio",
-  6: "Junho",
-  7: "Julho",
-  8: "Agosto",
-  9: "Setembro",
-  10: "Outubro",
-  11: "Novembro",
-  12: "Dezembro",
+  0: "Janeiro",
+  1: "Fevereiro",
+  2: "Março",
+  3: "Abril",
+  4: "Maio",
+  5: "Junho",
+  6: "Julho",
+  7: "Agosto",
+  8: "Setembro",
+  9: "Outubro",
+  10: "Novembro",
+  11: "Dezembro",
 };
-
-interface Category {
-  createdAt: string;
-  id: number;
-  name: string;
-  type: string;
-  updatedAt: string;
-  userId: number;
-}
-
-interface Goal {
-  id: number;
-  description: string;
-  targetAmount: number;
-  currentAmount: number;
-  targetDate: string;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
-  userId: number;
-}
-
-interface Transaction {
-  amount: number;
-  category: Category;
-  categoryId: number;
-  createdAt: string;
-  description: string;
-  goal?: Goal;
-  goalId?: number;
-  id: number;
-  type: string;
-  updatedAt: string;
-  userId: number;
-}
 
 export function processTransactionsForChart(
   transactions: Transaction[],
-  isLoadingUserInfo: boolean,
   amountOfMonths: number
 ) {
+  if (!transactions || transactions?.length < 1) return null;
   const currentDate = new Date();
-  const last6Months = Array.from({ length: 6 }, (_, i) => {
+  const lastMonths = Array.from({ length: amountOfMonths }, (_, i) => {
     const date = new Date(currentDate);
 
-    date.setMonth(currentDate.getMonth() - i);
-    return date;
-  }).reverse();
+    date.setDate(1);
+    date.setMonth(date.getMonth() - (amountOfMonths - 1 - i));
 
-  if (!transactions || isLoadingUserInfo) return null;
+    return date;
+  });
 
   // Encontrar a data da transação mais antiga
   let oldestTransactionDate = new Date();
@@ -86,11 +53,12 @@ export function processTransactionsForChart(
   );
 
   // Usar apenas os meses para os quais temos dados
-  const relevantMonths = last6Months.slice(6 - monthsWithData);
+  const relevantMonths = lastMonths.slice(amountOfMonths - monthsWithData);
 
   // Mapeia os meses para labels legíveis
   const labels = relevantMonths.map((date) => {
-    const monthAbbr = allMonths[date.getMonth() + 1].substring(0, 3);
+    // console.log(date, allMonths[date.getMonth()]);
+    const monthAbbr = allMonths[date.getMonth()].substring(0, 3);
 
     // Adiciona o ano se for diferente do ano atual
     if (date.getFullYear() !== currentDate.getFullYear()) {
@@ -111,6 +79,7 @@ export function processTransactionsForChart(
     // Verificar se a transação está nos meses relevantes
     for (let i = 0; i < relevantMonths.length; i++) {
       const monthDate = relevantMonths[i];
+
       if (
         transDate.getMonth() === monthDate.getMonth() &&
         transDate.getFullYear() === monthDate.getFullYear()
@@ -135,18 +104,18 @@ export function processTransactionsForChart(
 
 export function processTransactionsPerCategory(
   transactions: Transaction[],
-  isLoadingUserInfo: boolean,
   amountOfMonths: number
 ): { labels: string[]; chartData: number[] } | null {
+  if (!transactions || transactions?.length < 1) return null;
+
   const currentDate = new Date();
-  const last6Months = Array.from({ length: 6 }, (_, i) => {
+  const lastMonths = Array.from({ length: amountOfMonths }, (_, i) => {
     const date = new Date(currentDate);
+    date.setDate(1);
+    date.setMonth(date.getMonth() - (amountOfMonths - 1 - i));
 
-    date.setMonth(currentDate.getMonth() - i);
     return date;
-  }).reverse();
-
-  if (!transactions || isLoadingUserInfo) return null;
+  });
 
   // Encontrar a data da transação mais antiga
   let oldestTransactionDate = new Date();
@@ -167,14 +136,13 @@ export function processTransactionsPerCategory(
   );
 
   // Usar apenas os meses para os quais temos dados
-  const relevantMonths = last6Months.slice(6 - monthsWithData);
-
-  if (!transactions || isLoadingUserInfo) return null;
+  const relevantMonths = lastMonths.slice(amountOfMonths - monthsWithData);
 
   const categoryMap = new Map<string, number>();
 
   // Agrupar transações por categoria
   transactions.forEach((transaction) => {
+    const transDate = new Date(transaction.createdAt);
     const category = transaction.category.name;
     const amount = transaction.amount;
     const transactionType = transaction.type;
@@ -183,16 +151,13 @@ export function processTransactionsPerCategory(
       const monthDate = relevantMonths[i];
 
       if (
-        new Date(transaction.createdAt).getMonth() ===
-        new Date(monthDate).getMonth()
+        transDate.getUTCMonth() === monthDate.getUTCMonth() &&
+        transDate.getUTCFullYear() === monthDate.getUTCFullYear()
       ) {
         if (transactionType === "expense") {
-          if (categoryMap.has(category)) {
-            categoryMap.set(category, categoryMap.get(category)! + amount);
-          } else {
-            categoryMap.set(category, amount);
-          }
+          categoryMap.set(category, (categoryMap.get(category) ?? 0) + amount);
         }
+        break;
       }
     }
   });

@@ -14,6 +14,10 @@ const getCurrentPageTransactions = (
   search: string,
   transactionsPerPage: number
 ): Transaction[] => {
+  if (!data || data?.length < 1) return [];
+  if (currentPage < 1) return [];
+  if (transactionsPerPage < 1) return [];
+
   const startIndex = (currentPage - 1) * transactionsPerPage;
   const endIndex = startIndex + transactionsPerPage;
   let filteredData = data || [];
