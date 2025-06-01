@@ -49,7 +49,6 @@ function IncomeVsExpenseChart({
     if (data && !isLoadingUserInfo) {
       const chartData = processTransactionsForChart(
         data.transactions,
-        isLoadingUserInfo,
         amountOfMonths
       );
 

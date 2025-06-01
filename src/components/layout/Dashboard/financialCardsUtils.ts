@@ -5,12 +5,13 @@ export function calculateMonthlyIncomeChangePercentage(
 ) {
   const currentDate = new Date();
   const lastMonth = new Date(currentDate);
+  lastMonth.setDate(1);
   lastMonth.setMonth(currentDate.getMonth() - 1);
 
   let totalIncomeCurrentMonth = 0;
   let totalIncomeLastMonth = 0;
 
-  if (!transactions) return null;
+  if (!transactions || transactions.length === 0) return null;
 
   // Agrupar transações por mês
   transactions.forEach((transaction) => {
@@ -31,6 +32,7 @@ export function calculateMonthlyIncomeChangePercentage(
     }
   });
 
+  // Caso não haja dados do mês anterior
   if (totalIncomeLastMonth === 0) {
     return {
       subtitle: "Sem dados do mês anterior",
@@ -38,6 +40,7 @@ export function calculateMonthlyIncomeChangePercentage(
     };
   }
 
+  // Calcular a variação percentual
   if (totalIncomeCurrentMonth > totalIncomeLastMonth) {
     return {
       subtitle: `+${Math.round(
@@ -64,12 +67,13 @@ export function calculateMonthlyExpenseChangePercentage(
 ) {
   const currentDate = new Date();
   const lastMonth = new Date(currentDate);
+  lastMonth.setDate(1);
   lastMonth.setMonth(currentDate.getMonth() - 1);
 
   let totalExpenseCurrentMonth = 0;
   let totalExpenseLastMonth = 0;
 
-  if (!transactions) return null;
+  if (!transactions || transactions.length === 0) return null;
 
   // Agrupar transações por mês
   transactions.forEach((transaction) => {
@@ -90,6 +94,7 @@ export function calculateMonthlyExpenseChangePercentage(
     }
   });
 
+  // Caso não haja dados do mês anterior
   if (totalExpenseLastMonth === 0) {
     return {
       subtitle: "Sem dados do mês anterior",
@@ -97,6 +102,7 @@ export function calculateMonthlyExpenseChangePercentage(
     };
   }
 
+  // Calcular a variação percentual
   if (totalExpenseCurrentMonth > totalExpenseLastMonth) {
     return {
       subtitle: `+${Math.round(
@@ -123,12 +129,13 @@ export function calculateMonthlySavingsChangePercentage(
 ) {
   const currentDate = new Date();
   const lastMonth = new Date(currentDate);
+  lastMonth.setDate(1);
   lastMonth.setMonth(currentDate.getMonth() - 1);
 
   let totalSavingsCurrentMonth = 0;
   let totalSavingsLastMonth = 0;
 
-  if (!transactions) return null;
+  if (!transactions || transactions.length === 0) return null;
 
   // Agrupar transações por mês
   transactions.forEach((transaction) => {
@@ -149,6 +156,7 @@ export function calculateMonthlySavingsChangePercentage(
     }
   });
 
+  // Caso não haja dados do mês anterior
   if (totalSavingsLastMonth === 0) {
     return {
       subtitle: "Sem dados do mês anterior",
@@ -156,6 +164,7 @@ export function calculateMonthlySavingsChangePercentage(
     };
   }
 
+  // Calcular a variação percentual
   if (totalSavingsCurrentMonth > totalSavingsLastMonth) {
     return {
       subtitle: `+${Math.round(

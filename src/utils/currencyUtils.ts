@@ -12,8 +12,9 @@ export function convertCurrency(
   amount: number,
   toCurrency: SupportedCurrency
 ): number {
+  if (amount < 0) return 0;
   if (!Object.keys(conversionRates).includes(toCurrency)) {
-    console.warn(`Moeda não suportada: ${toCurrency}, usando BRL como padrão`);
+    console.log(`Moeda não suportada: ${toCurrency}, usando BRL como padrão`);
     return amount;
   }
 
@@ -66,6 +67,8 @@ export function convertToBRL(
   value: number,
   userCurrency: SupportedCurrency
 ): number {
+  if (value < 0) return 0;
   if (userCurrency === "BRL") return value;
+
   return value * conversionRates[userCurrency];
 }

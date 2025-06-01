@@ -37,7 +37,6 @@ function CategoryReportChart({
     if (data && !isLoadingUserInfo) {
       const chartData = processTransactionsPerCategory(
         data.transactions,
-        isLoadingUserInfo,
         amountOfMonths
       );
 

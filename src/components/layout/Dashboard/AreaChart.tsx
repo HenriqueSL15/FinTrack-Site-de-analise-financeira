@@ -32,19 +32,15 @@ ChartJS.register(
 function AreaChart() {
   const { user } = useContext(AuthContext);
 
-  const { data, isLoading: isLoadingUserInfo } = useQuery({
+  const { data } = useQuery({
     queryKey: ["userInfo"],
     queryFn: () => getUserInformation(user?.id),
     enabled: !!user?.id,
   });
 
   const processedData = useMemo(() => {
-    return processTransactionsForChart(
-      data?.transactions,
-      isLoadingUserInfo,
-      6
-    );
-  }, [data, isLoadingUserInfo]);
+    return processTransactionsForChart(data?.transactions, 6);
+  }, [data]);
 
   const chartData = {
     labels: processedData?.labels || [],
