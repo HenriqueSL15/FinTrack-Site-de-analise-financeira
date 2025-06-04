@@ -4,14 +4,14 @@ import { useContext } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import getUserInformation from "@/utils/userInfoUtils";
-import { calculateRemaingDays } from "./goalUtils";
+import calculateRemaingDays from "./goalUtils";
 
 function Goals() {
   const { user } = useContext(AuthContext);
 
   const { data } = useQuery({
     queryKey: ["userInfo", user?.id],
-    queryFn: () => getUserInformation(user?.id),
+    queryFn: () => getUserInformation(user?.id as number),
     enabled: !!user?.id,
   });
 

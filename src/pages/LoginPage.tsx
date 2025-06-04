@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState, useContext } from "react";
-import { AuthContext } from "../contexts/AuthContext.tsx";
+import { AuthContext } from "../contexts/AuthContext";
 import { Eye, EyeClosed } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 

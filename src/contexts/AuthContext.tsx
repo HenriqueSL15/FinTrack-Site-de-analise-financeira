@@ -1,16 +1,6 @@
-import React, { createContext, useState, useEffect, useCallback } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 import axios from "axios";
-
-// Interface para o tipo do contexto
-interface AuthContextType {
-  user: any | null;
-
-  login: (email: string, password: string) => Promise<any>;
-  logout: () => Promise<void>;
-  register: (userData: any) => Promise<any>;
-  isLoading: boolean;
-  refreshUser: () => Promise<void>;
-}
+import AuthContextType from "@/types/AuthContext";
 
 // Cria contexto de autenticação
 export const AuthContext = createContext<AuthContextType>({
