@@ -170,7 +170,7 @@ function NewTransactionDialog() {
             <FormField
               control={form.control}
               name="type"
-              render={({ field }) => (
+              render={() => (
                 <FormItem className="space-y-1">
                   <FormLabel>Tipo de Transação</FormLabel>
                   <FormControl>
