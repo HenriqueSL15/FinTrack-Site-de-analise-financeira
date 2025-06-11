@@ -52,7 +52,7 @@ function NewCategoryDialog() {
   // Função que envia as informações do form
   async function onSubmit(values: z.infer<typeof transactionFormSchema>) {
     try {
-      const response = await axios.post(`http://localhost:3000/category`, {
+      const response = await axios.post(`https://fin-track-backend-ruddy.vercel.app/category`, {
         name: values.name,
         type: values.type,
         userId: user?.id,

@@ -39,7 +39,9 @@ axios.interceptors.response.use(
 
       try {
         // Chama o endpoint de refresh token
-        await axios.post("http://localhost:3000/users/refresh-token");
+        await axios.post(
+          "https://fin-track-backend-ruddy.vercel.app/users/refresh-token"
+        );
 
         // Reenvia a requisição original
         return axios(originalRequest);
@@ -64,7 +66,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   // Carrega informações do user do localStorage na inicialização do componente
   const fetchCurrentUser = useCallback(async () => {
     try {
-      const response = await axios.get("http://localhost:3000/users/me");
+      const response = await axios.get(
+        "https://fin-track-backend-ruddy.vercel.app/users/me"
+      );
       if (response.data.user) {
         setUser(response.data.user);
       }
@@ -84,10 +88,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   // Função para login do usuário
   const login = async (email: string, password: string) => {
     try {
-      const response = await axios.post("http://localhost:3000/users/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        "https://fin-track-backend-ruddy.vercel.app/users/login",
+        {
+          email,
+          password,
+        }
+      );
       setUser(response.data.userWithoutPassword);
       return response.data;
     } catch (err) {
@@ -104,7 +111,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/users/register",
+        "https://fin-track-backend-ruddy.vercel.app/users/register",
         userData
       );
       setUser(response.data.userWithoutPassword);
@@ -117,7 +124,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   // Função para logout do usuário
   const logout = async () => {
     try {
-      await axios.post("http://localhost:3000/users/logout");
+      await axios.post(
+        "https://fin-track-backend-ruddy.vercel.app/users/logout"
+      );
       setUser(null);
     } catch (err) {
       console.error("Erro durante logout:", err);

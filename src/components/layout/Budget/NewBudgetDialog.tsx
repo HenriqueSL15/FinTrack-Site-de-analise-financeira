@@ -75,7 +75,7 @@ function NewBudgetDialog() {
       ).id;
 
       const response = await axios.post(
-        `http://localhost:3000/budget/${user?.id}/${categoryId}`,
+        `https://fin-track-backend-ruddy.vercel.app/budget/${user?.id}/${categoryId}`,
         {
           monthYear: values.monthYear,
           limitAmount: values.budgetLimit,

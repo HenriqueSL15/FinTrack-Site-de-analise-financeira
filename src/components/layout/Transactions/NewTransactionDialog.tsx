@@ -127,7 +127,7 @@ function NewTransactionDialog() {
       );
 
       const response = await axios.post(
-        `http://localhost:3000/transaction/${user?.id}/${categoryId}`,
+        `https://fin-track-backend-ruddy.vercel.app/transaction/${user?.id}/${categoryId}`,
         {
           description: values.description,
           amount: amountInBRL,

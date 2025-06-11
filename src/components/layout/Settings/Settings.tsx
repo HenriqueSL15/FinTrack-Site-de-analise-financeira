@@ -58,7 +58,7 @@ function Settings() {
   const handleSubmit = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/users/${user?.id}`,
+        `https://fin-track-backend-ruddy.vercel.app/users/${user?.id}`,
         form.getValues(),
         {
           headers: {

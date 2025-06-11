@@ -90,7 +90,7 @@ function UpdatedGoalDialog({
   ): Promise<void> {
     try {
       const response = await axios.put(
-        `http://localhost:3000/goal/${user?.id}/${goal.id}`,
+        `https://fin-track-backend-ruddy.vercel.app/goal/${user?.id}/${goal.id}`,
         {
           description: values.name,
           targetAmount: convertToBRL(
@@ -126,7 +126,7 @@ function UpdatedGoalDialog({
   ): Promise<void> {
     try {
       const response = await axios.delete(
-        `http://localhost:3000/goal/${userId}/${goalId}`
+        `https://fin-track-backend-ruddy.vercel.app/goal/${userId}/${goalId}`
       );
 
       if (response.status === 200) {

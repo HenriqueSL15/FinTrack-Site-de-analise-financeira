@@ -56,7 +56,7 @@ function NewGoalDialog() {
   async function onSubmit(values: z.infer<typeof goalFormSchema>) {
     try {
       const response = await axios.post(
-        `http://localhost:3000/goal/${user?.id}`,
+        `https://fin-track-backend-ruddy.vercel.app/goal/${user?.id}`,
         {
           description: values.name,
           targetDate: new Date(values.monthYear).toISOString(),
