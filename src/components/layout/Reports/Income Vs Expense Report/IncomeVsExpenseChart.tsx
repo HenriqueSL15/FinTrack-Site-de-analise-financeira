@@ -77,9 +77,11 @@ function IncomeVsExpenseChart({
   };
 
   const options = {
-    animation: false,
+    animation: {
+      duration: 0,
+    },
     responsive: true,
-    mainainAspectRatio: false,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: "top" as const,

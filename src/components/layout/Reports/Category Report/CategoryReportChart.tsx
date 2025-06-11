@@ -63,7 +63,9 @@ function CategoryReportChart({
   };
 
   const options: ChartOptions<"pie"> = {
-    animation: false,
+    animation: {
+      duration: 0,
+    },
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -71,18 +73,18 @@ function CategoryReportChart({
         display: true,
         position: "bottom",
       },
-      datalabels: {
-        color: "#fff",
-        font: {
-          weight: "bold",
-          size: 14,
-        },
-        formatter: (value, context) =>
-          context.chart.data.labels?.[context.dataIndex] || "",
-      },
+      // datalabels: {
+      //   color: "#fff",
+      //   font: {
+      //     weight: "bold",
+      //     size: 14,
+      //   },
+      //   formatter: (value, context) =>
+      //     context.chart.data.labels?.[context.dataIndex] || "",
+      // },
       tooltip: {
         callbacks: {
-          label: function (tooltipItem) {
+          label: function (tooltipItem: any) {
             const label = tooltipItem.label || "";
             const value = tooltipItem.raw || 0;
             return `${label}: ${formatCurrency(value, user?.currency)}`;

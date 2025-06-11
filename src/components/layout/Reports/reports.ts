@@ -4,4 +4,5 @@ import { JSX } from "react";
 export default interface Option {
   categories: JSX.Element;
   incomeVsExpense: JSX.Element;
+  [key: string]: JSX.Element;
 }

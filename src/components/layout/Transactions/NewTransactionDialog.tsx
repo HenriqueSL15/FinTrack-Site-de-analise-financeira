@@ -245,7 +245,7 @@ function NewTransactionDialog() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {data?.categories.map((category) => {
+                      {data?.categories.map((category: Category) => {
                         if (category.type === "goal") return null;
                         return (
                           <SelectItem key={category.id} value={category.name}>

@@ -25,6 +25,7 @@ function UserPage() {
     reports: JSX.Element;
     goals: JSX.Element;
     settings: JSX.Element;
+    [key: string]: JSX.Element;
   }
 
   const options: Options = {

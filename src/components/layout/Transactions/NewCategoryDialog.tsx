@@ -36,7 +36,7 @@ const transactionFormSchema = z.object({
 
 function NewCategoryDialog() {
   const [open, setOpen] = useState(false);
-  const { user, isLoading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   const queryClient = useQueryClient();
 
@@ -55,7 +55,7 @@ function NewCategoryDialog() {
       const response = await axios.post(`http://localhost:3000/category`, {
         name: values.name,
         type: values.type,
-        userId: user.id,
+        userId: user?.id,
       });
 
       if (response.status === 201) {

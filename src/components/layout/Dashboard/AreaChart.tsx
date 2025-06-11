@@ -67,7 +67,9 @@ function AreaChart() {
   };
 
   const options = {
-    animation: false,
+    animation: {
+      duration: 0,
+    },
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -77,7 +79,7 @@ function AreaChart() {
 
       tooltip: {
         callbacks: {
-          label: function (tooltipItem) {
+          label: function (tooltipItem: any) {
             const label = tooltipItem.dataset.label || "";
             const value = tooltipItem.raw || 0;
             return `${label}: ${formatCurrency(value, user?.currency)}`;

@@ -55,7 +55,7 @@ function Settings() {
     }
   }, [user?.currency, user?.theme, form]);
 
-  const handleSubmit = async (data: z.infer<typeof formSchema>) => {
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const response = await axios.put(
         `http://localhost:3000/users/${user?.id}`,

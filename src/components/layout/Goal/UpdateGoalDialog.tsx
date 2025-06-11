@@ -31,7 +31,11 @@ import { toISODate } from "@/utils/dateUtils";
 import axios from "axios";
 import GoalCardProps from "@/types/goalCard";
 
-function UpdatedGoalDialog({ goal }: { goal: GoalCardProps }) {
+function UpdatedGoalDialog({
+  goal,
+}: {
+  goal: Omit<GoalCardProps, "daysRemaining" | "percentage">;
+}) {
   const { user } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
 

@@ -53,7 +53,11 @@ axios.interceptors.response.use(
   }
 );
 
-export const AuthProvider = ({ children }) => {
+interface AuthProviderProps {
+  children: React.ReactNode;
+}
+
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -92,7 +96,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Função para registro do usuário
-  const register = async (userData) => {
+  const register = async (userData: {
+    id: number;
+    name: string;
+    email: string;
+    currency: string;
+  }) => {
     try {
       const response = await axios.post(
         "http://localhost:3000/users/register",

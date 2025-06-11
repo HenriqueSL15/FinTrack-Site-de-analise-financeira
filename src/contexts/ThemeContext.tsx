@@ -1,17 +1,22 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import { Theme, ThemeContextType } from "@/types/themeContext";
+import User from "@/types/user";
 
 export const ThemeContext = createContext<ThemeContextType>({
   theme: "",
   updateTheme: (theme: Theme) => {},
 });
 
-export const ThemeProvider = ({ children }) => {
+interface ThemeProviderProps {
+  children: React.ReactNode;
+}
+
+export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const { user, isLoading } = useContext(AuthContext);
 
   // Função para obter o tema do usuário
-  const getUserTheme = (user) => {
+  const getUserTheme = (user: User) => {
     if (!user || !user.theme) return "light"; // fallback
     if (user.theme === "system") {
       return window.matchMedia("(prefers-color-scheme: dark)").matches
