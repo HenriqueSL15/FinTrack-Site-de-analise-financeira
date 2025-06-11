@@ -3,10 +3,13 @@ import { AuthContext } from "@/contexts/AuthContext";
 import { Theme, ThemeContextType } from "@/types/themeContext";
 import User from "@/types/user";
 
-export const ThemeContext = createContext<ThemeContextType>({
+const defaultThemeContext: ThemeContextType = {
   theme: "",
-  updateTheme: (theme: Theme) => {},
-});
+  updateTheme: () => {},
+};
+
+export const ThemeContext =
+  createContext<ThemeContextType>(defaultThemeContext);
 
 interface ThemeProviderProps {
   children: React.ReactNode;
