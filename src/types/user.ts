@@ -1,6 +1,6 @@
 export default interface User {
   createdAt: string;
-  currency: string;
+  currency: "BRL" | "USD" | "EUR";
   email: string;
   id: number;
   name: string;

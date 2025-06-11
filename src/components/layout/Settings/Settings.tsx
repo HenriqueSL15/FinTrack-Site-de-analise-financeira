@@ -29,7 +29,10 @@ function Settings() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      theme: theme,
+      theme:
+        theme === "light" || theme === "dark" || theme === "system"
+          ? theme
+          : "light",
       currency: user?.currency,
     },
   });
@@ -42,7 +45,11 @@ function Settings() {
         form.getValues("theme") !== user.theme)
     ) {
       form.reset({
-        theme: typeof theme === "string" ? theme : user?.theme,
+        theme:
+          typeof theme === "string" &&
+          (theme === "light" || theme === "dark" || theme === "system")
+            ? theme
+            : "light",
         currency: user.currency,
       });
     }

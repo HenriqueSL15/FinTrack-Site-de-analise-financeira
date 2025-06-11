@@ -29,8 +29,9 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { toISODate } from "@/utils/dateUtils";
 import axios from "axios";
+import GoalCardProps from "@/types/goalCard";
 
-function UpdatedGoalDialog({ goal }) {
+function UpdatedGoalDialog({ goal }: { goal: GoalCardProps }) {
   const { user } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
 
@@ -88,8 +89,14 @@ function UpdatedGoalDialog({ goal }) {
         `http://localhost:3000/goal/${user?.id}/${goal.id}`,
         {
           description: values.name,
-          targetAmount: convertToBRL(values.targetAmount, user?.currency),
-          currentAmount: convertToBRL(values.currentAmount, user?.currency),
+          targetAmount: convertToBRL(
+            values.targetAmount,
+            user?.currency || "BRL"
+          ),
+          currentAmount: convertToBRL(
+            values.currentAmount,
+            user?.currency || "BRL"
+          ),
           targetDate: new Date(values.targetDate).toISOString(),
         }
       );
@@ -219,7 +226,7 @@ function UpdatedGoalDialog({ goal }) {
               <Button
                 className="w-20 cursor-pointer"
                 onClick={() => {
-                  handleDeleteGoal(goal.id, user?.id);
+                  handleDeleteGoal(Number(goal.id), user?.id as number);
                   setOpen(false);
                   form.reset();
                 }}

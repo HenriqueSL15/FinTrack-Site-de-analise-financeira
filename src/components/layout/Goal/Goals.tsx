@@ -5,6 +5,7 @@ import { AuthContext } from "@/contexts/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import getUserInformation from "@/utils/userInfoUtils";
 import calculateRemaingDays from "./goalUtils";
+import Goal from "@/types/goal";
 
 function Goals() {
   const { user } = useContext(AuthContext);
@@ -29,7 +30,7 @@ function Goals() {
         <NewGoalDialog />
       </div>
       <div className="grid grid-cols-2 gap-5">
-        {data?.goals.map((goal) => {
+        {data?.goals.map((goal: Goal) => {
           return (
             <GoalCard
               key={goal.id}
@@ -41,7 +42,7 @@ function Goals() {
                 (goal.currentAmount / goal.targetAmount) * 100
               )}
               date={goal.targetDate}
-              id={goal.id}
+              id={String(goal.id)}
             />
           );
         })}

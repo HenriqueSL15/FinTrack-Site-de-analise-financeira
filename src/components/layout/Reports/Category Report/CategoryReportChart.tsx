@@ -29,7 +29,7 @@ function CategoryReportChart({
 
   const { data, isLoading: isLoadingUserInfo } = useQuery({
     queryKey: ["userInfo"],
-    queryFn: () => getUserInformation(user?.id),
+    queryFn: () => getUserInformation(user?.id as number),
     enabled: !!user?.id,
   });
 

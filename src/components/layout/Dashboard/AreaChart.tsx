@@ -34,7 +34,7 @@ function AreaChart() {
 
   const { data } = useQuery({
     queryKey: ["userInfo"],
-    queryFn: () => getUserInformation(user?.id),
+    queryFn: () => getUserInformation(user?.id as number),
     enabled: !!user?.id,
   });
 

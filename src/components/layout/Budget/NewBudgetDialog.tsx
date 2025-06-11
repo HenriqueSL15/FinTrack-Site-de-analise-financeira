@@ -31,6 +31,7 @@ import axios from "axios";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "@/contexts/AuthContext.tsx";
 import getUserInformation from "@/utils/userInfoUtils.ts";
+import Category from "@/types/category";
 
 function NewBudgetDialog() {
   const { user } = useContext(AuthContext);
@@ -38,13 +39,15 @@ function NewBudgetDialog() {
 
   const { data } = useQuery({
     queryKey: ["userInfo", user?.id],
-    queryFn: () => getUserInformation(user?.id),
+    queryFn: () => getUserInformation(user?.id as number),
     enabled: !!user?.id,
   });
 
   // Schema de validação com Zod
   const budgetFormSchema = z.object({
-    category: z.enum(data?.categories.map((category) => category.name)),
+    category: z.enum(
+      data?.categories.map((category: Category) => category.name)
+    ),
     monthYear: z.string().refine((val) => !isNaN(Date.parse(val)), {
       message: "Data inválida",
     }),
@@ -68,7 +71,7 @@ function NewBudgetDialog() {
   async function onSubmit(values: z.infer<typeof budgetFormSchema>) {
     try {
       const categoryId = data?.categories?.find(
-        (category) => category.name === values.category
+        (category: Category) => category.name === values.category
       ).id;
 
       const response = await axios.post(
@@ -126,7 +129,7 @@ function NewBudgetDialog() {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {data?.categories.map((category) => {
+                      {data?.categories.map((category: Category) => {
                         if (category.type === "goal") return null;
                         return (
                           <SelectItem key={category.id} value={category.name}>

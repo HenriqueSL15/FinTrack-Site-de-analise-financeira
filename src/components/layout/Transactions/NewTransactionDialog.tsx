@@ -8,11 +8,9 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import {
   Select,
@@ -34,6 +32,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "@/contexts/AuthContext.tsx";
 import { convertToBRL } from "@/utils/currencyUtils.ts";
 import getUserInformation from "@/utils/userInfoUtils";
+import Category from "@/types/category";
 
 // Schema de validação com Zod
 const transactionFormSchema = z.object({
@@ -73,7 +72,7 @@ function NewTransactionDialog() {
 
   const { data } = useQuery({
     queryKey: ["userInfo", user?.id],
-    queryFn: () => getUserInformation(user?.id),
+    queryFn: () => getUserInformation(user?.id as number),
     enabled: !!user?.id,
   });
 
@@ -92,7 +91,7 @@ function NewTransactionDialog() {
   // Função para atualizar o tipo com base na categoria selecionada
   const updateTypeBasedOnCategory = (categoryName: string) => {
     const selectedCategory = data?.categories.find(
-      (category) => category.name === categoryName
+      (category: Category) => category.name === categoryName
     );
 
     if (selectedCategory) {
@@ -118,7 +117,7 @@ function NewTransactionDialog() {
   async function onSubmit(values: z.infer<typeof transactionFormSchema>) {
     try {
       const categoryId = data?.categories.find(
-        (category) => category.name === values.category
+        (category: Category) => category.name === values.category
       )?.id;
 
       // Converte o valor da moeda do suuário para BRL antes de salvar

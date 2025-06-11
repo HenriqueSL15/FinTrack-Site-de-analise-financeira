@@ -22,7 +22,7 @@ function FinancialCards() {
 
   const { data } = useQuery({
     queryKey: ["userInfo", user?.id],
-    queryFn: () => getUserInformation(user?.id),
+    queryFn: () => getUserInformation(user?.id as number),
     enabled: !!user?.id,
   });
 

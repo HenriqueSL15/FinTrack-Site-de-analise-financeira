@@ -6,13 +6,14 @@ import getUserInformation from "@/utils/userInfoUtils.ts";
 import { formatCurrency } from "@/utils/currencyUtils.ts";
 import NewBudgetDialog from "../Budget/NewBudgetDialog.tsx";
 import getSpentAmount from "./budgetUtils.ts";
+import Budget from "@/types/budget.ts";
 
 function Budgets() {
   const { user } = useContext(AuthContext);
 
   const { data } = useQuery({
     queryKey: ["userInfo", user?.id],
-    queryFn: () => getUserInformation(user?.id),
+    queryFn: () => getUserInformation(user?.id as number),
     enabled: !!user?.id,
   });
 
@@ -30,7 +31,7 @@ function Budgets() {
         <NewBudgetDialog />
       </div>
       <div className="grid grid-cols-3 w-full gap-5">
-        {data?.budgets.map((budget) => {
+        {data?.budgets.map((budget: Budget) => {
           const spentAmount = getSpentAmount(budget, data?.transactions);
 
           return (
