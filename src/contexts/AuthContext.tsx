@@ -109,6 +109,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     password: string;
   }) => {
     try {
+      console.log("Dados enviados:", userData);
       const response = await axios.post(
         "https://fin-track-backend-ruddy.vercel.app/users/register",
         userData
