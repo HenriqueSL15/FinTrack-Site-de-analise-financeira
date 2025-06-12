@@ -104,10 +104,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   // Função para registro do usuário
   const register = async (userData: {
-    id: number;
     name: string;
     email: string;
-    currency: string;
+    password: string;
   }) => {
     try {
       const response = await axios.post(
@@ -118,6 +117,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       return response.data;
     } catch (error) {
       console.log(error);
+      throw error;
     }
   };
 
