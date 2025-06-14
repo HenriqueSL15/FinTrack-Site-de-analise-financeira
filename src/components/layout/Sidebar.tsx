@@ -26,6 +26,7 @@ function Sidebar({
           variant={"ghost"}
           className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
           onClick={() => navigate("/")}
+          id="homePageButton"
         >
           <House />
           Home
@@ -34,6 +35,7 @@ function Sidebar({
           variant={"ghost"}
           className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
           onClick={() => setSelectedOption("dashboard")}
+          id="dashboardPageButton"
         >
           <LayoutDashboard /> Dashboard
         </Button>
@@ -41,6 +43,7 @@ function Sidebar({
           variant={"ghost"}
           className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
           onClick={() => setSelectedOption("transactions")}
+          id="transactionsPageButton"
         >
           <CreditCard /> Transações
         </Button>
@@ -48,6 +51,7 @@ function Sidebar({
           variant={"ghost"}
           className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
           onClick={() => setSelectedOption("budgets")}
+          id="budgetsPageButton"
         >
           <Wallet /> Orçamentos
         </Button>
@@ -55,6 +59,7 @@ function Sidebar({
           variant={"ghost"}
           className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
           onClick={() => setSelectedOption("reports")}
+          id="reportsPageButton"
         >
           <ChartColumnIncreasing /> Relatórios
         </Button>
@@ -62,6 +67,7 @@ function Sidebar({
           variant={"ghost"}
           className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
           onClick={() => setSelectedOption("goals")}
+          id="goalsPageButton"
         >
           <ChartPie /> Objetivos
         </Button>
@@ -69,6 +75,7 @@ function Sidebar({
           variant={"ghost"}
           className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
           onClick={() => setSelectedOption("settings")}
+          id="settingsPageButton"
         >
           <Settings />
           Configurações

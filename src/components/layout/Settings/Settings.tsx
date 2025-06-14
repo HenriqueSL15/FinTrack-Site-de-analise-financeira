@@ -158,7 +158,10 @@ function Settings() {
                     <FormLabel className="text-base">Moeda</FormLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger className="cursor-pointer">
-                        <SelectValue placeholder={`Escolha uma moeda`} />
+                        <SelectValue
+                          placeholder={`Escolha uma moeda`}
+                          id="selectCurrency"
+                        />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="BRL" className="cursor-pointer">
@@ -178,7 +181,12 @@ function Settings() {
             }}
           />
           <div className="flex justify-end">
-            <Button size={"lg"} type="submit" className="cursor-pointer">
+            <Button
+              size={"lg"}
+              type="submit"
+              className="cursor-pointer"
+              id="saveButton"
+            >
               Salvar preferências
             </Button>
           </div>

@@ -99,7 +99,10 @@ function NewBudgetDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="min-w-40 h-10 cursor-pointer flex justify-around gap-4">
+        <Button
+          className="min-w-40 h-10 cursor-pointer flex justify-around gap-4"
+          id="newBudgetButton"
+        >
           <Plus /> Novo Orçamento
         </Button>
       </DialogTrigger>
@@ -125,14 +128,21 @@ function NewBudgetDialog() {
                   >
                     <FormControl className="w-full">
                       <SelectTrigger>
-                        <SelectValue placeholder="Selecione uma categoria" />
+                        <SelectValue
+                          placeholder="Selecione uma categoria"
+                          id="selectCategory"
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {data?.categories.map((category: Category) => {
                         if (category.type === "goal") return null;
                         return (
-                          <SelectItem key={category.id} value={category.name}>
+                          <SelectItem
+                            key={category.id}
+                            value={category.name}
+                            id="categoryItem"
+                          >
                             {category.name}
                           </SelectItem>
                         );
@@ -157,6 +167,7 @@ function NewBudgetDialog() {
                       onChange={(e) =>
                         field.onChange(parseFloat(e.target.value) || 0)
                       }
+                      id="budgetLimit"
                     />
                   </FormControl>
                   <FormMessage />
@@ -173,10 +184,13 @@ function NewBudgetDialog() {
                 }}
                 type="button"
                 variant={"outline"}
+                id="cancelButton"
               >
                 Cancelar
               </Button>
-              <Button type="submit">Salvar</Button>
+              <Button type="submit" id="saveButton">
+                Salvar
+              </Button>
             </div>
           </form>
         </Form>

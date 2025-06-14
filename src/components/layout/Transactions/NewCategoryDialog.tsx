@@ -52,11 +52,14 @@ function NewCategoryDialog() {
   // Função que envia as informações do form
   async function onSubmit(values: z.infer<typeof transactionFormSchema>) {
     try {
-      const response = await axios.post(`https://fin-track-backend-ruddy.vercel.app/category`, {
-        name: values.name,
-        type: values.type,
-        userId: user?.id,
-      });
+      const response = await axios.post(
+        `https://fin-track-backend-ruddy.vercel.app/category`,
+        {
+          name: values.name,
+          type: values.type,
+          userId: user?.id,
+        }
+      );
 
       if (response.status === 201) {
         console.log("Transação criada com sucesso!");
@@ -75,7 +78,7 @@ function NewCategoryDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="w-40 h-10 cursor-pointer">
+        <Button className="w-40 h-10 cursor-pointer" id="newCategoryButton">
           <Plus /> Nova Categoria
         </Button>
       </DialogTrigger>
@@ -139,6 +142,7 @@ function NewCategoryDialog() {
                     <Input
                       placeholder="Ex: Salário"
                       className="h-10"
+                      id="categoryDescription"
                       {...field}
                     />
                   </FormControl>
@@ -152,10 +156,13 @@ function NewCategoryDialog() {
                 onClick={() => setOpen(false)}
                 type="button"
                 variant={"outline"}
+                id="cancelButton"
               >
                 Cancelar
               </Button>
-              <Button type="submit">Salvar</Button>
+              <Button type="submit" id="saveButton">
+                Salvar
+              </Button>
             </div>
           </form>
         </Form>

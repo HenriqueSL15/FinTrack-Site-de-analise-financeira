@@ -47,6 +47,7 @@ function Transactions() {
                 className="bg-white w-50 h-10 pl-8 dark:bg-neutral-900"
                 placeholder={"Buscar transações..."}
                 onChange={(e) => setSearch(e.target.value)}
+                id="search"
               />
               <Search className="absolute left-3 top-3 w-4 h-4" color="gray" />
             </div>

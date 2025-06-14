@@ -51,8 +51,8 @@ function AreaChart() {
         data: processedData?.incomeData || [],
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.2)",
-        tension: 0.4, // Suaviza a curva
-        pointRadius: 0, // Remove os pontos para um visual mais limpo
+        tension: 0.4,
+        pointRadius: 0,
       },
       {
         fill: true,

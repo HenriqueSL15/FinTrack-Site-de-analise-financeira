@@ -86,7 +86,11 @@ function LoginPage() {
                 <FormItem className="space-y-2">
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="seu@email.com" {...field} />
+                    <Input
+                      placeholder="seu@email.com"
+                      id="emailField"
+                      {...field}
+                    />
                   </FormControl>
 
                   <FormMessage />
@@ -104,6 +108,7 @@ function LoginPage() {
                       <Input
                         placeholder="Sua senha"
                         type={showPassword ? "text" : "password"}
+                        id="passwordField"
                         {...field}
                       />
                     </FormControl>
@@ -112,11 +117,13 @@ function LoginPage() {
                         <EyeClosed
                           className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
                           onClick={() => setShowPassword(!showPassword)}
+                          id="showPasswordButton"
                         />
                       ) : (
                         <Eye
                           className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
                           onClick={() => setShowPassword(!showPassword)}
+                          id="hidePasswordButton"
                         />
                       )}
                     </FormControl>
@@ -127,7 +134,11 @@ function LoginPage() {
               )}
             />
           </div>
-          <Button className="cursor-pointer mt-5 w-9/12" type="submit">
+          <Button
+            className="cursor-pointer mt-5 w-9/12"
+            type="submit"
+            id="loginButton"
+          >
             Entrar
           </Button>
 
@@ -138,6 +149,7 @@ function LoginPage() {
                 variant={"link"}
                 className="cursor-pointer p-1"
                 onClick={() => navigate("/register")}
+                id="registerPageButton"
               >
                 Crie conta
               </Button>

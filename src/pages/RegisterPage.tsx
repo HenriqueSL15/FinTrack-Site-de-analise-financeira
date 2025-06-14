@@ -90,7 +90,7 @@ function RegisterPage() {
                 <FormItem className="space-y-2">
                   <FormLabel>Nome</FormLabel>
                   <FormControl>
-                    <Input placeholder="Seu nome" {...field} />
+                    <Input placeholder="Seu nome" id="nameField" {...field} />
                   </FormControl>
 
                   <FormMessage />
@@ -104,7 +104,11 @@ function RegisterPage() {
                 <FormItem className="space-y-2">
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="seu@email.com" {...field} />
+                    <Input
+                      placeholder="seu@email.com"
+                      id="emailField"
+                      {...field}
+                    />
                   </FormControl>
 
                   <FormMessage />
@@ -122,6 +126,7 @@ function RegisterPage() {
                       <Input
                         placeholder="Sua senha"
                         type={showPassword ? "text" : "password"}
+                        id="passwordField"
                         {...field}
                       />
                     </FormControl>
@@ -130,11 +135,13 @@ function RegisterPage() {
                         <EyeClosed
                           className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
                           onClick={() => setShowPassword(!showPassword)}
+                          id="showPasswordButton"
                         />
                       ) : (
                         <Eye
                           className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
                           onClick={() => setShowPassword(!showPassword)}
+                          id="hidePasswordButton"
                         />
                       )}
                     </FormControl>
@@ -145,7 +152,11 @@ function RegisterPage() {
               )}
             />
           </div>
-          <Button className="cursor-pointer mt-5 w-9/12" type="submit">
+          <Button
+            className="cursor-pointer mt-5 w-9/12"
+            type="submit"
+            id="registerButton"
+          >
             Registrar
           </Button>
 
@@ -156,6 +167,7 @@ function RegisterPage() {
                 variant={"link"}
                 className="cursor-pointer p-1"
                 onClick={() => navigate("/login")}
+                id="loginPageButton"
               >
                 Entrar
               </Button>

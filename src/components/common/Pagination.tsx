@@ -10,14 +10,22 @@ function Pagination({
 }: PaginationType) {
   return (
     <div className="flex justify-center items-center gap-3">
-      <Button className="cursor-pointer" onClick={goToPreviousPage}>
+      <Button
+        className="cursor-pointer"
+        onClick={goToPreviousPage}
+        id="previousPageButton"
+      >
         <ArrowLeft />
         Página Anterior
       </Button>
       <h1 className="font-semibold w-20 text-center">
         {currentPage} / {totalPages}
       </h1>
-      <Button className="cursor-pointer" onClick={goToNextPage}>
+      <Button
+        className="cursor-pointer"
+        onClick={goToNextPage}
+        id="nextPageButton"
+      >
         Próxima Página
         <ArrowRight />
       </Button>

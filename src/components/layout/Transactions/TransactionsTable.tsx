@@ -47,11 +47,13 @@ function TransactionsTable({
         {filteredTransactions.map((transaction) => {
           return (
             <tr className="border-t border-gray-200 dark:border-[#2e2e2e] hover:bg-gray-100  dark:hover:bg-neutral-800 transition-all text-sm">
-              <td className="p-4 w-[20%]">
+              <td className="p-4 w-[20%]" id="transactionDate">
                 {transaction.createdAt.split("T")[0].replace(/-/g, "/")}
               </td>
-              <td className="min-w-20">{transaction.description}</td>
-              <td>{transaction.category.name}</td>
+              <td className="min-w-20" id="transactionDescription">
+                {transaction.description}
+              </td>
+              <td id="transactionCategory">{transaction.category.name}</td>
               <td>
                 <h1
                   className={`${
@@ -59,6 +61,7 @@ function TransactionsTable({
                       ? "bg-emerald-100 text-emerald-800"
                       : "bg-rose-100 text-rose-800"
                   }  w-25 h-7 text-center rounded-full  transition-all cursor-default flex items-center justify-center gap-1`}
+                  id="transactionType"
                 >
                   {transaction.type === "income" ? (
                     <ArrowUp size={18} />
@@ -74,6 +77,7 @@ function TransactionsTable({
                     ? "text-emerald-600"
                     : "text-rose-600"
                 } w-[5%] text-end pr-4`}
+                id="transactionAmount"
               >
                 {formatCurrency(transaction.amount, user?.currency)}
               </td>

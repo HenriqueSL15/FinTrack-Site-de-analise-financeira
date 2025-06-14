@@ -141,7 +141,9 @@ function UpdatedGoalDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="cursor-pointer w-full">Atualizar objetivo</Button>
+        <Button className="cursor-pointer w-full" id="updateGoalButton">
+          Atualizar objetivo
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -160,7 +162,7 @@ function UpdatedGoalDialog({
                 <FormItem>
                   <FormLabel>Nome</FormLabel>
                   <FormControl>
-                    <Input type="text" {...field} />
+                    <Input type="text" {...field} id="goalName" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -181,6 +183,7 @@ function UpdatedGoalDialog({
                       onChange={(e) =>
                         field.onChange(parseFloat(e.target.value) || 0)
                       }
+                      id="goalAmount"
                     />
                   </FormControl>
                   <FormMessage />
@@ -204,6 +207,7 @@ function UpdatedGoalDialog({
                       onChange={(e) =>
                         field.onChange(parseFloat(e.target.value) || 0)
                       }
+                      id="goalCurrentAmount"
                     />
                   </FormControl>
                   <FormMessage />
@@ -219,7 +223,7 @@ function UpdatedGoalDialog({
                 <FormItem>
                   <FormLabel>Data alvo</FormLabel>
                   <FormControl>
-                    <Input type="date" {...field} />
+                    <Input type="date" {...field} id="goalDate" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -236,6 +240,7 @@ function UpdatedGoalDialog({
                 }}
                 type="button"
                 variant={"destructive"}
+                id="deleteGoalButton"
               >
                 Deletar
               </Button>
@@ -248,10 +253,15 @@ function UpdatedGoalDialog({
                   }}
                   type="button"
                   variant={"outline"}
+                  id="cancelButton"
                 >
                   Cancelar
                 </Button>
-                <Button type="submit" className="cursor-pointer">
+                <Button
+                  type="submit"
+                  className="cursor-pointer"
+                  id="saveButton"
+                >
                   Salvar
                 </Button>
               </div>

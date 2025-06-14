@@ -81,7 +81,10 @@ function NewGoalDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="min-w-40 h-10 cursor-pointer flex justify-around gap-4">
+        <Button
+          className="min-w-40 h-10 cursor-pointer flex justify-around gap-4"
+          id="newGoalButton"
+        >
           <Plus /> Novo Objetivo
         </Button>
       </DialogTrigger>
@@ -107,6 +110,7 @@ function NewGoalDialog() {
                       {...field}
                       className="h-10"
                       placeholder="Digite o nome da meta"
+                      id="goalName"
                     />
                   </FormControl>
                   <FormMessage />
@@ -126,6 +130,7 @@ function NewGoalDialog() {
                       type="text"
                       {...field}
                       placeholder="Digite o valor da meta (só os números)"
+                      id="goalAmount"
                     />
                   </FormControl>
                   <FormMessage />
@@ -141,7 +146,12 @@ function NewGoalDialog() {
                 <FormItem>
                   <FormLabel>Data limite:</FormLabel>
                   <FormControl>
-                    <Input type="date" {...field} className="h-10" />
+                    <Input
+                      type="date"
+                      {...field}
+                      className="h-10"
+                      id="goalDate"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -157,10 +167,13 @@ function NewGoalDialog() {
                 }}
                 type="button"
                 variant={"outline"}
+                id="cancelButton"
               >
                 Cancelar
               </Button>
-              <Button type="submit">Salvar</Button>
+              <Button type="submit" id="saveButton">
+                Salvar
+              </Button>
             </div>
           </form>
         </Form>

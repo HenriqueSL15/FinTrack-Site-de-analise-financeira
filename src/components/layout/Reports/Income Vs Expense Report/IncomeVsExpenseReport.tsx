@@ -22,7 +22,7 @@ function IncomeVsExpenseReport() {
           onValueChange={(value) => setAmountOfMonths(parseInt(value))}
         >
           <SelectTrigger>
-            <SelectValue placeholder="Últimos 6 meses" />
+            <SelectValue placeholder="Últimos 6 meses" id="selectTimeFrame" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="1">Último mês</SelectItem>
