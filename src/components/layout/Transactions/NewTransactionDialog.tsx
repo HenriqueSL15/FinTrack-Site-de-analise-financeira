@@ -127,7 +127,7 @@ function NewTransactionDialog() {
       );
 
       const response = await axios.post(
-        `https://fin-track-backend-ruddy.vercel.app/transaction/${user?.id}/${categoryId}`,
+        `${import.meta.env.VITE_API_URL}/transaction/${user?.id}/${categoryId}`,
         {
           description: values.description,
           amount: amountInBRL,

@@ -126,7 +126,7 @@ function UpdatedGoalDialog({
   ): Promise<void> {
     try {
       const response = await axios.delete(
-        `https://fin-track-backend-ruddy.vercel.app/goal/${userId}/${goalId}`
+        `${import.meta.env.VITE_API_URL}/goal/${userId}/${goalId}`
       );
 
       if (response.status === 200) {

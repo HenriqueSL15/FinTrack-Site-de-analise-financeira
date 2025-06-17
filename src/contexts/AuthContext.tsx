@@ -39,9 +39,7 @@ axios.interceptors.response.use(
 
       try {
         // Chama o endpoint de refresh token
-        await axios.post(
-          "https://fin-track-backend-ruddy.vercel.app/users/refresh-token"
-        );
+        await axios.post(`${import.meta.env.VITE_API_URL}/users/refresh-token`);
 
         // Reenvia a requisição original
         return axios(originalRequest);
@@ -67,7 +65,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const fetchCurrentUser = useCallback(async () => {
     try {
       const response = await axios.get(
-        "https://fin-track-backend-ruddy.vercel.app/users/me"
+        `${import.meta.env.VITE_API_URL}/users/me`
       );
       if (response.data.user) {
         setUser(response.data.user);
@@ -89,7 +87,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const login = async (email: string, password: string) => {
     try {
       const response = await axios.post(
-        "https://fin-track-backend-ruddy.vercel.app/users/login",
+        `${import.meta.env.VITE_API_URL}/users/login`,
         {
           email,
           password,
@@ -111,7 +109,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       console.log("Dados enviados:", userData);
       const response = await axios.post(
-        "https://fin-track-backend-ruddy.vercel.app/users/register",
+        `${import.meta.env.VITE_API_URL}/users/register`,
         userData
       );
       setUser(response.data.userWithoutPassword);
@@ -125,9 +123,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   // Função para logout do usuário
   const logout = async () => {
     try {
-      await axios.post(
-        "https://fin-track-backend-ruddy.vercel.app/users/logout"
-      );
+      await axios.post(`${import.meta.env.VITE_API_URL}/users/logout`);
       setUser(null);
     } catch (err) {
       console.error("Erro durante logout:", err);

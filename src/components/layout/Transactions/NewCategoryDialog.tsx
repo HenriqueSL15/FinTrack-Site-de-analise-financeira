@@ -53,7 +53,7 @@ function NewCategoryDialog() {
   async function onSubmit(values: z.infer<typeof transactionFormSchema>) {
     try {
       const response = await axios.post(
-        `https://fin-track-backend-ruddy.vercel.app/category`,
+        `${import.meta.env.VITE_API_URL}/category`,
         {
           name: values.name,
           type: values.type,
