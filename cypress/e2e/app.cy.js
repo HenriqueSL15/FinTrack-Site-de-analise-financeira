@@ -1,3 +1,7 @@
+before(() => {
+  cy.request("POST", `https://fin-track-backend-tests.vercel.app/test/clean`);
+});
+
 describe("FinTrack App", () => {
   it("should load the app", () => {
     cy.visit("/");
