@@ -25,3 +25,11 @@ dist-ssr
 
 .env
 .env.test
+
+cypress/screenshots/       
+cypress/videos/           
+cypress/fixtures/
+cypress/downloads/        
+cypress/.nyc_output/      
+
+coverage/
