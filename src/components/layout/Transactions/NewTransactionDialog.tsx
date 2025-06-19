@@ -246,11 +246,8 @@ function NewTransactionDialog() {
                     defaultValue={field.value}
                   >
                     <FormControl className="w-full">
-                      <SelectTrigger>
-                        <SelectValue
-                          placeholder="Selecione uma categoria"
-                          id="selectCategory"
-                        />
+                      <SelectTrigger data-testid="transactionCategory">
+                        <SelectValue placeholder="Selecione uma categoria" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
