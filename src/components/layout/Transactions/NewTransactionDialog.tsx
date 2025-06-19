@@ -254,7 +254,11 @@ function NewTransactionDialog() {
                       {data?.categories.map((category: Category) => {
                         if (category.type === "goal") return null;
                         return (
-                          <SelectItem key={category.id} value={category.name}>
+                          <SelectItem
+                            key={category.id}
+                            value={category.name}
+                            id={`categoryItem-${category.name}`}
+                          >
                             {category.name}
                           </SelectItem>
                         );
