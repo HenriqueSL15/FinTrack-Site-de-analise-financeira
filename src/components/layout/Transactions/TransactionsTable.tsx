@@ -50,13 +50,19 @@ function TransactionsTable({
               className="border-t border-gray-200 dark:border-[#2e2e2e] hover:bg-gray-100  dark:hover:bg-neutral-800 transition-all text-sm"
               data-testid={`transactionRow-${i}`}
             >
-              <td className="p-4 w-[20%]" data-testid="transactionDate">
+              <td
+                className="p-4 w-[20%]"
+                data-testid={`transactionRow-${i}-transactionDate`}
+              >
                 {transaction.createdAt.split("T")[0].replace(/-/g, "/")}
               </td>
-              <td className="min-w-20" data-testid="transactionDescription">
+              <td
+                className="min-w-20"
+                data-testid={`transactionRow-${i}-transactionDescription`}
+              >
                 {transaction.description}
               </td>
-              <td data-testid="transactionCategory">
+              <td data-testid={`transactionRow-${i}-transactionCategory`}>
                 {transaction.category.name}
               </td>
               <td>
@@ -66,7 +72,7 @@ function TransactionsTable({
                       ? "bg-emerald-100 text-emerald-800"
                       : "bg-rose-100 text-rose-800"
                   }  w-25 h-7 text-center rounded-full  transition-all cursor-default flex items-center justify-center gap-1`}
-                  data-testid="transactionType"
+                  data-testid={`transactionRow-${i}-transactionType`}
                 >
                   {transaction.type === "income" ? (
                     <ArrowUp size={18} />
@@ -82,7 +88,7 @@ function TransactionsTable({
                     ? "text-emerald-600"
                     : "text-rose-600"
                 } w-[5%] text-end pr-4`}
-                data-testid="transactionAmount"
+                data-testid={`transactionRow-${i}-transactionAmount`}
               >
                 {formatCurrency(transaction.amount, user?.currency)}
               </td>
