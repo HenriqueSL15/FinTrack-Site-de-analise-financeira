@@ -88,7 +88,7 @@ function LoginPage() {
                   <FormControl>
                     <Input
                       placeholder="seu@email.com"
-                      id="emailField"
+                      data-testid="emailField"
                       {...field}
                     />
                   </FormControl>
@@ -108,7 +108,7 @@ function LoginPage() {
                       <Input
                         placeholder="Sua senha"
                         type={showPassword ? "text" : "password"}
-                        id="passwordField"
+                        data-testid="passwordField"
                         {...field}
                       />
                     </FormControl>
@@ -117,13 +117,13 @@ function LoginPage() {
                         <EyeClosed
                           className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
                           onClick={() => setShowPassword(!showPassword)}
-                          id="showPasswordButton"
+                          data-testid="showPasswordButton"
                         />
                       ) : (
                         <Eye
                           className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
                           onClick={() => setShowPassword(!showPassword)}
-                          id="hidePasswordButton"
+                          data-testid="hidePasswordButton"
                         />
                       )}
                     </FormControl>
@@ -137,7 +137,7 @@ function LoginPage() {
           <Button
             className="cursor-pointer mt-5 w-9/12"
             type="submit"
-            id="loginButton"
+            data-testid="loginButton"
           >
             Entrar
           </Button>
@@ -149,7 +149,7 @@ function LoginPage() {
                 variant={"link"}
                 className="cursor-pointer p-1"
                 onClick={() => navigate("/register")}
-                id="registerPageButton"
+                data-testid="registerPageButton"
               >
                 Crie conta
               </Button>
