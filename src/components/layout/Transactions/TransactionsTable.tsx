@@ -56,7 +56,9 @@ function TransactionsTable({
               <td className="min-w-20" data-testid="transactionDescription">
                 {transaction.description}
               </td>
-              <td id="transactionCategory">{transaction.category.name}</td>
+              <td data-testid="transactionCategory">
+                {transaction.category.name}
+              </td>
               <td>
                 <h1
                   className={`${
