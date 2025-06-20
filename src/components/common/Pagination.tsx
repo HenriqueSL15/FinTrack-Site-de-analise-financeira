@@ -13,7 +13,7 @@ function Pagination({
       <Button
         className="cursor-pointer"
         onClick={goToPreviousPage}
-        id="previousPageButton"
+        data-testid="previousPageButton"
       >
         <ArrowLeft />
         Página Anterior
@@ -24,7 +24,7 @@ function Pagination({
       <Button
         className="cursor-pointer"
         onClick={goToNextPage}
-        id="nextPageButton"
+        data-testid="nextPageButton"
       >
         Próxima Página
         <ArrowRight />

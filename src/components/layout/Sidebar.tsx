@@ -26,7 +26,7 @@ function Sidebar({
           variant={"ghost"}
           className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
           onClick={() => navigate("/")}
-          id="homePageButton"
+          data-testid="homePageButton"
         >
           <House />
           Home
@@ -35,7 +35,7 @@ function Sidebar({
           variant={"ghost"}
           className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
           onClick={() => setSelectedOption("dashboard")}
-          id="dashboardPageButton"
+          data-testid="dashboardPageButton"
         >
           <LayoutDashboard /> Dashboard
         </Button>
@@ -43,7 +43,7 @@ function Sidebar({
           variant={"ghost"}
           className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
           onClick={() => setSelectedOption("transactions")}
-          id="transactionsPageButton"
+          data-testid="transactionsPageButton"
         >
           <CreditCard /> Transações
         </Button>
@@ -51,7 +51,7 @@ function Sidebar({
           variant={"ghost"}
           className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
           onClick={() => setSelectedOption("budgets")}
-          id="budgetsPageButton"
+          data-testid="budgetsPageButton"
         >
           <Wallet /> Orçamentos
         </Button>
@@ -59,7 +59,7 @@ function Sidebar({
           variant={"ghost"}
           className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
           onClick={() => setSelectedOption("reports")}
-          id="reportsPageButton"
+          data-testid="reportsPageButton"
         >
           <ChartColumnIncreasing /> Relatórios
         </Button>
@@ -67,7 +67,7 @@ function Sidebar({
           variant={"ghost"}
           className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
           onClick={() => setSelectedOption("goals")}
-          id="goalsPageButton"
+          data-testid="goalsPageButton"
         >
           <ChartPie /> Objetivos
         </Button>
@@ -75,7 +75,7 @@ function Sidebar({
           variant={"ghost"}
           className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
           onClick={() => setSelectedOption("settings")}
-          id="settingsPageButton"
+          data-testid="settingsPageButton"
         >
           <Settings />
           Configurações

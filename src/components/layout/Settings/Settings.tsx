@@ -110,7 +110,7 @@ function Settings() {
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem
                           value="light"
-                          id="light"
+                          data-testid="light"
                           className="border-1 border-black dark:border-white cursor-pointer"
                         />
                         <Label htmlFor="light" className="cursor-pointer">
@@ -120,7 +120,7 @@ function Settings() {
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem
                           value="dark"
-                          id="dark"
+                          data-testid="dark"
                           className="border-1 border-black dark:border-white cursor-pointer"
                         />
                         <Label htmlFor="dark" className="cursor-pointer">
@@ -130,7 +130,7 @@ function Settings() {
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem
                           value="system"
-                          id="system"
+                          data-testid="system"
                           className="border-1 border-black dark:border-white cursor-pointer"
                         />
                         <Label htmlFor="system" className="cursor-pointer">
@@ -160,7 +160,7 @@ function Settings() {
                       <SelectTrigger className="cursor-pointer">
                         <SelectValue
                           placeholder={`Escolha uma moeda`}
-                          id="selectCurrency"
+                          data-testid="selectCurrency"
                         />
                       </SelectTrigger>
                       <SelectContent>
@@ -185,7 +185,7 @@ function Settings() {
               size={"lg"}
               type="submit"
               className="cursor-pointer"
-              id="saveButton"
+              data-testid="saveButton"
             >
               Salvar preferências
             </Button>

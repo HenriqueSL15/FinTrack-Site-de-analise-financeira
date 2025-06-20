@@ -153,7 +153,10 @@ function NewTransactionDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="w-40 h-10 cursor-pointer" id="newTransactionButton">
+        <Button
+          className="w-40 h-10 cursor-pointer"
+          data-testid="newTransactionButton"
+        >
           <Plus /> Nova Transação
         </Button>
       </DialogTrigger>
@@ -294,11 +297,11 @@ function NewTransactionDialog() {
                 onClick={() => setOpen(false)}
                 type="button"
                 variant={"outline"}
-                id="cancelButton"
+                data-testid="cancelButton"
               >
                 Cancelar
               </Button>
-              <Button type="submit" id="saveButton">
+              <Button type="submit" data-testid="saveButton">
                 Salvar
               </Button>
             </div>

@@ -18,7 +18,7 @@ function GoalCard({
 
   return (
     <div className="bg-neutral-50 border border-neutral-300 dark:border-[#2e2e2e] dark:bg-[#1f1f1f] rounded-lg p-5 flex flex-col gap-2">
-      <h1 className=" font-semibold text-2xl" id="goalTitle">
+      <h1 className=" font-semibold text-2xl" data-testid="goalTitle">
         {title}
       </h1>
       <Progress value={percentage} className="h-2 [&>div]:bg-emerald-600" />
@@ -27,7 +27,7 @@ function GoalCard({
           {formatCurrency(spent, user?.currency)} de{" "}
           {formatCurrency(targetAmount, user?.currency)}
         </h1>
-        <h1 className="text-xs text-muted-foreground" id="goalPercentage">
+        <h1 className="text-xs text-muted-foreground" data-testid="goalPercentage">
           {percentage}% utilizado
         </h1>
       </div>
@@ -35,24 +35,24 @@ function GoalCard({
         <div>
           <h1 className="font-medium">Meta:</h1>
           {/* Usar a formatação */}
-          <h2 id="goalAmount">
+          <h2 data-testid="goalAmount">
             {formatCurrency(targetAmount, user?.currency)}
           </h2>
         </div>
         <div>
           <h1 className="font-medium">Economizado:</h1>
           {/* Usar a formatação */}
-          <h2 id="goalSpent">{formatCurrency(spent, user?.currency)}</h2>
+          <h2 data-testid="goalSpent">{formatCurrency(spent, user?.currency)}</h2>
         </div>
         <div>
           <h1 className="font-medium">Data alvo:</h1>
           {/* Usar a formatação */}
-          <h2 id="goalDate">{date.split("T")[0].replace(/-/g, "/")}</h2>
+          <h2 data-testid="goalDate">{date.split("T")[0].replace(/-/g, "/")}</h2>
         </div>
         <div>
           <h1 className="font-medium">Dias restantes:</h1>
           {/* Usar a formatação */}
-          <h2 id="goalDays">{daysRemaining}</h2>
+          <h2 data-testid="goalDays">{daysRemaining}</h2>
         </div>
       </div>
       <UpdatedGoalDialog goal={{ title, targetAmount, spent, date, id }} />

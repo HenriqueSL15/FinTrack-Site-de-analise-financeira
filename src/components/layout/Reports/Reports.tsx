@@ -27,7 +27,7 @@ function Reports() {
           className="cursor-pointer"
           onClick={() => setSelectedReport("categories")}
           variant={selectedReport === "categories" ? "default" : "outline"}
-          id="categoryReportButton"
+          data-testid="categoryReportButton"
         >
           <ChartPie /> Gastos por Categoria
         </Button>
@@ -36,7 +36,7 @@ function Reports() {
           variant={selectedReport === "incomeVsExpense" ? "default" : "outline"}
           className="cursor-pointer"
           onClick={() => setSelectedReport("incomeVsExpense")}
-          id="incomeVsExpenseReportButton"
+          data-testid="incomeVsExpenseReportButton"
         >
           <ChartColumn /> Receitas vs Despesas
         </Button>

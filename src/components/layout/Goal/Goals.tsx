@@ -42,7 +42,7 @@ function Goals() {
                 (goal.currentAmount / goal.targetAmount) * 100
               )}
               date={goal.targetDate}
-              id={String(goal.id)}
+              data-testid={String(goal.id)}
             />
           );
         })}

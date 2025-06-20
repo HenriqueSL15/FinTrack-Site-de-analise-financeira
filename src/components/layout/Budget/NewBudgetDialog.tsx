@@ -101,7 +101,7 @@ function NewBudgetDialog() {
       <DialogTrigger asChild>
         <Button
           className="min-w-40 h-10 cursor-pointer flex justify-around gap-4"
-          id="newBudgetButton"
+          data-testid="newBudgetButton"
         >
           <Plus /> Novo Orçamento
         </Button>
@@ -130,7 +130,7 @@ function NewBudgetDialog() {
                       <SelectTrigger>
                         <SelectValue
                           placeholder="Selecione uma categoria"
-                          id="selectCategory"
+                          data-testid="selectCategory"
                         />
                       </SelectTrigger>
                     </FormControl>
@@ -141,7 +141,7 @@ function NewBudgetDialog() {
                           <SelectItem
                             key={category.id}
                             value={category.name}
-                            id="categoryItem"
+                            data-testid="categoryItem"
                           >
                             {category.name}
                           </SelectItem>
@@ -167,7 +167,7 @@ function NewBudgetDialog() {
                       onChange={(e) =>
                         field.onChange(parseFloat(e.target.value) || 0)
                       }
-                      id="budgetLimit"
+                      data-testid="budgetLimit"
                     />
                   </FormControl>
                   <FormMessage />
@@ -184,11 +184,11 @@ function NewBudgetDialog() {
                 }}
                 type="button"
                 variant={"outline"}
-                id="cancelButton"
+                data-testid="cancelButton"
               >
                 Cancelar
               </Button>
-              <Button type="submit" id="saveButton">
+              <Button type="submit" data-testid="saveButton">
                 Salvar
               </Button>
             </div>

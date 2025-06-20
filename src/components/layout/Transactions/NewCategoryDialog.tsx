@@ -78,7 +78,10 @@ function NewCategoryDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="w-40 h-10 cursor-pointer" id="newCategoryButton">
+        <Button
+          className="w-40 h-10 cursor-pointer"
+          data-testid="newCategoryButton"
+        >
           <Plus /> Nova Categoria
         </Button>
       </DialogTrigger>
@@ -108,7 +111,7 @@ function NewCategoryDialog() {
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem
                           value="expense"
-                          id="expense"
+                          data-testid="expense"
                           className="cursor-pointer"
                         />
                         <label htmlFor="expense" className="cursor-pointer">
@@ -118,7 +121,7 @@ function NewCategoryDialog() {
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem
                           value="income"
-                          id="income"
+                          data-testid="income"
                           className="cursor-pointer"
                         />
                         <label htmlFor="income" className="cursor-pointer">
@@ -142,7 +145,7 @@ function NewCategoryDialog() {
                     <Input
                       placeholder="Ex: Salário"
                       className="h-10"
-                      id="categoryDescription"
+                      data-testid="categoryDescription"
                       {...field}
                     />
                   </FormControl>
@@ -156,11 +159,11 @@ function NewCategoryDialog() {
                 onClick={() => setOpen(false)}
                 type="button"
                 variant={"outline"}
-                id="cancelButton"
+                data-testid="cancelButton"
               >
                 Cancelar
               </Button>
-              <Button type="submit" id="saveButton">
+              <Button type="submit" data-testid="saveButton">
                 Salvar
               </Button>
             </div>
