@@ -281,7 +281,7 @@ function NewTransactionDialog() {
                       type="date"
                       {...field}
                       className="h-10"
-                      id="transactionDate"
+                      data-testid="transactionDate"
                     />
                   </FormControl>
                 </FormItem>
