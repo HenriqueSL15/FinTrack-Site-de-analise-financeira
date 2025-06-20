@@ -19,6 +19,7 @@ function Header() {
         {!isLoading && !user ? (
           <>
             <Button
+              asChild={false}
               data-testid="loginButton"
               variant={"ghost"}
               className="cursor-pointer"
@@ -27,6 +28,7 @@ function Header() {
               Entrar
             </Button>
             <Button
+              asChild={false}
               data-testid="registerButton"
               variant={"default"}
               className="cursor-pointer"

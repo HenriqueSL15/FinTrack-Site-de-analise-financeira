@@ -11,7 +11,7 @@ describe("FinTrack App", () => {
   });
 
   it("should click on register button", () => {
-    const button = cy.get("[data-testid='registerButton']");
+    const button = cy.get("button").contains("Registrar");
     button.click();
     cy.url().should("include", "/register");
   });
