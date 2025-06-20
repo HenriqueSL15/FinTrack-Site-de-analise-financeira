@@ -180,11 +180,11 @@ function NewTransactionDialog() {
                       disabled
                     >
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="expense" id="expense" />
+                        <RadioGroupItem value="expense" data-testid="expense" />
                         <label>Despesa</label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="income" id="income" />
+                        <RadioGroupItem value="income" data-testid="income" />
                         <label>Receita</label>
                       </div>
                     </RadioGroup>
@@ -204,7 +204,7 @@ function NewTransactionDialog() {
                     <Input
                       placeholder="Ex: Compra de supermercado"
                       className="h-10"
-                      id="transactionDescription"
+                      data-testid="transactionDescription"
                       {...field}
                     />
                   </FormControl>
@@ -223,7 +223,7 @@ function NewTransactionDialog() {
                     <Input
                       className="h-10"
                       placeholder="0,00"
-                      id="transactionAmount"
+                      data-testid="transactionAmount"
                       {...field}
                     />
                   </FormControl>
@@ -257,7 +257,7 @@ function NewTransactionDialog() {
                           <SelectItem
                             key={category.id}
                             value={category.name}
-                            id={`categoryItem-${category.name}`}
+                            data-testid={`categoryItem-${category.name}`}
                           >
                             {category.name}
                           </SelectItem>
