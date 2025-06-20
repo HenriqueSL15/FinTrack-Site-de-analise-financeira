@@ -19,7 +19,7 @@ function Header() {
         {!isLoading && !user ? (
           <>
             <Button
-              id="loginButton"
+              data-testid="loginButton"
               variant={"ghost"}
               className="cursor-pointer"
               onClick={() => navigate("/login")}
@@ -27,7 +27,7 @@ function Header() {
               Entrar
             </Button>
             <Button
-              id="registerButton"
+              data-testid="registerButton"
               variant={"default"}
               className="cursor-pointer"
               onClick={() => navigate("/register")}
@@ -38,7 +38,7 @@ function Header() {
         ) : !isLoading && user ? (
           <>
             <Button
-              id="userPageButton"
+              data-testid="userPageButton"
               className="text-xl text-semibold cursor-pointer"
               variant={"link"}
               onClick={() => navigate("/dashboard")}
@@ -46,7 +46,7 @@ function Header() {
               {user.name}
             </Button>
             <Button
-              id="logoutButton"
+              data-testid="logoutButton"
               variant={"default"}
               className="cursor-pointer"
               onClick={logout}
