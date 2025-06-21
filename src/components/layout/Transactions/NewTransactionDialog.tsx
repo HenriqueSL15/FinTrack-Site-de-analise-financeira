@@ -153,10 +153,7 @@ function NewTransactionDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          className="w-40 h-10 cursor-pointer"
-          data-testid="newTransactionButton"
-        >
+        <Button className="w-40 h-10 cursor-pointer" id="newTransactionButton">
           <Plus /> Nova Transação
         </Button>
       </DialogTrigger>
@@ -183,11 +180,11 @@ function NewTransactionDialog() {
                       disabled
                     >
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="expense" data-testid="expense" />
+                        <RadioGroupItem value="expense" id="expense" />
                         <label>Despesa</label>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="income" data-testid="income" />
+                        <RadioGroupItem value="income" id="income" />
                         <label>Receita</label>
                       </div>
                     </RadioGroup>
@@ -207,7 +204,7 @@ function NewTransactionDialog() {
                     <Input
                       placeholder="Ex: Compra de supermercado"
                       className="h-10"
-                      data-testid="transactionDescription"
+                      id="transactionDescription"
                       {...field}
                     />
                   </FormControl>
@@ -226,7 +223,7 @@ function NewTransactionDialog() {
                     <Input
                       className="h-10"
                       placeholder="0,00"
-                      data-testid="transactionAmount"
+                      id="transactionAmount"
                       {...field}
                     />
                   </FormControl>
@@ -249,7 +246,7 @@ function NewTransactionDialog() {
                     defaultValue={field.value}
                   >
                     <FormControl className="w-full">
-                      <SelectTrigger data-testid="transactionCategory">
+                      <SelectTrigger id="transactionCategory">
                         <SelectValue placeholder="Selecione uma categoria" />
                       </SelectTrigger>
                     </FormControl>
@@ -260,7 +257,7 @@ function NewTransactionDialog() {
                           <SelectItem
                             key={category.id}
                             value={category.name}
-                            data-testid={`categoryItem-${category.name}`}
+                            id={`categoryItem-${category.name}`}
                           >
                             {category.name}
                           </SelectItem>
@@ -284,7 +281,7 @@ function NewTransactionDialog() {
                       type="date"
                       {...field}
                       className="h-10"
-                      data-testid="transactionDate"
+                      id="transactionDate"
                     />
                   </FormControl>
                 </FormItem>
@@ -297,11 +294,11 @@ function NewTransactionDialog() {
                 onClick={() => setOpen(false)}
                 type="button"
                 variant={"outline"}
-                data-testid="cancelButton"
+                id="cancelButton"
               >
                 Cancelar
               </Button>
-              <Button type="submit" data-testid="saveButton">
+              <Button type="submit" id="saveButton">
                 Salvar
               </Button>
             </div>

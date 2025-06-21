@@ -78,10 +78,7 @@ function NewCategoryDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          className="w-40 h-10 cursor-pointer"
-          data-testid="newCategoryButton"
-        >
+        <Button className="w-40 h-10 cursor-pointer" id="newCategoryButton">
           <Plus /> Nova Categoria
         </Button>
       </DialogTrigger>
@@ -111,7 +108,7 @@ function NewCategoryDialog() {
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem
                           value="expense"
-                          data-testid="expense"
+                          id="expense"
                           className="cursor-pointer"
                         />
                         <label htmlFor="expense" className="cursor-pointer">
@@ -121,7 +118,7 @@ function NewCategoryDialog() {
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem
                           value="income"
-                          data-testid="income"
+                          id="income"
                           className="cursor-pointer"
                         />
                         <label htmlFor="income" className="cursor-pointer">
@@ -145,7 +142,7 @@ function NewCategoryDialog() {
                     <Input
                       placeholder="Ex: Salário"
                       className="h-10"
-                      data-testid="categoryDescription"
+                      id="categoryDescription"
                       {...field}
                     />
                   </FormControl>
@@ -159,11 +156,11 @@ function NewCategoryDialog() {
                 onClick={() => setOpen(false)}
                 type="button"
                 variant={"outline"}
-                data-testid="cancelButton"
+                id="cancelButton"
               >
                 Cancelar
               </Button>
-              <Button type="submit" data-testid="saveButton">
+              <Button type="submit" id="saveButton">
                 Salvar
               </Button>
             </div>

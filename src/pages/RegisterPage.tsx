@@ -90,7 +90,7 @@ function RegisterPage() {
                 <FormItem className="space-y-2">
                   <FormLabel>Nome</FormLabel>
                   <FormControl>
-                    <Input placeholder="Seu nome" data-testid="nameField" {...field} />
+                    <Input placeholder="Seu nome" id="nameField" {...field} />
                   </FormControl>
 
                   <FormMessage />
@@ -106,7 +106,7 @@ function RegisterPage() {
                   <FormControl>
                     <Input
                       placeholder="seu@email.com"
-                      data-testid="emailField"
+                      id="emailField"
                       {...field}
                     />
                   </FormControl>
@@ -126,7 +126,7 @@ function RegisterPage() {
                       <Input
                         placeholder="Sua senha"
                         type={showPassword ? "text" : "password"}
-                        data-testid="passwordField"
+                        id="passwordField"
                         {...field}
                       />
                     </FormControl>
@@ -135,13 +135,13 @@ function RegisterPage() {
                         <EyeClosed
                           className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
                           onClick={() => setShowPassword(!showPassword)}
-                          data-testid="showPasswordButton"
+                          id="showPasswordButton"
                         />
                       ) : (
                         <Eye
                           className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
                           onClick={() => setShowPassword(!showPassword)}
-                          data-testid="hidePasswordButton"
+                          id="hidePasswordButton"
                         />
                       )}
                     </FormControl>
@@ -155,7 +155,7 @@ function RegisterPage() {
           <Button
             className="cursor-pointer mt-5 w-9/12"
             type="submit"
-            data-testid="registerButton"
+            id="registerButton"
           >
             Registrar
           </Button>
@@ -167,7 +167,7 @@ function RegisterPage() {
                 variant={"link"}
                 className="cursor-pointer p-1"
                 onClick={() => navigate("/login")}
-                data-testid="loginPageButton"
+                id="loginPageButton"
               >
                 Entrar
               </Button>

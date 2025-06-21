@@ -83,7 +83,7 @@ function NewGoalDialog() {
       <DialogTrigger asChild>
         <Button
           className="min-w-40 h-10 cursor-pointer flex justify-around gap-4"
-          data-testid="newGoalButton"
+          id="newGoalButton"
         >
           <Plus /> Novo Objetivo
         </Button>
@@ -110,7 +110,7 @@ function NewGoalDialog() {
                       {...field}
                       className="h-10"
                       placeholder="Digite o nome da meta"
-                      data-testid="goalName"
+                      id="goalName"
                     />
                   </FormControl>
                   <FormMessage />
@@ -130,7 +130,7 @@ function NewGoalDialog() {
                       type="text"
                       {...field}
                       placeholder="Digite o valor da meta (só os números)"
-                      data-testid="goalAmount"
+                      id="goalAmount"
                     />
                   </FormControl>
                   <FormMessage />
@@ -150,7 +150,7 @@ function NewGoalDialog() {
                       type="date"
                       {...field}
                       className="h-10"
-                      data-testid="goalDate"
+                      id="goalDate"
                     />
                   </FormControl>
                   <FormMessage />
@@ -167,11 +167,11 @@ function NewGoalDialog() {
                 }}
                 type="button"
                 variant={"outline"}
-                data-testid="cancelButton"
+                id="cancelButton"
               >
                 Cancelar
               </Button>
-              <Button type="submit" data-testid="saveButton">
+              <Button type="submit" id="saveButton">
                 Salvar
               </Button>
             </div>
