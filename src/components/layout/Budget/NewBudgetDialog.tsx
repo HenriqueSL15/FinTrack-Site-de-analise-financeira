@@ -160,6 +160,7 @@ function NewBudgetDialog() {
                   <FormControl>
                     <Input
                       {...field}
+                      type="text"
                       onChange={(e) =>
                         field.onChange(parseFloat(e.target.value) || 0)
                       }
