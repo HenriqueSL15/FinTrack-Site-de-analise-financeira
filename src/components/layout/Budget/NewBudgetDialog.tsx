@@ -127,11 +127,8 @@ function NewBudgetDialog() {
                     defaultValue={field.value}
                   >
                     <FormControl className="w-full">
-                      <SelectTrigger>
-                        <SelectValue
-                          placeholder="Selecione uma categoria"
-                          id="selectCategory"
-                        />
+                      <SelectTrigger id="selectCategory">
+                        <SelectValue placeholder="Selecione uma categoria" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -141,7 +138,7 @@ function NewBudgetDialog() {
                           <SelectItem
                             key={category.id}
                             value={category.name}
-                            id="categoryItem"
+                            id={`categoryItem-${category.name}`}
                           >
                             {category.name}
                           </SelectItem>
