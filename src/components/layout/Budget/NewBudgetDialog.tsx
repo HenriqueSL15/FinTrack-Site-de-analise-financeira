@@ -159,7 +159,6 @@ function NewBudgetDialog() {
                   <FormLabel>Valor orçado ({user?.currency})</FormLabel>
                   <FormControl>
                     <Input
-                      type="number"
                       {...field}
                       onChange={(e) =>
                         field.onChange(parseFloat(e.target.value) || 0)
