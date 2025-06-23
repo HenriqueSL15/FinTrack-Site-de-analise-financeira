@@ -86,6 +86,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   // Função para login do usuário
   const login = async (email: string, password: string) => {
     try {
+      console.log(import.meta.env.VITE_API_URL);
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/users/login`,
         {
