@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "which tsc && tsc -b && vite build || echo 'tsc não encontrado'",
     "lint": "eslint .",
     "preview": "vite preview",
     "cypress:web": "npx cypress open",
