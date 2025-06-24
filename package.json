@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "which tsc && npx tsc -b && vite build || echo 'tsc não encontrado'",
+    "build": "npm install typescript --save-dev && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "cypress:web": "npx cypress open",
