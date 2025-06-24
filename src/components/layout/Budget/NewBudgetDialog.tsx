@@ -127,8 +127,11 @@ function NewBudgetDialog() {
                     defaultValue={field.value}
                   >
                     <FormControl className="w-full">
-                      <SelectTrigger id="selectCategory">
-                        <SelectValue placeholder="Selecione uma categoria" />
+                      <SelectTrigger>
+                        <SelectValue
+                          placeholder="Selecione uma categoria"
+                          id="selectCategory"
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -138,7 +141,7 @@ function NewBudgetDialog() {
                           <SelectItem
                             key={category.id}
                             value={category.name}
-                            id={`categoryItem-${category.name}`}
+                            id="categoryItem"
                           >
                             {category.name}
                           </SelectItem>
@@ -159,8 +162,8 @@ function NewBudgetDialog() {
                   <FormLabel>Valor orçado ({user?.currency})</FormLabel>
                   <FormControl>
                     <Input
+                      type="number"
                       {...field}
-                      type="text"
                       onChange={(e) =>
                         field.onChange(parseFloat(e.target.value) || 0)
                       }

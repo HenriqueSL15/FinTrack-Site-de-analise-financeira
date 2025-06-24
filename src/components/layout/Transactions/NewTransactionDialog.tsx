@@ -246,19 +246,18 @@ function NewTransactionDialog() {
                     defaultValue={field.value}
                   >
                     <FormControl className="w-full">
-                      <SelectTrigger id="transactionCategory">
-                        <SelectValue placeholder="Selecione uma categoria" />
+                      <SelectTrigger>
+                        <SelectValue
+                          placeholder="Selecione uma categoria"
+                          id="selectCategory"
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {data?.categories.map((category: Category) => {
                         if (category.type === "goal") return null;
                         return (
-                          <SelectItem
-                            key={category.id}
-                            value={category.name}
-                            id={`categoryItem-${category.name}`}
-                          >
+                          <SelectItem key={category.id} value={category.name}>
                             {category.name}
                           </SelectItem>
                         );

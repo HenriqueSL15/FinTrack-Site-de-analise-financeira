@@ -6,7 +6,7 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
-    baseUrl: "https://fintrack-tests.netlify.app/",
+    baseUrl: "https://fintrackbr.netlify.app/",
     testIsolation: false,
   },
 });

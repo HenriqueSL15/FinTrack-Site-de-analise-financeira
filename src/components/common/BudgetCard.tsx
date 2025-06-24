@@ -20,11 +20,11 @@ function BudgetCard({
 
   return (
     <div className="bg-neutral-50 border border-neutral-300 dark:border-[#2e2e2e] dark:bg-[#1f1f1f] rounded-lg p-5 flex flex-col gap-2">
-      <h1 className=" font-semibold" data-testid="budgetTitle">
+      <h1 className=" font-semibold" id="budgetTitle">
         {title}
       </h1>
       <Progress value={percentage} className="h-2 [&>div]:bg-emerald-600" />
-      <h1 className="text-xs text-muted-foreground" data-testid="budgetPercentage">
+      <h1 className="text-xs text-muted-foreground" id="budgetPercentage">
         {percentage}% utilizado
       </h1>
 
@@ -32,12 +32,12 @@ function BudgetCard({
         <div>
           <h1 className="font-medium">Orçado:</h1>
           {/* Usar a formatação */}
-          <h2 data-testid="budgetedAmount">{budgeted}</h2>
+          <h2 id="budgetedAmount">{budgeted}</h2>
         </div>
         <div>
           <h1 className="font-medium">Gasto:</h1>
           {/* Usar a formatação */}
-          <h2 data-testid="spentAmount">{spent}</h2>
+          <h2 id="spentAmount">{spent}</h2>
         </div>
         <div>
           <h1 className="font-medium">Restante:</h1>
@@ -46,7 +46,7 @@ function BudgetCard({
             className={` ${
               remainingNumber <= 0 ? "text-rose-600" : "text-emerald-600"
             } `}
-            data-testid="remainingAmount"
+            id="remainingAmount"
           >
             {remaining}
           </h2>
