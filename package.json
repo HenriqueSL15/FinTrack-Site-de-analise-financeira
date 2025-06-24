@@ -12,6 +12,7 @@
     "cypress:headless": "npx cypress run --browser electron"
   },
   "dependencies": {
+    "typescript": "~5.7.2",
     "@hookform/resolvers": "^5.0.1",
     "@radix-ui/react-dialog": "^1.1.11",
     "@radix-ui/react-label": "^2.1.4",
@@ -64,7 +65,6 @@
     "tailwindcss": "^4.1.4",
     "tailwindcss-animate": "^1.0.7",
     "ts-jest": "^29.3.4",
-    "typescript": "~5.7.2",
     "typescript-eslint": "^8.26.1",
     "vite": "^6.3.1"
   }
