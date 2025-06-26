@@ -115,7 +115,16 @@ function IncomeVsExpenseChart({
     },
   };
 
-  return <Bar options={options} data={charData} />;
+  return (
+    <Bar
+      options={options}
+      data={charData}
+      id="incomeVsExpenseChart"
+      ref={(ref) => {
+        if (ref) window.incomeVsExpenseChart = ref;
+      }}
+    />
+  );
 }
 
 export default IncomeVsExpenseChart;

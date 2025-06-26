@@ -31,11 +31,12 @@ function Budgets() {
         <NewBudgetDialog />
       </div>
       <div className="grid grid-cols-3 w-full gap-5">
-        {data?.budgets.map((budget: Budget) => {
+        {data?.budgets.map((budget: Budget, i) => {
           const spentAmount = getSpentAmount(budget, data?.transactions);
 
           return (
             <BudgetCard
+              index={i}
               key={budget.id}
               title={budget.category.name}
               budgeted={formatCurrency(budget.limitAmount, user?.currency)}

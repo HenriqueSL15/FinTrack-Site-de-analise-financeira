@@ -74,7 +74,7 @@ function FinancialCards() {
   return (
     <div className="w-full h-2/10 flex gap-5">
       {info.map((item, i) => (
-        <FinancialCard {...item} key={i} />
+        <FinancialCard {...item} key={i} index={i} />
       ))}
     </div>
   );

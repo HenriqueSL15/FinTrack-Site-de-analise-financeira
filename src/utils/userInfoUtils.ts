@@ -7,18 +7,10 @@ const getUserInformation = async (userId: number) => {
       // Usando Promise.all para fazer requisições paralelas
       const [transactionsRes, categoriesRes, budgetsRes, goalsRes] =
         await Promise.all([
-          axios.get(
-            `https://fin-track-backend-ruddy.vercel.app/transaction/${userId}`
-          ),
-          axios.get(
-            `https://fin-track-backend-ruddy.vercel.app/category/${userId}`
-          ),
-          axios.get(
-            `https://fin-track-backend-ruddy.vercel.app/budget/${userId}`
-          ),
-          axios.get(
-            `https://fin-track-backend-ruddy.vercel.app/goal/${userId}`
-          ),
+          axios.get(`${import.meta.env.VITE_API_URL}/transaction/${userId}`),
+          axios.get(`${import.meta.env.VITE_API_URL}/category/${userId}`),
+          axios.get(`${import.meta.env.VITE_API_URL}/budget/${userId}`),
+          axios.get(`${import.meta.env.VITE_API_URL}/goal/${userId}`),
         ]);
 
       return {

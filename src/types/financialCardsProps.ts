@@ -6,4 +6,5 @@ export default interface FinancialCardProps {
   subtitle?: string;
   icon: LucideIcon;
   iconColor?: string;
+  index: number;
 }
