@@ -117,7 +117,15 @@ function AreaChart() {
     },
   };
 
-  return <Line options={options} data={chartData} />;
+  return (
+    <Line
+      options={options}
+      data={chartData}
+      ref={(ref) => {
+        if (ref) window.areaChart = ref;
+      }}
+    />
+  );
 }
 
 export default AreaChart;

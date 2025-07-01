@@ -6,7 +6,7 @@ import IncomeVsExpenseReport from "./Income Vs Expense Report/IncomeVsExpenseRep
 import Option from "./reports.ts";
 
 function Reports() {
-  const [selectedReport, setSelectedReport] = useState("incomeVsExpense");
+  const [selectedReport, setSelectedReport] = useState("categories");
 
   const options: Option = {
     categories: <CategoryReport />,

@@ -7,4 +7,5 @@ export default interface GoalCardProps {
   percentage: number;
   date: string;
   id: string;
+  index: number;
 }

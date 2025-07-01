@@ -23,11 +23,17 @@ const getCurrentPageTransactions = (
   let filteredData = data || [];
 
   if (search) {
-    filteredData = filteredData.filter((transaction) =>
-      transaction.description.toLowerCase().includes(search.toLowerCase())
+    filteredData = filteredData.filter(
+      (transaction) =>
+        transaction.description.toLowerCase().includes(search.toLowerCase()) &&
+        transaction.type != "goal"
     );
 
     return filteredData;
+  } else {
+    filteredData = filteredData.filter(
+      (transaction) => transaction.type != "goal"
+    );
   }
 
   return filteredData?.slice(startIndex, endIndex);

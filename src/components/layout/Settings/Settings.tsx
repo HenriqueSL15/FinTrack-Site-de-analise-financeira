@@ -157,20 +157,32 @@ function Settings() {
                   <FormItem>
                     <FormLabel className="text-base">Moeda</FormLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="cursor-pointer">
-                        <SelectValue
-                          placeholder={`Escolha uma moeda`}
-                          id="selectCurrency"
-                        />
+                      <SelectTrigger
+                        className="cursor-pointer"
+                        id="selectCurrency"
+                      >
+                        <SelectValue placeholder={`Escolha uma moeda`} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="BRL" className="cursor-pointer">
+                        <SelectItem
+                          value="BRL"
+                          className="cursor-pointer"
+                          id="brl"
+                        >
                           Real Brasileiro (R$)
                         </SelectItem>
-                        <SelectItem value="USD" className="cursor-pointer">
+                        <SelectItem
+                          value="USD"
+                          className="cursor-pointer"
+                          id="usd"
+                        >
                           Dólar Americano ($)
                         </SelectItem>
-                        <SelectItem value="EUR" className="cursor-pointer">
+                        <SelectItem
+                          value="EUR"
+                          className="cursor-pointer"
+                          id="eur"
+                        >
                           Euro (€)
                         </SelectItem>
                       </SelectContent>

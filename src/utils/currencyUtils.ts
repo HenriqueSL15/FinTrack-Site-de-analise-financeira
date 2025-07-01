@@ -1,8 +1,8 @@
 // Taxas de conversão
 const conversionRates = {
   BRL: 1,
-  USD: 5.66,
-  EUR: 6.39,
+  USD: 0.1842,
+  EUR: 0.15597,
 };
 
 type SupportedCurrency = keyof typeof conversionRates;
@@ -18,7 +18,7 @@ export function convertCurrency(
     return amount;
   }
 
-  return amount / conversionRates[toCurrency];
+  return amount * conversionRates[toCurrency];
 }
 
 // Formata um valor para exibição de acordo com a moeda
@@ -70,5 +70,5 @@ export function convertToBRL(
   if (value < 0) return 0;
   if (userCurrency === "BRL") return value;
 
-  return value * conversionRates[userCurrency];
+  return value / conversionRates[userCurrency];
 }

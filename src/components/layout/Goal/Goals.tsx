@@ -30,10 +30,11 @@ function Goals() {
         <NewGoalDialog />
       </div>
       <div className="grid grid-cols-2 gap-5">
-        {data?.goals.map((goal: Goal) => {
+        {data?.goals.map((goal: Goal, i) => {
           return (
             <GoalCard
               key={goal.id}
+              index={i}
               title={goal.description}
               targetAmount={goal.targetAmount}
               spent={goal.currentAmount}

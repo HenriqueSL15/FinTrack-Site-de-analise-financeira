@@ -30,6 +30,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toISODate } from "@/utils/dateUtils";
 import axios from "axios";
 import GoalCardProps from "@/types/goalCard";
+import { calculateBalance } from "@/utils/transactionUtils";
+import { useQuery } from "@tanstack/react-query";
+import getUserInformation from "@/utils/userInfoUtils";
 
 function UpdatedGoalDialog({
   goal,
@@ -38,6 +41,14 @@ function UpdatedGoalDialog({
 }) {
   const { user } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
+
+  const { data } = useQuery({
+    queryKey: ["userInfo", user?.id],
+    queryFn: () => getUserInformation(user?.id as number),
+    enabled: !!user,
+  });
+
+  const balance = data ? calculateBalance(data.transactions) : 0;
 
   // Schema de validação com Zod
   const goalFormSchema = z.object({
@@ -90,7 +101,7 @@ function UpdatedGoalDialog({
   ): Promise<void> {
     try {
       const response = await axios.put(
-        `https://fin-track-backend-ruddy.vercel.app/goal/${user?.id}/${goal.id}`,
+        `${import.meta.env.VITE_API_URL}/goal/${user?.id}/${goal.id}`,
         {
           description: values.name,
           targetAmount: convertToBRL(
@@ -102,6 +113,7 @@ function UpdatedGoalDialog({
             user?.currency || "BRL"
           ),
           targetDate: new Date(values.targetDate).toISOString(),
+          balance: balance,
         }
       );
       if (response.status === 200) {
@@ -140,10 +152,8 @@ function UpdatedGoalDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button className="cursor-pointer w-full" id="updateGoalButton">
-          Atualizar objetivo
-        </Button>
+      <DialogTrigger id="updateGoalButton" asChild>
+        <Button className="cursor-pointer w-full">Atualizar objetivo</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

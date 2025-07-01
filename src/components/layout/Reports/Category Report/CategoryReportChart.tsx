@@ -94,7 +94,15 @@ function CategoryReportChart({
     },
   };
 
-  return <Pie data={charData} options={options} />;
+  return (
+    <Pie
+      data={charData}
+      options={options}
+      ref={(ref) => {
+        if (ref) window.categoryReportChart = ref;
+      }}
+    />
+  );
 }
 
 export default CategoryReportChart;
