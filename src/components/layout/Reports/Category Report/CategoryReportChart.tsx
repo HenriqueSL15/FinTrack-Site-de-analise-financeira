@@ -12,7 +12,7 @@ import {
 import { useEffect, useContext, useState } from "react";
 import { AuthContext } from "@/contexts/AuthContext.tsx";
 import { formatCurrency } from "@/utils/currencyUtils";
-import colorbrewer from "colorbrewer";
+import chroma from "chroma-js";
 
 // Registrando elementos e plugins
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -43,7 +43,15 @@ function CategoryReportChart({
 
       setProcessedData(chartData);
     }
-  }, [amountOfMonths]);
+  }, [data, amountOfMonths]);
+
+  function generateRandomColors(amountOfColors: number): string[] {
+    const colors = [];
+    for (let i = 0; i < amountOfColors; i++) {
+      colors.push(chroma.random().hex());
+    }
+    return colors;
+  }
 
   const charData = {
     labels: processedData?.labels,
@@ -51,7 +59,9 @@ function CategoryReportChart({
       {
         label: "Gastos na Categoria",
         data: processedData?.chartData,
-        backgroundColor: colorbrewer.YlGnBu[processedData?.chartData.length],
+        backgroundColor: generateRandomColors(
+          processedData?.chartData?.length as number
+        ),
         borderWidth: 1,
       },
     ],

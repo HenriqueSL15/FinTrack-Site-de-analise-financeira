@@ -143,7 +143,7 @@ export function processTransactionsPerCategory(
   // Agrupar transações por categoria
   transactions.forEach((transaction) => {
     const transDate = new Date(transaction.createdAt);
-    const category = transaction.category.name;
+    const category = transaction.category?.name;
     const amount = transaction.amount;
     const transactionType = transaction.type;
 
