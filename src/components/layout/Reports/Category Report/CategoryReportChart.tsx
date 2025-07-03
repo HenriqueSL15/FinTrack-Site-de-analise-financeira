@@ -12,6 +12,7 @@ import {
 import { useEffect, useContext, useState } from "react";
 import { AuthContext } from "@/contexts/AuthContext.tsx";
 import { formatCurrency } from "@/utils/currencyUtils";
+import colorbrewer from "colorbrewer";
 
 // Registrando elementos e plugins
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -50,13 +51,7 @@ function CategoryReportChart({
       {
         label: "Gastos na Categoria",
         data: processedData?.chartData,
-        backgroundColor: [
-          "#36A2EB",
-          "#FFCE56",
-          "#4BC0C0",
-          "#9966FF",
-          "#FF9F40",
-        ],
+        backgroundColor: colorbrewer.YlGnBu[processedData?.chartData.length],
         borderWidth: 1,
       },
     ],
