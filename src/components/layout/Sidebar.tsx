@@ -9,13 +9,22 @@ import {
   Settings,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 function Sidebar({
   setSelectedOption,
 }: {
   setSelectedOption: (option: string) => void;
 }) {
+  const [selected, setSelected] = useState("dashboardPageButton");
   const navigate = useNavigate();
+
+  const handleClick = (text: string): void => {
+    setSelectedOption(text);
+    setSelected(text);
+
+    if (text === "home") navigate("/");
+  };
 
   return (
     <div className="w-full min-h-screen py-6 dark:bg-[#1f1f1f]">
@@ -24,8 +33,8 @@ function Sidebar({
       <div className="space-y-2 w-full min-h-full px-3">
         <Button
           variant={"ghost"}
-          className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
-          onClick={() => navigate("/")}
+          className={`w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500`}
+          onClick={() => handleClick("home")}
           id="homePageButton"
         >
           <House />
@@ -33,48 +42,66 @@ function Sidebar({
         </Button>
         <Button
           variant={"ghost"}
-          className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
-          onClick={() => setSelectedOption("dashboard")}
+          className={`w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500 ${
+            selected === "dashboard" &&
+            "bg-accent text-accent-foreground dark:bg-accent/50"
+          }`}
+          onClick={() => handleClick("dashboard")}
           id="dashboardPageButton"
         >
           <LayoutDashboard /> Dashboard
         </Button>
         <Button
           variant={"ghost"}
-          className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
-          onClick={() => setSelectedOption("transactions")}
+          className={`w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500 ${
+            selected === "transactions" &&
+            "bg-accent text-accent-foreground dark:bg-accent/50"
+          }`}
+          onClick={() => handleClick("transactions")}
           id="transactionsPageButton"
         >
           <CreditCard /> Transações
         </Button>
         <Button
           variant={"ghost"}
-          className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
-          onClick={() => setSelectedOption("budgets")}
+          className={`w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500 ${
+            selected === "budgets" &&
+            "bg-accent text-accent-foreground dark:bg-accent/50"
+          }`}
+          onClick={() => handleClick("budgets")}
           id="budgetsPageButton"
         >
           <Wallet /> Orçamentos
         </Button>
         <Button
           variant={"ghost"}
-          className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
-          onClick={() => setSelectedOption("reports")}
+          className={`w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500 ${
+            selected === "reports" &&
+            "bg-accent text-accent-foreground dark:bg-accent/50"
+          }`}
+          onClick={() => handleClick("reports")}
           id="reportsPageButton"
         >
           <ChartColumnIncreasing /> Relatórios
         </Button>
         <Button
           variant={"ghost"}
-          className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
-          onClick={() => setSelectedOption("goals")}
+          className={`w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500 ${
+            selected === "goals" &&
+            "bg-accent text-accent-foreground dark:bg-accent/50"
+          }`}
+          onClick={() => handleClick("goals")}
           id="goalsPageButton"
         >
           <ChartPie /> Objetivos
         </Button>
         <Button
           variant={"ghost"}
-          className="w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500"
-          onClick={() => setSelectedOption("settings")}
+          className={`w-full justify-start text-sm gap-2 p-5 cursor-pointer text-neutral-500 ${
+            selected === "settings" &&
+            "bg-accent text-accent-foreground dark:bg-accent/50"
+          }`}
+          onClick={() => handleClick("settings")}
           id="settingsPageButton"
         >
           <Settings />
