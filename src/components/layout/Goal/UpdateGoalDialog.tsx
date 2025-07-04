@@ -33,6 +33,7 @@ import GoalCardProps from "@/types/goalCard";
 import { calculateBalance } from "@/utils/transactionUtils";
 import { useQuery } from "@tanstack/react-query";
 import getUserInformation from "@/utils/userInfoUtils";
+import { toast } from "sonner";
 
 function UpdatedGoalDialog({
   goal,
@@ -99,6 +100,8 @@ function UpdatedGoalDialog({
   async function onSubmit(
     values: z.infer<typeof goalFormSchema>
   ): Promise<void> {
+    const loadingToast = toast.loading("Carregando!");
+
     try {
       const response = await axios.put(
         `${import.meta.env.VITE_API_URL}/goal/${user?.id}/${goal.id}`,
@@ -118,6 +121,10 @@ function UpdatedGoalDialog({
       );
       if (response.status === 200) {
         console.log("Objetivo atualizado com sucesso!");
+
+        toast.dismiss(loadingToast);
+        toast.success("Objetivo atualizado!");
+
         // Invalida a consulta de orçamentos para atualizar a UI
         queryClient.invalidateQueries({
           queryKey: ["userInfo", user?.id],
@@ -125,6 +132,8 @@ function UpdatedGoalDialog({
       }
     } catch (err) {
       console.log(err);
+      toast.dismiss(loadingToast);
+      toast.error("Ocorreu um erro!");
     }
 
     setOpen(false);
@@ -136,16 +145,22 @@ function UpdatedGoalDialog({
     goalId: number,
     userId: number
   ): Promise<void> {
+    const loadingToast = toast.loading("Carregando!");
+
     try {
       const response = await axios.delete(
         `${import.meta.env.VITE_API_URL}/goal/${userId}/${goalId}`
       );
 
       if (response.status === 200) {
+        toast.dismiss(loadingToast);
+        toast.success("Objetivo deletado!");
         queryClient.invalidateQueries({ queryKey: ["userInfo", user?.id] });
       }
       console.log("Orçamento deletado com sucesso!");
     } catch (err) {
+      toast.dismiss(loadingToast);
+      toast.error("Ocorreu um erro!");
       console.log(err);
     }
   }

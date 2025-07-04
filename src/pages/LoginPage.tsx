@@ -17,6 +17,7 @@ import { useState, useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { Eye, EyeClosed } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Email inválido" }),
@@ -54,9 +55,14 @@ function LoginPage() {
       const { email, password } = form.getValues();
       const response = await login(email, password);
 
+      toast.promise(response, {
+        loading: "Carregando!",
+        success: "Logado com sucesso!",
+        error: "Ocorreu um erro!",
+      });
+
       if (response) {
         navigate("/");
-        console.log(response.data);
       }
     } catch (err) {
       console.log(err);

@@ -32,6 +32,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "@/contexts/AuthContext.tsx";
 import getUserInformation from "@/utils/userInfoUtils.ts";
 import Category from "@/types/category";
+import { toast } from "sonner";
 
 function NewBudgetDialog() {
   const { user } = useContext(AuthContext);
@@ -69,6 +70,8 @@ function NewBudgetDialog() {
   });
 
   async function onSubmit(values: z.infer<typeof budgetFormSchema>) {
+    const loadingToast = toast.loading("Carregando!");
+
     try {
       const categoryId = data?.categories?.find(
         (category: Category) => category.name === values.category
@@ -85,11 +88,16 @@ function NewBudgetDialog() {
       if (response.status === 201) {
         console.log("Orçamento criado com sucesso!");
 
+        toast.dismiss(loadingToast);
+        toast.success("Orçamento criado!");
+
         // Invalida a consulta de orçamentos para atualizar a UI
         queryClient.invalidateQueries({ queryKey: ["userInfo", user?.id] });
       }
     } catch (err) {
       console.log(err);
+      toast.dismiss(loadingToast);
+      toast.error("Ocorreu um erro!");
     }
 
     setOpen(false);

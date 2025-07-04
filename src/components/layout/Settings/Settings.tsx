@@ -16,6 +16,7 @@ import { Button } from "../../ui/button.tsx";
 import { Label } from "../../ui/label.tsx";
 import { RadioGroup, RadioGroupItem } from "../../ui/radio-group.tsx";
 import axios from "axios";
+import { toast } from "sonner";
 
 function Settings() {
   const { user } = useContext(AuthContext);
@@ -56,6 +57,8 @@ function Settings() {
   }, [user?.currency, user?.theme, form]);
 
   const handleSubmit = async () => {
+    const loadingToast = toast.loading("Carregando!");
+
     try {
       const response = await axios.put(
         `${import.meta.env.VITE_API_URL}/users/${user?.id}`,
@@ -70,10 +73,14 @@ function Settings() {
       if (response.status === 200) {
         console.log("Settings updated succesfully:", response.data);
 
+        toast.dismiss(loadingToast);
+
         updateTheme(response.data.user.theme);
       }
     } catch (err) {
       console.log("Error updating settings:", err);
+      toast.dismiss(loadingToast);
+      toast.error("Ocorreu um erro!");
     }
   };
 

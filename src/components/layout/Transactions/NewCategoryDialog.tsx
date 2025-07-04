@@ -23,6 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "@/contexts/AuthContext.tsx";
+import { toast } from "sonner";
 
 // Schema de validação com Zod
 const transactionFormSchema = z.object({
@@ -51,6 +52,8 @@ function NewCategoryDialog() {
 
   // Função que envia as informações do form
   async function onSubmit(values: z.infer<typeof transactionFormSchema>) {
+    const loadingToast = toast.loading("Carregando!");
+
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/category`,
@@ -62,8 +65,9 @@ function NewCategoryDialog() {
       );
 
       if (response.status === 201) {
-        console.log("Transação criada com sucesso!");
-
+        console.log("Categoria criada com sucesso!");
+        toast.dismiss(loadingToast);
+        toast.success("Categoria criada!");
         // Invalida a consulta de transações para atualizar a UI
         queryClient.invalidateQueries({ queryKey: ["userInfo", user?.id] });
 
@@ -72,6 +76,8 @@ function NewCategoryDialog() {
       }
     } catch (err) {
       console.log(err);
+      toast.dismiss(loadingToast);
+      toast.error("Ocorreu um erro!");
     }
   }
 

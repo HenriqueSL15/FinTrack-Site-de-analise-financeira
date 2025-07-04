@@ -17,6 +17,7 @@ import { useState, useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext.tsx";
 import { Eye, EyeClosed } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const formSchema = z.object({
   name: z.string().refine((name) => name.length > 2, {
@@ -57,6 +58,12 @@ function RegisterPage() {
     try {
       const userData = form.getValues();
       const response = await register(userData);
+
+      toast.promise(response, {
+        loading: "Carregando!",
+        success: "Registrado com sucesso!",
+        error: "Ocorreu um erro!",
+      });
 
       if (response.message == "Usuário criado com sucesso!") {
         navigate("/login");

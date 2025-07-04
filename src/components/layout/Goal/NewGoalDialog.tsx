@@ -24,6 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "@/contexts/AuthContext.tsx";
+import { toast } from "sonner";
 
 function NewGoalDialog() {
   const { user } = useContext(AuthContext);
@@ -55,6 +56,19 @@ function NewGoalDialog() {
 
   async function onSubmit(values: z.infer<typeof goalFormSchema>) {
     try {
+      toast.promise(
+        axios.post(`${import.meta.env.VITE_API_URL}/goal/${user?.id}`, {
+          description: values.name,
+          targetDate: new Date(values.monthYear).toISOString(),
+          targetAmount: parseFloat(values.goal),
+        }),
+        {
+          loading: "Carregando!",
+          success: "Objetivo criado!",
+          error: "Ocorreu um erro!",
+        }
+      );
+
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/goal/${user?.id}`,
         {

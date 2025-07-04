@@ -33,6 +33,7 @@ import { AuthContext } from "@/contexts/AuthContext.tsx";
 import { convertToBRL } from "@/utils/currencyUtils.ts";
 import getUserInformation from "@/utils/userInfoUtils";
 import Category from "@/types/category";
+import { toast } from "sonner";
 
 // Schema de validação com Zod
 const transactionFormSchema = z.object({
@@ -115,6 +116,8 @@ function NewTransactionDialog() {
 
   // Função que envia as informações do form
   async function onSubmit(values: z.infer<typeof transactionFormSchema>) {
+    const loadingToast = toast.loading("Carregando!");
+
     try {
       const categoryId = data?.categories.find(
         (category: Category) => category.name === values.category
@@ -139,11 +142,16 @@ function NewTransactionDialog() {
       if (response.data.message === "Transação criada com sucesso!") {
         console.log("Transação criada com sucesso!");
 
+        toast.dismiss(loadingToast);
+        toast.success("Transação criada!");
+
         // Invalida a consulta de transações para atualizar a UI
         queryClient.invalidateQueries({ queryKey: ["userInfo", user?.id] });
       }
     } catch (err) {
       console.log(err);
+      toast.dismiss(loadingToast);
+      toast.error("Ocorreu um erro!");
     }
     console.log(values);
     setOpen(false);
