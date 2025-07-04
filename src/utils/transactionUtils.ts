@@ -19,8 +19,15 @@ const calculateBalance = (transactions: Transaction[]): number => {
 const calculateTotalIncome = (transactions: Transaction[]): number => {
   if (!transactions || transactions.length === 0) return 0;
 
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth();
+
   return transactions
-    .filter((transaction) => transaction.type === "income")
+    .filter(
+      (transaction) =>
+        transaction.type === "income" &&
+        new Date(transaction.createdAt).getMonth() == currentMonth
+    )
     .reduce((total, transaction) => total + transaction.amount, 0);
 };
 
@@ -28,8 +35,15 @@ const calculateTotalIncome = (transactions: Transaction[]): number => {
 const calculateTotalExpenses = (transactions: Transaction[]): number => {
   if (!transactions || transactions.length === 0) return 0;
 
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth();
+
   return transactions
-    .filter((transaction) => transaction.type === "expense")
+    .filter(
+      (transaction) =>
+        transaction.type === "expense" &&
+        new Date(transaction.createdAt).getMonth() == currentMonth
+    )
     .reduce((total, transaction) => total + transaction.amount, 0);
 };
 
@@ -37,8 +51,15 @@ const calculateTotalExpenses = (transactions: Transaction[]): number => {
 const calculateTotalSavings = (transactions: Transaction[]): number => {
   if (!transactions || transactions.length === 0) return 0;
 
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth();
+
   return transactions
-    .filter((transaction) => transaction.type === "goal")
+    .filter(
+      (transaction) =>
+        transaction.type === "goal" &&
+        new Date(transaction.createdAt).getMonth() == currentMonth
+    )
     .reduce((total, transaction) => total + transaction.amount, 0);
 };
 
