@@ -11,7 +11,7 @@ import Settings from "@/components/layout//Settings/Settings";
 
 function UserPage() {
   const { user, isLoading } = useContext(AuthContext);
-  const [selectedOption, setSelectedOption] = useState("transactions");
+  const [selectedOption, setSelectedOption] = useState("dashboard");
   const navigate = useNavigate();
 
   if (!isLoading && !user) {

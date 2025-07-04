@@ -16,7 +16,7 @@ function Sidebar({
 }: {
   setSelectedOption: (option: string) => void;
 }) {
-  const [selected, setSelected] = useState("dashboardPageButton");
+  const [selected, setSelected] = useState("dashboard");
   const navigate = useNavigate();
 
   const handleClick = (text: string): void => {
