@@ -128,7 +128,7 @@ function NewTransactionDialog() {
         parseFloat(values.amount.replace(",", ".")),
         user?.currency || "BRL"
       );
-
+      
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/transaction/${user?.id}/${categoryId}`,
         {

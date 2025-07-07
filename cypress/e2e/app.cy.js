@@ -213,7 +213,7 @@ describe("FinTrack App", () => {
     cy.get("#reportsPageButton").click();
   });
 
-  it("should see correct values in the expenses per categorie chart", () => {
+  it("should see correct values in the expenses per category chart", () => {
     cy.window().then((win) => {
       const chartInstance = win.categoryReportChart;
       expect(chartInstance).to.exist;

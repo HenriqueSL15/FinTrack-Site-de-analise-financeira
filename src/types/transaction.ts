@@ -9,6 +9,7 @@ export default interface Transaction {
   type: string;
   createdAt: string;
   updatedAt: string;
+  data: string;
   userId: number;
   categoryId: number;
   category: Category;
