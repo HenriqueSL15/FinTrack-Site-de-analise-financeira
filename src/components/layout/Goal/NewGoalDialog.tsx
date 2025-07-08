@@ -29,6 +29,7 @@ import { toast } from "sonner";
 function NewGoalDialog() {
   const { user } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Schema de validação com Zod
   const goalFormSchema = z.object({
@@ -55,20 +56,11 @@ function NewGoalDialog() {
   });
 
   async function onSubmit(values: z.infer<typeof goalFormSchema>) {
-    try {
-      toast.promise(
-        axios.post(`${import.meta.env.VITE_API_URL}/goal/${user?.id}`, {
-          description: values.name,
-          targetDate: new Date(values.monthYear).toISOString(),
-          targetAmount: parseFloat(values.goal),
-        }),
-        {
-          loading: "Carregando!",
-          success: "Objetivo criado!",
-          error: "Ocorreu um erro!",
-        }
-      );
+    const loadingToast = toast.loading("Carregando!");
 
+    setLoading(true);
+
+    try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/goal/${user?.id}`,
         {
@@ -81,11 +73,18 @@ function NewGoalDialog() {
       if (response.status === 201) {
         console.log("Objetivo criado com sucesso!");
 
+        toast.dismiss(loadingToast);
+        toast.success("Objetivo criado!");
+
         // Invalida a consulta de orçamentos para atualizar a UI
         queryClient.invalidateQueries({ queryKey: ["userInfo", user?.id] });
       }
     } catch (err) {
       console.log(err);
+      toast.dismiss(loadingToast);
+      toast.error("Ocorreu um erro!");
+    } finally {
+      setLoading(false);
     }
 
     setOpen(false);
@@ -124,6 +123,7 @@ function NewGoalDialog() {
                       {...field}
                       className="h-10"
                       placeholder="Digite o nome da meta"
+                      disabled={loading}
                       id="goalName"
                     />
                   </FormControl>
@@ -144,6 +144,7 @@ function NewGoalDialog() {
                       type="text"
                       {...field}
                       placeholder="Digite o valor da meta (só os números)"
+                      disabled={loading}
                       id="goalAmount"
                     />
                   </FormControl>
@@ -164,6 +165,7 @@ function NewGoalDialog() {
                       type="date"
                       {...field}
                       className="h-10"
+                      disabled={loading}
                       id="goalDate"
                     />
                   </FormControl>
@@ -182,10 +184,11 @@ function NewGoalDialog() {
                 type="button"
                 variant={"outline"}
                 id="cancelButton"
+                disabled={loading}
               >
                 Cancelar
               </Button>
-              <Button type="submit" id="saveButton">
+              <Button type="submit" id="saveButton" disabled={loading}>
                 Salvar
               </Button>
             </div>

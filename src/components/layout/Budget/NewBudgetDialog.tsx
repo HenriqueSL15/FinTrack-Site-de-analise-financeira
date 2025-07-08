@@ -37,6 +37,7 @@ import { toast } from "sonner";
 function NewBudgetDialog() {
   const { user } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { data } = useQuery({
     queryKey: ["userInfo", user?.id],
@@ -72,6 +73,8 @@ function NewBudgetDialog() {
   async function onSubmit(values: z.infer<typeof budgetFormSchema>) {
     const loadingToast = toast.loading("Carregando!");
 
+    setLoading(true);
+
     try {
       const categoryId = data?.categories?.find(
         (category: Category) => category.name === values.category
@@ -98,6 +101,8 @@ function NewBudgetDialog() {
       console.log(err);
       toast.dismiss(loadingToast);
       toast.error("Ocorreu um erro!");
+    } finally {
+      setLoading(false);
     }
 
     setOpen(false);
@@ -133,6 +138,7 @@ function NewBudgetDialog() {
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
+                    disabled={loading}
                   >
                     <FormControl className="w-full">
                       <SelectTrigger id="selectCategory">
@@ -172,6 +178,7 @@ function NewBudgetDialog() {
                       onChange={(e) =>
                         field.onChange(parseFloat(e.target.value) || 0)
                       }
+                      disabled={loading}
                       id="budgetLimit"
                     />
                   </FormControl>
@@ -190,10 +197,11 @@ function NewBudgetDialog() {
                 type="button"
                 variant={"outline"}
                 id="cancelButton"
+                disabled={loading}
               >
                 Cancelar
               </Button>
-              <Button type="submit" id="saveButton">
+              <Button type="submit" id="saveButton" disabled={loading}>
                 Salvar
               </Button>
             </div>

@@ -64,6 +64,7 @@ const transactionFormSchema = z.object({
 function NewTransactionDialog() {
   const [open, setOpen] = useState(false);
   const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
 
   const [selectedType, setSelectedType] = useState<"expense" | "income">(
     "expense"
@@ -118,6 +119,8 @@ function NewTransactionDialog() {
   async function onSubmit(values: z.infer<typeof transactionFormSchema>) {
     const loadingToast = toast.loading("Carregando!");
 
+    setLoading(true);
+
     try {
       const categoryId = data?.categories.find(
         (category: Category) => category.name === values.category
@@ -128,7 +131,7 @@ function NewTransactionDialog() {
         parseFloat(values.amount.replace(",", ".")),
         user?.currency || "BRL"
       );
-      
+
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/transaction/${user?.id}/${categoryId}`,
         {
@@ -152,7 +155,10 @@ function NewTransactionDialog() {
       console.log(err);
       toast.dismiss(loadingToast);
       toast.error("Ocorreu um erro!");
+    } finally {
+      setLoading(false);
     }
+
     console.log(values);
     setOpen(false);
     form.reset();
@@ -213,6 +219,7 @@ function NewTransactionDialog() {
                       placeholder="Ex: Compra de supermercado"
                       className="h-10"
                       id="transactionDescription"
+                      disabled={loading}
                       {...field}
                     />
                   </FormControl>
@@ -232,6 +239,7 @@ function NewTransactionDialog() {
                       className="h-10"
                       placeholder="0,00"
                       id="transactionAmount"
+                      disabled={loading}
                       {...field}
                     />
                   </FormControl>
@@ -252,6 +260,7 @@ function NewTransactionDialog() {
                       updateTypeBasedOnCategory(e);
                     }}
                     defaultValue={field.value}
+                    disabled={loading}
                   >
                     <FormControl className="w-full">
                       <SelectTrigger id="transactionCategory">
@@ -290,6 +299,7 @@ function NewTransactionDialog() {
                       {...field}
                       className="h-10"
                       id="transactionDate"
+                      disabled={loading}
                     />
                   </FormControl>
                 </FormItem>
@@ -303,10 +313,11 @@ function NewTransactionDialog() {
                 type="button"
                 variant={"outline"}
                 id="cancelButton"
+                disabled={loading}
               >
                 Cancelar
               </Button>
-              <Button type="submit" id="saveButton">
+              <Button type="submit" id="saveButton" disabled={loading}>
                 Salvar
               </Button>
             </div>

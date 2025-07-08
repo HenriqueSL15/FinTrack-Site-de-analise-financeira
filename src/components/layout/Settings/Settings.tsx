@@ -1,7 +1,7 @@
 import z from "zod";
 import { Form, FormField, FormItem, FormLabel } from "../../ui/form.tsx";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../contexts/AuthContext.tsx";
 import { ThemeContext } from "@/contexts/ThemeContext.tsx";
 import { useForm } from "react-hook-form";
@@ -21,6 +21,7 @@ import { toast } from "sonner";
 function Settings() {
   const { user } = useContext(AuthContext);
   const { theme, updateTheme } = useContext(ThemeContext);
+  const [loading, setLoading] = useState(false);
 
   const formSchema = z.object({
     theme: z.enum(["light", "dark", "system"]),
@@ -58,6 +59,7 @@ function Settings() {
 
   const handleSubmit = async () => {
     const loadingToast = toast.loading("Carregando!");
+    setLoading(true);
 
     try {
       const response = await axios.put(
@@ -74,13 +76,15 @@ function Settings() {
         console.log("Settings updated succesfully:", response.data);
 
         toast.dismiss(loadingToast);
-
+        toast.success("Informações atualizadas!");
         updateTheme(response.data.user.theme);
       }
     } catch (err) {
       console.log("Error updating settings:", err);
       toast.dismiss(loadingToast);
       toast.error("Ocorreu um erro!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -113,6 +117,7 @@ function Settings() {
                       className="flex"
                       value={field.value}
                       onValueChange={field.onChange}
+                      disabled={loading}
                     >
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem
@@ -163,7 +168,11 @@ function Settings() {
                   </Label>
                   <FormItem>
                     <FormLabel className="text-base">Moeda</FormLabel>
-                    <Select value={field.value} onValueChange={field.onChange}>
+                    <Select
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      disabled={loading}
+                    >
                       <SelectTrigger
                         className="cursor-pointer"
                         id="selectCurrency"
@@ -205,6 +214,7 @@ function Settings() {
               type="submit"
               className="cursor-pointer"
               id="saveButton"
+              disabled={loading}
             >
               Salvar preferências
             </Button>

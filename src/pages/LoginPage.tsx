@@ -41,6 +41,7 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,6 +52,8 @@ function LoginPage() {
   });
 
   async function formSubmitHandler() {
+    setLoading(true);
+
     try {
       const { email, password } = form.getValues();
       const response = await login(email, password);
@@ -66,6 +69,8 @@ function LoginPage() {
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -95,6 +100,7 @@ function LoginPage() {
                     <Input
                       placeholder="seu@email.com"
                       id="emailField"
+                      disabled={loading}
                       {...field}
                     />
                   </FormControl>
@@ -115,6 +121,7 @@ function LoginPage() {
                         placeholder="Sua senha"
                         type={showPassword ? "text" : "password"}
                         id="passwordField"
+                        disabled={loading}
                         {...field}
                       />
                     </FormControl>
@@ -155,6 +162,7 @@ function LoginPage() {
                 variant={"link"}
                 className="cursor-pointer p-1"
                 onClick={() => navigate("/register")}
+                disabled={loading}
                 id="registerPageButton"
               >
                 Crie conta

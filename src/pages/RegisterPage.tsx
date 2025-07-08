@@ -44,6 +44,7 @@ function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { register } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,6 +56,8 @@ function RegisterPage() {
   });
 
   async function formSubmitHandler() {
+    setLoading(true);
+
     try {
       const userData = form.getValues();
       const response = await register(userData);
@@ -71,6 +74,8 @@ function RegisterPage() {
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -97,7 +102,12 @@ function RegisterPage() {
                 <FormItem className="space-y-2">
                   <FormLabel>Nome</FormLabel>
                   <FormControl>
-                    <Input placeholder="Seu nome" id="nameField" {...field} />
+                    <Input
+                      placeholder="Seu nome"
+                      id="nameField"
+                      disabled={loading}
+                      {...field}
+                    />
                   </FormControl>
 
                   <FormMessage />
@@ -114,6 +124,7 @@ function RegisterPage() {
                     <Input
                       placeholder="seu@email.com"
                       id="emailField"
+                      disabled={loading}
                       {...field}
                     />
                   </FormControl>
@@ -134,6 +145,7 @@ function RegisterPage() {
                         placeholder="Sua senha"
                         type={showPassword ? "text" : "password"}
                         id="passwordField"
+                        disabled={loading}
                         {...field}
                       />
                     </FormControl>
@@ -163,6 +175,7 @@ function RegisterPage() {
             className="cursor-pointer mt-5 w-9/12"
             type="submit"
             id="registerButton"
+            disabled={loading}
           >
             Registrar
           </Button>

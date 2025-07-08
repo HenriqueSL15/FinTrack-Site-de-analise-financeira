@@ -55,7 +55,7 @@ function TransactionsTable({
                 className="p-4 w-[20%]"
                 data-testid={`transactionRow-${i}-date`}
               >
-                {transaction.date.split("T")[0].replace(/-/g, "/")}
+                {transaction.date.split("T")[0].split("-").reverse().join("/")}
               </td>
               <td
                 className="min-w-20"

@@ -57,7 +57,7 @@ function GoalCard({
           <h1 className="font-medium">Data alvo:</h1>
           {/* Usar a formatação */}
           <h2 data-testid="goalDate">
-            {date.split("T")[0].replace(/-/g, "/")}
+            {date.split("T")[0].split("-").reverse().join("/")}
           </h2>
         </div>
         <div>

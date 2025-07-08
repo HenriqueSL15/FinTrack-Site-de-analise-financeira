@@ -38,6 +38,7 @@ const transactionFormSchema = z.object({
 function NewCategoryDialog() {
   const [open, setOpen] = useState(false);
   const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -53,6 +54,8 @@ function NewCategoryDialog() {
   // Função que envia as informações do form
   async function onSubmit(values: z.infer<typeof transactionFormSchema>) {
     const loadingToast = toast.loading("Carregando!");
+
+    setLoading(true);
 
     try {
       const response = await axios.post(
@@ -78,6 +81,8 @@ function NewCategoryDialog() {
       console.log(err);
       toast.dismiss(loadingToast);
       toast.error("Ocorreu um erro!");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -110,6 +115,7 @@ function NewCategoryDialog() {
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                       className="flex gap-4"
+                      disabled={loading}
                     >
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem
@@ -149,6 +155,7 @@ function NewCategoryDialog() {
                       placeholder="Ex: Salário"
                       className="h-10"
                       id="categoryDescription"
+                      disabled={loading}
                       {...field}
                     />
                   </FormControl>
@@ -163,10 +170,11 @@ function NewCategoryDialog() {
                 type="button"
                 variant={"outline"}
                 id="cancelButton"
+                disabled={loading}
               >
                 Cancelar
               </Button>
-              <Button type="submit" id="saveButton">
+              <Button type="submit" id="saveButton" disabled={loading}>
                 Salvar
               </Button>
             </div>

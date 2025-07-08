@@ -42,6 +42,7 @@ function UpdatedGoalDialog({
 }) {
   const { user } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { data } = useQuery({
     queryKey: ["userInfo", user?.id],
@@ -102,6 +103,8 @@ function UpdatedGoalDialog({
   ): Promise<void> {
     const loadingToast = toast.loading("Carregando!");
 
+    setLoading(true);
+
     try {
       const response = await axios.put(
         `${import.meta.env.VITE_API_URL}/goal/${user?.id}/${goal.id}`,
@@ -117,6 +120,7 @@ function UpdatedGoalDialog({
           ),
           targetDate: new Date(values.targetDate).toISOString(),
           balance: balance,
+          date: new Date(),
         }
       );
       if (response.status === 200) {
@@ -134,6 +138,8 @@ function UpdatedGoalDialog({
       console.log(err);
       toast.dismiss(loadingToast);
       toast.error("Ocorreu um erro!");
+    } finally {
+      setLoading(false);
     }
 
     setOpen(false);
@@ -146,6 +152,8 @@ function UpdatedGoalDialog({
     userId: number
   ): Promise<void> {
     const loadingToast = toast.loading("Carregando!");
+
+    setLoading(true);
 
     try {
       const response = await axios.delete(
@@ -162,6 +170,8 @@ function UpdatedGoalDialog({
       toast.dismiss(loadingToast);
       toast.error("Ocorreu um erro!");
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -187,7 +197,12 @@ function UpdatedGoalDialog({
                 <FormItem>
                   <FormLabel>Nome</FormLabel>
                   <FormControl>
-                    <Input type="text" {...field} id="goalName" />
+                    <Input
+                      type="text"
+                      {...field}
+                      id="goalName"
+                      disabled={loading}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -208,6 +223,7 @@ function UpdatedGoalDialog({
                       onChange={(e) =>
                         field.onChange(parseFloat(e.target.value) || 0)
                       }
+                      disabled={loading}
                       id="goalAmount"
                     />
                   </FormControl>
@@ -232,6 +248,7 @@ function UpdatedGoalDialog({
                       onChange={(e) =>
                         field.onChange(parseFloat(e.target.value) || 0)
                       }
+                      disabled={loading}
                       id="goalCurrentAmount"
                     />
                   </FormControl>
@@ -248,7 +265,12 @@ function UpdatedGoalDialog({
                 <FormItem>
                   <FormLabel>Data alvo</FormLabel>
                   <FormControl>
-                    <Input type="date" {...field} id="goalDate" />
+                    <Input
+                      type="date"
+                      {...field}
+                      id="goalDate"
+                      disabled={loading}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -265,6 +287,7 @@ function UpdatedGoalDialog({
                 }}
                 type="button"
                 variant={"destructive"}
+                disabled={loading}
                 id="deleteGoalButton"
               >
                 Deletar
@@ -279,6 +302,7 @@ function UpdatedGoalDialog({
                   type="button"
                   variant={"outline"}
                   id="cancelButton"
+                  disabled={loading}
                 >
                   Cancelar
                 </Button>
@@ -286,6 +310,7 @@ function UpdatedGoalDialog({
                   type="submit"
                   className="cursor-pointer"
                   id="saveButton"
+                  disabled={loading}
                 >
                   Salvar
                 </Button>
