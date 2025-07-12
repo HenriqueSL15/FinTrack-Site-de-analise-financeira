@@ -54,18 +54,18 @@ function LoginPage() {
   async function formSubmitHandler() {
     setLoading(true);
 
+    const loadingToast = toast.loading("Carregando!");
+
     try {
       const { email, password } = form.getValues();
       const response = await login(email, password);
 
-      toast.promise(response, {
-        loading: "Carregando!",
-        success: "Logado com sucesso!",
-        error: "Ocorreu um erro!",
-      });
-
       if (response) {
+        toast.success("Logado com sucesso!");
         navigate("/");
+      } else {
+        toast.dismiss(loadingToast);
+        toast.error("Usuário não encontrado!");
       }
     } catch (err) {
       console.log(err);

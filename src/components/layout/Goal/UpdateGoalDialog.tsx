@@ -137,7 +137,7 @@ function UpdatedGoalDialog({
     } catch (err) {
       console.log(err);
       toast.dismiss(loadingToast);
-      toast.error("Ocorreu um erro!");
+      toast.error(err.response.data.message);
     } finally {
       setLoading(false);
     }
