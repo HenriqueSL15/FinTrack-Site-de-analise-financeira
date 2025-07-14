@@ -64,7 +64,7 @@ function TransactionsTable({
                 {transaction.description}
               </td>
               <td data-testid={`transactionRow-${i}-category`}>
-                {transaction.category.name}
+                {transaction.category?.name || "Objetivo"}
               </td>
               <td>
                 <h1

@@ -8,4 +8,5 @@ export default interface GoalCardProps {
   date: string;
   id: string;
   index: number;
+  status?: string;
 }
