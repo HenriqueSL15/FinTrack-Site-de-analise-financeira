@@ -61,6 +61,7 @@ function LoginPage() {
       const response = await login(email, password);
 
       if (response) {
+        toast.dismiss(loadingToast);
         toast.success("Logado com sucesso!");
         navigate("/");
       } else {

@@ -19,24 +19,24 @@ function Goals() {
     enabled: !!user?.id,
   });
 
-  const updateGoalStatus = async (goal: Goal, status: string) => {
-    try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/goal/${user?.id}/${goal.id}`,
-        {
-          status,
-        }
-      );
-
-      if (response.status === 200) {
-        console.log("Deu tudo certo");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
+    const updateGoalStatus = async (goal: Goal, status: string) => {
+      try {
+        const response = await axios.put(
+          `${import.meta.env.VITE_API_URL}/goal/${user?.id}/${goal.id}`,
+          {
+            status,
+          }
+        );
+
+        if (response.status === 200) {
+          console.log("Deu tudo certo");
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     if (!data) return;
     const goals: Goal[] = data.goals;
     const remainingDays = goals.map((goal: Goal) =>
@@ -48,11 +48,17 @@ function Goals() {
     for (let i = 0; i < remainingDays.length; i++) {
       const goal = goals[i];
       const goalPercentage = (goal.currentAmount / goal.targetAmount) * 100;
-      if (remainingDays[i] === 0) {
-        if (goalPercentage < 100) {
-          updateGoalStatus(goal, "expired");
-          anythingChanged = true;
-        } else {
+
+      if (goal.status === "active") {
+        if (remainingDays[i] === 0) {
+          if (goalPercentage < 100) {
+            updateGoalStatus(goal, "expired");
+            anythingChanged = true;
+          } else {
+            updateGoalStatus(goal, "completed");
+            anythingChanged = true;
+          }
+        } else if (goalPercentage === 100) {
           updateGoalStatus(goal, "completed");
           anythingChanged = true;
         }
@@ -62,7 +68,7 @@ function Goals() {
     if (anythingChanged) {
       queryClient.invalidateQueries({ queryKey: ["userInfo", user?.id] });
     }
-  }, [data]);
+  }, [data, queryClient, user]);
 
   return (
     <div className="w-full h-screen p-8 space-y-10 dark:bg-[#1A1A1A]">

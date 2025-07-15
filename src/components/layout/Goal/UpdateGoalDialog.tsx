@@ -38,7 +38,7 @@ import { toast } from "sonner";
 function UpdatedGoalDialog({
   goal,
 }: {
-  goal: Omit<GoalCardProps, "daysRemaining" | "percentage">;
+  goal: Omit<GoalCardProps, "daysRemaining">;
 }) {
   const { user } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
@@ -157,12 +157,18 @@ function UpdatedGoalDialog({
 
     try {
       const response = await axios.delete(
-        `${import.meta.env.VITE_API_URL}/goal/${userId}/${goalId}`
+        `${import.meta.env.VITE_API_URL}/goal/${userId}/${goalId}/${
+          goal.percentage
+        }`
       );
 
       if (response.status === 200) {
         toast.dismiss(loadingToast);
-        toast.success("Objetivo deletado!");
+        if (goal.percentage === 100) {
+          toast.success("Objetivo deletado!");
+        } else {
+          toast.info("O dinheiro que foi armazenado foi devolvido!");
+        }
         queryClient.invalidateQueries({ queryKey: ["userInfo", user?.id] });
       }
       console.log("Orçamento deletado com sucesso!");
