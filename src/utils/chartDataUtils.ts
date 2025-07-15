@@ -39,7 +39,7 @@ export function processTransactionsForChart(
   if (transactions.length > 0) {
     // Assumindo que transactions tem um campo createdAt ou date
     oldestTransactionDate = transactions.reduce((oldest, transaction) => {
-      const transDate = new Date(transaction.createdAt);
+      const transDate = new Date(transaction.date);
       return transDate < oldest ? transDate : oldest;
     }, new Date());
   }
@@ -51,7 +51,7 @@ export function processTransactionsForChart(
       (currentDate.getMonth() - oldestTransactionDate.getMonth()) +
       1
   );
-
+  
   // Usar apenas os meses para os quais temos dados
   const relevantMonths = lastMonths.slice(amountOfMonths - monthsWithData);
 
@@ -74,7 +74,7 @@ export function processTransactionsForChart(
 
   // Agrupar transações por mês
   transactions.forEach((transaction) => {
-    const transDate = new Date(transaction.createdAt);
+    const transDate = new Date(transaction.date);
 
     // Verificar se a transação está nos meses relevantes
     for (let i = 0; i < relevantMonths.length; i++) {
@@ -94,6 +94,8 @@ export function processTransactionsForChart(
       }
     }
   });
+
+  
 
   return {
     labels,
