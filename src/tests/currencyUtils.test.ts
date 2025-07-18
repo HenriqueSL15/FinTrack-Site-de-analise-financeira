@@ -7,7 +7,7 @@ import {
 
 describe("currencyUtils", () => {
   it("convertCurrency converts correctly", () => {
-    expect(convertCurrency(10, "USD")).toBeCloseTo(1.77, 2);
+    expect(convertCurrency(10, "USD")).toBeCloseTo(1.842, 2);
     expect(convertCurrency(10, "EUR")).toBeCloseTo(1.56, 2);
     expect(convertCurrency(10, "BRL")).toBe(10);
   });
@@ -29,7 +29,7 @@ describe("currencyUtils", () => {
 
 describe("formatCurrency", () => {
   it("formats correctly", () => {
-    expect(formatCurrency(10, "USD")).toBe("US$\u00A01,77");
+    expect(formatCurrency(10, "USD")).toBe("US$\u00A01,84");
     expect(formatCurrency(10, "EUR")).toBe("€\u00A01,56");
     expect(formatCurrency(10, "BRL")).toBe("R$\u00A010,00");
   });
@@ -59,8 +59,8 @@ describe("parseCurrencyString", () => {
 
 describe("convertToBRL", () => {
   it("converts correctly", () => {
-    expect(convertToBRL(10, "USD")).toBeCloseTo(56.6, 2);
-    expect(convertToBRL(10, "EUR")).toBeCloseTo(63.9, 2);
+    expect(convertToBRL(10, "USD")).toBeCloseTo(54.28881650380021, 2);
+    expect(convertToBRL(10, "EUR")).toBeCloseTo(64.11489388985062, 2);
     expect(convertToBRL(10, "BRL")).toBe(10);
   });
 

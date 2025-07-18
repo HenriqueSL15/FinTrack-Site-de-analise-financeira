@@ -6,11 +6,11 @@ import {
 } from "../utils/transactionUtils";
 
 const mockTransactions = [
-  { type: "income", amount: 100 },
-  { type: "expense", amount: 40 },
-  { type: "goal", amount: 10 },
-  { type: "income", amount: 50 },
-  { type: "expense", amount: 20 },
+  { type: "income", amount: 100, date: new Date() },
+  { type: "expense", amount: 40, date: new Date() },
+  { type: "goal", amount: 10, date: new Date() },
+  { type: "income", amount: 50, date: new Date() },
+  { type: "expense", amount: 20, date: new Date() },
 ] as any;
 
 describe("transactionUtils", () => {

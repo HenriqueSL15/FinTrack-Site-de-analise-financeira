@@ -22,6 +22,7 @@
     "@tailwindcss/postcss": "^4.1.10",
     "@tailwindcss/vite": "^4.1.4",
     "@tanstack/react-query": "^5.74.11",
+    "@types/axios": "^0.14.4",
     "@types/jest": "^29.5.14",
     "@types/validator": "^13.15.2",
     "@vitejs/plugin-react": "^4.6.0",

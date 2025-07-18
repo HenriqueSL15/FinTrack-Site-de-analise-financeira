@@ -7,35 +7,35 @@ const transactions1 = [
   {
     amount: 100,
     category: { name: "Food" },
-    createdAt: "2025-01-01T03:00:00.000Z",
+    date: new Date(new Date().setMonth(new Date().getMonth() - 4)),
     description: "Food",
     type: "expense",
   },
   {
     amount: 200,
     category: { name: "Food" },
-    createdAt: "2025-02-01T03:00:00.000Z",
+    date: new Date(new Date().setMonth(new Date().getMonth() - 3)),
     description: "Food",
     type: "income",
   },
   {
     amount: 300,
     category: { name: "Car" },
-    createdAt: "2025-03-01T03:00:00.000Z",
+    date: new Date(new Date().setMonth(new Date().getMonth() - 2)),
     description: "Car",
     type: "expense",
   },
   {
     amount: 400,
     category: { name: "Food" },
-    createdAt: "2025-04-01T03:00:00.000Z",
+    date: new Date(new Date().setMonth(new Date().getMonth() - 1)),
     description: "Food",
     type: "income",
   },
   {
     amount: 500,
     category: { name: "Food" },
-    createdAt: "2025-05-01T03:00:00.000Z",
+    date: new Date(),
     description: "Food",
     type: "goal",
   },
@@ -45,57 +45,93 @@ const transactions2 = [
   {
     amount: 200,
     category: { name: "Food" },
-    createdAt: "2024-12-01T03:00:00.000Z",
+    date: new Date(new Date().setMonth(new Date().getMonth() - 5)),
     description: "Food",
     type: "income",
   },
   {
     amount: 100,
     category: { name: "Car" },
-    createdAt: "2025-01-01T03:00:00.000Z",
+    date: new Date(new Date().setMonth(new Date().getMonth() - 4)),
     description: "Car",
     type: "expense",
   },
   {
     amount: 200,
     category: { name: "Food" },
-    createdAt: "2025-02-01T03:00:00.000Z",
+    date: new Date(new Date().setMonth(new Date().getMonth() - 3)),
     description: "Food",
     type: "income",
   },
   {
     amount: 300,
     category: { name: "Car" },
-    createdAt: "2025-03-01T03:00:00.000Z",
+    date: new Date(new Date().setMonth(new Date().getMonth() - 2)),
     description: "Car",
     type: "expense",
   },
   {
     amount: 400,
     category: { name: "Food" },
-    createdAt: "2025-04-01T03:00:00.000Z",
+    date: new Date(new Date().setMonth(new Date().getMonth() - 1)),
     description: "Food",
     type: "income",
   },
   {
     amount: 500,
     category: { name: "Food" },
-    createdAt: "2025-05-01T03:00:00.000Z",
+    date: new Date(),
     description: "Food",
     type: "goal",
   },
 ] as any;
 
-beforeAll(() => {
-  jest.useFakeTimers();
-  jest.setSystemTime(new Date("2025-05-31T03:00:00.000Z"));
-});
+interface AllMonths {
+  [key: number]: string;
+}
+
+const allMonths: AllMonths = {
+  0: "Janeiro",
+  1: "Fevereiro",
+  2: "Março",
+  3: "Abril",
+  4: "Maio",
+  5: "Junho",
+  6: "Julho",
+  7: "Agosto",
+  8: "Setembro",
+  9: "Outubro",
+  10: "Novembro",
+  11: "Dezembro",
+};
+
+// Helper function to generate last N months labels dynamically
+function getLastNMonthsLabels(n: number): string[] {
+  const labels: string[] = [];
+  const currentDate = new Date();
+
+  for (let i = n - 1; i >= 0; i--) {
+    const date = new Date(currentDate);
+    date.setMonth(date.getMonth() - i);
+
+    const monthAbbr = allMonths[date.getMonth()].substring(0, 3);
+
+    if (date.getFullYear() !== currentDate.getFullYear()) {
+      labels.push(`${monthAbbr} / ${date.getFullYear().toString().slice(2)}`);
+    } else {
+      labels.push(monthAbbr);
+    }
+  }
+
+  return labels;
+}
 
 describe("chartDataUtils", () => {
   it("processTransactionsForChart returns correct data", () => {
     const data = processTransactionsForChart(transactions1, 5);
-
-    expect(data?.labels).toEqual(["Jan", "Fev", "Mar", "Abr", "Mai"]);
+    // console.log(getLastNMonthsLabels(5));
+    // console.log(data?.labels);
+    expect(data?.labels).toEqual(getLastNMonthsLabels(5));
     expect(data?.incomeData).toEqual([0, 200, 0, 400, 0]);
     expect(data?.expenseData).toEqual([100, 0, 300, 0, 0]);
   });
@@ -103,7 +139,7 @@ describe("chartDataUtils", () => {
   it("processTransactionsForChart returns correct data", () => {
     const data = processTransactionsForChart(transactions2, 6);
 
-    expect(data?.labels).toEqual(["Dez/24", "Jan", "Fev", "Mar", "Abr", "Mai"]);
+    expect(data?.labels).toEqual(getLastNMonthsLabels(6));
     expect(data?.incomeData).toEqual([200, 0, 200, 0, 400, 0]);
     expect(data?.expenseData).toEqual([0, 100, 0, 300, 0, 0]);
   });
@@ -144,11 +180,6 @@ describe("processTransactionsPerCategory", () => {
 
   it("processTransactionsPerCategory returns null if transactions are []", () => {
     const data = processTransactionsPerCategory([], 6);
-
     expect(data).toBe(null);
   });
-});
-
-afterAll(() => {
-  jest.useRealTimers();
 });

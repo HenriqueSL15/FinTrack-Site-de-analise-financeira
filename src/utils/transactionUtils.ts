@@ -26,7 +26,7 @@ const calculateTotalIncome = (transactions: Transaction[]): number => {
     .filter(
       (transaction) =>
         transaction.type === "income" &&
-        new Date(transaction.createdAt).getMonth() == currentMonth
+        new Date(transaction.date).getMonth() == currentMonth
     )
     .reduce((total, transaction) => total + transaction.amount, 0);
 };
@@ -42,7 +42,7 @@ const calculateTotalExpenses = (transactions: Transaction[]): number => {
     .filter(
       (transaction) =>
         transaction.type === "expense" &&
-        new Date(transaction.createdAt).getMonth() == currentMonth
+        new Date(transaction.date).getMonth() == currentMonth
     )
     .reduce((total, transaction) => total + transaction.amount, 0);
 };
@@ -58,7 +58,7 @@ const calculateTotalSavings = (transactions: Transaction[]): number => {
     .filter(
       (transaction) =>
         transaction.type === "goal" &&
-        new Date(transaction.createdAt).getMonth() == currentMonth
+        new Date(transaction.date).getMonth() == currentMonth
     )
     .reduce((total, transaction) => total + transaction.amount, 0);
 };
