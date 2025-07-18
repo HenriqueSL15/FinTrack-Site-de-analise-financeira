@@ -46,6 +46,10 @@ describe("FinTrack App", () => {
     cy.url().should("include", "/dashboard");
   });
 
+  it("should go to the transactions page", () => {
+    cy.get("#transactionsPageButton").click();
+  });
+
   it("should create a category called 'Salary'", () => {
     cy.get("#newCategoryButton").click();
 
@@ -76,13 +80,13 @@ describe("FinTrack App", () => {
     cy.get("#radix-«r6»").should("not.exist");
   });
 
-  it("should create a new transaction with 'Salary' category and R$900 as amount", () => {
+  it("should create a new transaction with 'Salary' category and R$10000 as amount", () => {
     cy.get("#newTransactionButton").click();
 
     cy.get("#transactionDescription").type("Salary of the month");
-    cy.get("#transactionAmount").type("900");
-    cy.get("#transactionCategory").click();
+    cy.get("#transactionAmount").type("10000");
 
+    cy.get("#transactionCategory").click();
     cy.get("#categoryItem-Salary").click();
 
     cy.get("#saveButton").click();
@@ -101,7 +105,7 @@ describe("FinTrack App", () => {
 
     cy.get("[data-testid='transactionRow-0-amount']").should(
       "contain",
-      "900,00"
+      "10.000,00"
     );
   });
 
@@ -165,11 +169,17 @@ describe("FinTrack App", () => {
     cy.get("#dashboardPageButton").click();
 
     cy.get("[data-testid='financialCard-0']").within(() => {
-      cy.get("[data-testid='financialCardValue']").should("contain", "225,00");
+      cy.get("[data-testid='financialCardValue']").should(
+        "contain",
+        "9.325,00"
+      );
     });
 
     cy.get("[data-testid='financialCard-1']").within(() => {
-      cy.get("[data-testid='financialCardValue']").should("contain", "900,00");
+      cy.get("[data-testid='financialCardValue']").should(
+        "contain",
+        "10.000,00"
+      );
     });
 
     cy.get("[data-testid='financialCard-2']").within(() => {
@@ -244,7 +254,7 @@ describe("FinTrack App", () => {
       const receitas = chartInstance.data.datasets[0].data[0];
       const despesas = chartInstance.data.datasets[1].data[0];
 
-      expect(receitas).to.equal(900);
+      expect(receitas).to.equal(10000);
       expect(despesas).to.equal(675);
     });
   });
@@ -300,7 +310,20 @@ describe("FinTrack App", () => {
     cy.get("[data-testid='goalAmount']").should("include.text", "3.800");
   });
 
-  it("should go to the dashboard and see the amount that was used in Goals", () => {
+  it("should update the goal to complete the target amount", () => {
+    cy.get("#updateGoalButton").click();
+
+    cy.get("#goalCurrentAmount").clear().type("3800");
+    cy.get("#saveButton").click();
+
+    cy.get("[data-testid='goalPercentage']").should("include.text", "100%");
+    cy.get("[data-testid='goalAmount']").should("include.text", "3.800");
+    cy.get("#deleteGoalButton").should("be.visible");
+  });
+
+  it("should delete the completed goal and it's statistics should stay in the dashboard", () => {
+    cy.get("#deleteGoalButton").click();
+
     cy.get("#dashboardPageButton").click();
 
     cy.get("[data-testid='financialCard-3']")
@@ -308,24 +331,107 @@ describe("FinTrack App", () => {
       .within(() => {
         cy.get("[data-testid='financialCardValue']").should(
           "include.text",
-          "225"
+          "3.800"
         );
       });
   });
 
-  it("should go back to the Goals page and delete the 'Laptop Gamer' Goal", () => {
+  it("should go back to the Goals page and create a new 'example' Goal (with it's limit day being today)", () => {
     cy.get("#goalsPageButton").click();
 
-    cy.get("[data-testid='goalCard-0']").within(() => {
-      cy.get("#updateGoalButton").click();
+    cy.get("#newGoalButton").click();
+
+    cy.get("#goalName").type("Example");
+    cy.get("#goalAmount").type("1200");
+
+    cy.get("#goalDate").type(new Date().toISOString().split("T")[0]);
+
+    cy.get("#saveButton").click();
+
+    cy.get('[data-testid="goalCard-0"]').within(() => {
+      cy.get('[data-testid="goalAmount"]').should("include.text", "1.200");
+      cy.get('[data-testid="goalDate"]').should("include.text", "18/07/2025");
     });
-
-    cy.get("#deleteGoalButton").click();
-
-    cy.get("[data-testid='goalCard-0']").should("not.exist");
   });
 
-  it("should go back to dashboard page and see the chart values", () => {
+  it("should delete the 'example' Goal", () => {
+    cy.get("#deleteGoalButton").click();
+  });
+
+  it("should create a new 'example 2' Goal", () => {
+    cy.get("#newGoalButton").click();
+
+    cy.get("#goalName").type("Example 2");
+    cy.get("#goalAmount").type("500");
+
+    const date = new Date();
+    console.log(date.getTime(), date.getDate());
+    date.setDate(date.getDate() + 1);
+
+    cy.get("#goalDate").type(date.toISOString().split("T")[0]);
+
+    cy.get("#saveButton").click();
+
+    cy.wait(2000);
+
+    cy.get("[data-testid='goalCard-0']")
+      .should("exist")
+      .within(() => {
+        cy.get("[data-testid='goalTitle']").should("have.text", "Example 2");
+        cy.get("[data-testid='goalPercentage']").should(
+          "have.text",
+          "0% utilizado"
+        );
+        cy.get("[data-testid='goalAmount']").should("include.text", "500,00");
+        cy.get("[data-testid='goalSpent']").should("include.text", "0,00");
+      });
+  });
+
+  it("should update 'example 2' Goal with a higher current amount and delete it from inside of the update form", () => {
+    cy.get("#updateGoalButton").click();
+
+    cy.get("#goalCurrentAmount").clear().type(250);
+    cy.get("#saveButton").click();
+
+    cy.wait(2000);
+
+    cy.get("#updateGoalButton").click();
+    cy.get("#deleteGoalButton").click();
+  });
+
+  it("should go to the dashboard page and see if the values are correct", () => {
+    cy.get("#dashboardPageButton").click();
+
+    cy.get('[data-testid="financialCard-0"]').within(() => {
+      cy.get("[data-testid='financialCardValue']").should(
+        "include.text",
+        "5.525"
+      );
+    });
+
+    cy.get('[data-testid="financialCard-1"]').within(() => {
+      cy.get("[data-testid='financialCardValue']").should(
+        "include.text",
+        "10.000"
+      );
+    });
+
+    cy.get('[data-testid="financialCard-2"]').within(() => {
+      cy.get("[data-testid='financialCardValue']").should(
+        "include.text",
+        "675"
+      );
+    });
+
+    cy.get('[data-testid="financialCard-3"]').within(() => {
+      cy.get("[data-testid='financialCardValue']").should(
+        "include.text",
+        "3.800"
+      );
+    });
+  });
+
+  it("see the chart values", () => {
     const monthsLabels = [
       "Jan",
       "Fev",
@@ -341,8 +447,6 @@ describe("FinTrack App", () => {
       "Dez",
     ];
 
-    cy.get("#dashboardPageButton").click();
-
     cy.window().then((win) => {
       const chartInstance = win.areaChart;
       expect(chartInstance).to.exist;
@@ -351,7 +455,7 @@ describe("FinTrack App", () => {
       const currentMonthLabel = monthsLabels[date.getMonth()];
 
       expect(chartInstance.data.labels).to.deep.equal([currentMonthLabel]);
-      expect(chartInstance.data.datasets[0].data).to.deep.equal([900]);
+      expect(chartInstance.data.datasets[0].data).to.deep.equal([10000]);
       expect(chartInstance.data.datasets[1].data).to.deep.equal([675]);
     });
   });
@@ -368,10 +472,17 @@ describe("FinTrack App", () => {
 
     cy.get("#dashboardPageButton").click();
 
+    cy.get("[data-testid='financialCard-0']").within(() => {
+      cy.get("[data-testid='financialCardValue']").should(
+        "include.text",
+        "861,73"
+      );
+    });
+
     cy.get("[data-testid='financialCard-1']").within(() => {
       cy.get("[data-testid='financialCardValue']").should(
         "include.text",
-        "140,37"
+        "1.559,70"
       );
     });
 
@@ -385,7 +496,7 @@ describe("FinTrack App", () => {
     cy.get("[data-testid='financialCard-3']").within(() => {
       cy.get("[data-testid='financialCardValue']").should(
         "include.text",
-        "35,09"
+        "592,69"
       );
     });
   });
@@ -402,10 +513,17 @@ describe("FinTrack App", () => {
 
     cy.get("#dashboardPageButton").click();
 
+    cy.get("[data-testid='financialCard-0']").within(() => {
+      cy.get("[data-testid='financialCardValue']").should(
+        "include.text",
+        "1.017,71"
+      );
+    });
+
     cy.get("[data-testid='financialCard-1']").within(() => {
       cy.get("[data-testid='financialCardValue']").should(
         "include.text",
-        "165,78"
+        "1.842,00"
       );
     });
 
@@ -419,7 +537,7 @@ describe("FinTrack App", () => {
     cy.get("[data-testid='financialCard-3']").within(() => {
       cy.get("[data-testid='financialCardValue']").should(
         "include.text",
-        "41,45"
+        "699,96"
       );
     });
   });
