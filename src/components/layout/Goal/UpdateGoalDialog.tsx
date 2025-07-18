@@ -28,12 +28,16 @@ import {
 } from "@/utils/currencyUtils";
 import { useQueryClient } from "@tanstack/react-query";
 import { toISODate } from "@/utils/dateUtils";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import GoalCardProps from "@/types/goalCard";
 import { calculateBalance } from "@/utils/transactionUtils";
 import { useQuery } from "@tanstack/react-query";
 import getUserInformation from "@/utils/userInfoUtils";
 import { toast } from "sonner";
+
+interface ApiError {
+  message: string;
+}
 
 function UpdatedGoalDialog({
   goal,
@@ -135,9 +139,14 @@ function UpdatedGoalDialog({
         });
       }
     } catch (err) {
-      console.log(err);
-      toast.dismiss(loadingToast);
-      toast.error(err.response.data.message);
+      if (axios.isAxiosError(err)) {
+        const axiosError = err as AxiosError<ApiError>;
+        console.log(err);
+        toast.dismiss(loadingToast);
+        toast.error(axiosError.response?.data?.message || "Erro desconhecido");
+      } else {
+        toast.error("Ocorreu um erro inesperado");
+      }
     } finally {
       setLoading(false);
     }
