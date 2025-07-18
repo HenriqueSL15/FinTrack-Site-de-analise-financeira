@@ -31,7 +31,7 @@ function Budgets() {
         <NewBudgetDialog />
       </div>
       <div className="grid grid-cols-3 w-full gap-5">
-        {data?.budgets.map((budget: Budget, i) => {
+        {data?.budgets.map((budget: Budget, i: number) => {
           const spentAmount = getSpentAmount(budget, data?.transactions);
 
           return (

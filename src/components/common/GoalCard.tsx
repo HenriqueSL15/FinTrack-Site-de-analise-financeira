@@ -1,6 +1,6 @@
 import { Progress } from "../ui/progress";
 import { formatCurrency } from "@/utils/currencyUtils";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AuthContext } from "@/contexts/AuthContext";
 import UpdatedGoalDialog from "../layout/Goal/UpdateGoalDialog";
 import GoalCardProps from "@/types/goalCard";
