@@ -197,7 +197,7 @@ function UpdatedGoalDialog({
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Atualizar objetivo</DialogTitle>
+          <DialogTitle>Atualizar Objetivo</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form

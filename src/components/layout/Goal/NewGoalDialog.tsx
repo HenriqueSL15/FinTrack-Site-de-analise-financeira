@@ -103,7 +103,7 @@ function NewGoalDialog() {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Adicionar Orçamento</DialogTitle>
+          <DialogTitle>Adicionar Objetivo</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
