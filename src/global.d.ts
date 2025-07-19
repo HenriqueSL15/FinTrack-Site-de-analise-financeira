@@ -3,3 +3,5 @@ interface Window {
   categoryReportChart: any;
   incomeVsExpenseChart: any;
 }
+
+declare module "chroma-js";
