@@ -38,7 +38,7 @@ export function processTransactionsForChart(
   let oldestTransactionDate = new Date();
   if (transactions.length > 0) {
     oldestTransactionDate = transactions.reduce((oldest, transaction) => {
-      const transDate = new Date(transaction.createdAt || transaction.date);
+      const transDate = new Date(transaction.date);
       return transDate < oldest ? transDate : oldest;
     }, new Date());
   }
