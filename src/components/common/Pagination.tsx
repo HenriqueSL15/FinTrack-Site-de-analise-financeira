@@ -19,7 +19,7 @@ function Pagination({
         Página Anterior
       </Button>
       <h1 className="font-semibold w-20 text-center">
-        {currentPage} / {totalPages}
+        {currentPage} / {totalPages > 0 ? totalPages : 1}
       </h1>
       <Button
         className="cursor-pointer"
