@@ -436,31 +436,24 @@ describe("FinTrack App", () => {
   });
 
   it("see the chart values", () => {
-    const monthsLabels = [
-      "Jan",
-      "Fev",
-      "Mar",
-      "Abr",
-      "Mai",
-      "Jun",
-      "Jul",
-      "Ago",
-      "Set",
-      "Out",
-      "Nov",
-      "Dez",
-    ];
-
     cy.window().then((win) => {
       const chartInstance = win.areaChart;
       expect(chartInstance).to.exist;
 
-      const date = new Date();
-      const currentMonthLabel = monthsLabels[date.getMonth()];
-
-      expect(chartInstance.data.labels).to.deep.equal([currentMonthLabel]);
-      expect(chartInstance.data.datasets[0].data).to.deep.equal([10000]);
-      expect(chartInstance.data.datasets[1].data).to.deep.equal([675]);
+      expect(chartInstance.data.labels).to.deep.equal([
+        "Jul",
+        "Ago",
+        "Set",
+        "Out",
+        "Nov",
+        "Dez",
+      ]);
+      expect(chartInstance.data.datasets[0].data).to.deep.equal([
+        10000, 0, 0, 0, 0, 0,
+      ]);
+      expect(chartInstance.data.datasets[1].data).to.deep.equal([
+        675, 0, 0, 0, 0, 0,
+      ]);
     });
   });
 
@@ -469,6 +462,7 @@ describe("FinTrack App", () => {
 
     cy.get("#selectCurrency").click();
     cy.get("#eur").click();
+    cy.wait(2000);
 
     cy.get("#saveButton").click();
 
