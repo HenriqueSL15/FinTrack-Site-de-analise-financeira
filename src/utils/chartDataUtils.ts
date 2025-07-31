@@ -24,16 +24,6 @@ export function processTransactionsForChart(
   amountOfMonths: number
 ) {
   if (!transactions || transactions?.length < 1) return null;
-  const currentDate = new Date();
-  const lastMonths = Array.from({ length: amountOfMonths }, (_, i) => {
-    const date = new Date(currentDate);
-
-    date.setDate(1);
-    date.setMonth(date.getMonth() - (amountOfMonths - 1 - i));
-
-    return date;
-  });
-
   // Encontrar a data da transação mais antiga
   let oldestTransactionDate = new Date();
   if (transactions.length > 0) {
@@ -43,11 +33,23 @@ export function processTransactionsForChart(
     }, new Date());
   }
 
+  const lastMonths = Array.from({ length: amountOfMonths }, (_, i) => {
+    const date = new Date(oldestTransactionDate);
+
+    date.setDate(1);
+    date.setMonth(date.getMonth() + i);
+
+    return date;
+  });
+
   // Determinar quantos meses de dados temos
   const firstTransactionMonth = oldestTransactionDate.getMonth();
   const firstTransactionYear = oldestTransactionDate.getFullYear();
-  const currentMonth = currentDate.getMonth();
-  const currentYear = currentDate.getFullYear();
+
+  // Use the last month in lastMonths as the current month for calculation
+  const lastMonthDate = lastMonths[lastMonths.length - 1];
+  const currentMonth = lastMonthDate.getMonth();
+  const currentYear = lastMonthDate.getFullYear();
 
   let monthsWithData =
     (currentYear - firstTransactionYear) * 12 +
@@ -63,7 +65,7 @@ export function processTransactionsForChart(
     const monthAbbr = allMonths[date.getMonth()].substring(0, 3);
 
     // Adiciona o ano se for diferente do ano atual
-    if (date.getFullYear() !== currentDate.getFullYear()) {
+    if (date.getFullYear() !== currentYear) {
       return `${monthAbbr}/${date.getFullYear().toString().slice(2)}`;
     }
 
@@ -109,15 +111,6 @@ export function processTransactionsPerCategory(
 ): { labels: string[]; chartData: number[] } | null {
   if (!transactions || transactions?.length < 1) return null;
 
-  const currentDate = new Date();
-  const lastMonths = Array.from({ length: amountOfMonths }, (_, i) => {
-    const date = new Date(currentDate);
-    date.setDate(1);
-    date.setMonth(date.getMonth() - (amountOfMonths - 1 - i));
-
-    return date;
-  });
-
   // Encontrar a data da transação mais antiga
   let oldestTransactionDate = new Date();
   if (transactions.length > 0) {
@@ -128,11 +121,22 @@ export function processTransactionsPerCategory(
     }, new Date());
   }
 
+  const lastMonths = Array.from({ length: amountOfMonths }, (_, i) => {
+    const date = new Date(oldestTransactionDate);
+    date.setDate(1);
+    date.setMonth(date.getMonth() + i);
+
+    return date;
+  });
+
   // Determinar quantos meses de dados temos
   const firstTransactionMonth = oldestTransactionDate.getMonth();
   const firstTransactionYear = oldestTransactionDate.getFullYear();
-  const currentMonth = currentDate.getMonth();
-  const currentYear = currentDate.getFullYear();
+
+  // Use the last month in lastMonths as the current month for calculation
+  const lastMonthDate = lastMonths[lastMonths.length - 1];
+  const currentMonth = lastMonthDate.getMonth();
+  const currentYear = lastMonthDate.getFullYear();
 
   let monthsWithData =
     (currentYear - firstTransactionYear) * 12 +

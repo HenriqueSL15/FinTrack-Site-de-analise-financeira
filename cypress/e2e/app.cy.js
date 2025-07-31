@@ -350,12 +350,16 @@ describe("FinTrack App", () => {
 
     cy.get('[data-testid="goalCard-0"]').within(() => {
       cy.get('[data-testid="goalAmount"]').should("include.text", "1.200");
-      cy.get('[data-testid="goalDate"]').should("include.text", "18/07/2025");
+      cy.get('[data-testid="goalDate"]').should(
+        "include.text",
+        new Date().toISOString().split("T")[0].split("-").reverse().join("/")
+      );
     });
   });
 
   it("should delete the 'example' Goal", () => {
     cy.get("#deleteGoalButton").click();
+    cy.wait(2000);
   });
 
   it("should create a new 'example 2' Goal", () => {
