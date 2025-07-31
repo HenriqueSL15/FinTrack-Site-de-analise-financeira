@@ -53,6 +53,22 @@ Acesse uma demonstração ao vivo [aqui](https://fintrackbr.netlify.app)
 ### Moeda REAL (a conversão é feita automaticamente no site todo)
 ![chrome_twm9CIu8Kd](https://github.com/user-attachments/assets/e580548a-eb64-4b0b-bb00-13a16b83be60)
 
+## 🧪 Testes
+
+Este projeto inclui testes automatizados para garantir a qualidade e estabilidade da aplicação, abrangendo testes unitários, de integração e end-to-end.
+
+### Testes Unitários e de Integração (Jest)
+
+Para executar os testes unitários e de integração, utilize o Jest com o seguinte comando:
+
+```bash
+npx jest
+```
+
+Para executar os testes E2E, utilized o Cypress com o seguinte comando:
+```bash
+npx cypress run
+```
 
 ### 
 ## 🚀 Tecnologias Utilizadas
