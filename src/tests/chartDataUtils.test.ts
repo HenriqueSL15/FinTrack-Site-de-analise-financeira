@@ -105,27 +105,6 @@ const allMonths: AllMonths = {
   11: "Dezembro",
 };
 
-// Helper function to generate last N months labels dynamically
-function getLastNMonthsLabels(n: number): string[] {
-  const labels: string[] = [];
-  const currentDate = new Date();
-
-  for (let i = n - 1; i >= 0; i--) {
-    const date = new Date(currentDate);
-    date.setMonth(date.getMonth() - i);
-
-    const monthAbbr = allMonths[date.getMonth()].substring(0, 3);
-
-    if (date.getFullYear() !== currentDate.getFullYear()) {
-      labels.push(`${monthAbbr} / ${date.getFullYear().toString().slice(2)}`);
-    } else {
-      labels.push(monthAbbr);
-    }
-  }
-
-  return labels;
-}
-
 describe("chartDataUtils", () => {
   it("processTransactionsForChart returns correct data", () => {
     const data = processTransactionsForChart(transactions1, 5);
