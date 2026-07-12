@@ -19,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
@@ -51,10 +52,17 @@ const transactionFormSchema = z.object({
         parseFloat(val.replace(",", ".")) > 0,
       {
         message: "Valor deve ser um número positivo",
-      }
+      },
     ),
   category: z.string({
     required_error: "Selecione uma categoria",
+  }),
+  installment: z.boolean(),
+  installments: z.coerce.number().min(1, {
+    message: "Número de parcelas deve ser maior que 0",
+  }),
+  installmentRate: z.coerce.number().min(0, {
+    message: "Taxa de juros deve ser no mínimo 0%",
   }),
   date: z.string().refine((val) => !isNaN(Date.parse(val)), {
     message: "Data inválida",
@@ -67,7 +75,7 @@ function NewTransactionDialog() {
   const [loading, setLoading] = useState(false);
 
   const [selectedType, setSelectedType] = useState<"expense" | "income">(
-    "expense"
+    "expense",
   );
 
   const queryClient = useQueryClient();
@@ -78,7 +86,7 @@ function NewTransactionDialog() {
     enabled: !!user?.id,
   });
 
-  // Configuraão do formulário
+  // Configuração do formulário
   const form = useForm<z.infer<typeof transactionFormSchema>>({
     resolver: zodResolver(transactionFormSchema),
     defaultValues: {
@@ -86,14 +94,19 @@ function NewTransactionDialog() {
       description: "",
       amount: "",
       category: "",
+      installment: false,
+      installments: 1,
+      installmentRate: 0,
       date: new Date().toISOString().split("T")[0],
     },
   });
 
+  const isInstallment = form.watch("installment");
+
   // Função para atualizar o tipo com base na categoria selecionada
   const updateTypeBasedOnCategory = (categoryName: string) => {
     const selectedCategory = data?.categories.find(
-      (category: Category) => category.name === categoryName
+      (category: Category) => category.name === categoryName,
     );
 
     if (selectedCategory) {
@@ -123,13 +136,13 @@ function NewTransactionDialog() {
 
     try {
       const categoryId = data?.categories.find(
-        (category: Category) => category.name === values.category
+        (category: Category) => category.name === values.category,
       )?.id;
 
       // Converte o valor da moeda do suuário para BRL antes de salvar
       const amountInBRL = convertToBRL(
         parseFloat(values.amount.replace(",", ".")),
-        user?.currency || "BRL"
+        user?.currency || "BRL",
       );
 
       const response = await axios.post(
@@ -139,7 +152,7 @@ function NewTransactionDialog() {
           amount: amountInBRL,
           type: values.type,
           date: values.date,
-        }
+        },
       );
 
       if (response.data.message === "Transação criada com sucesso!") {
@@ -285,6 +298,54 @@ function NewTransactionDialog() {
                 </FormItem>
               )}
             />
+
+            {/* Parcelamento/empréstimo */}
+
+            <FormField
+              control={form.control}
+              name="installment"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Parcelamento/Empréstimo</FormLabel>
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            {isInstallment && (
+              <div className="flex gap-4">
+                <FormField
+                  control={form.control}
+                  name="installments"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Número de Parcelas</FormLabel>
+                      <FormControl>
+                        <Input type="number" {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="installmentRate"
+                  render={({ field }) => (
+                    <FormItem className="max-w-1/2">
+                      <FormLabel>Taxa de Júros ao Mês</FormLabel>
+                      <FormControl>
+                        <Input type="number" {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+            )}
 
             {/* Data */}
             <FormField
