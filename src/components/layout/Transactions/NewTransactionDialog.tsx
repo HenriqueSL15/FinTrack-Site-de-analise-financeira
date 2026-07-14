@@ -139,27 +139,54 @@ function NewTransactionDialog() {
         (category: Category) => category.name === values.category,
       )?.id;
 
-      // Converte o valor da moeda do suuário para BRL antes de salvar
+      // Converte o valor da moeda do usuário para BRL antes de salvar
       const amountInBRL = convertToBRL(
         parseFloat(values.amount.replace(",", ".")),
         user?.currency || "BRL",
       );
 
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/transaction/${user?.id}/${categoryId}`,
-        {
-          description: values.description,
-          amount: amountInBRL,
-          type: values.type,
-          date: values.date,
-        },
-      );
+      if (values.installment) {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/installment/${user?.id}/${categoryId}`,
+          {
+            description: values.description,
+            amount: amountInBRL,
+            type: values.type,
+            date: values.date,
+            installments: values.installments,
+            installmentRate: values.installmentRate / 100,
+          },
+        );
+        console.log(response);
+        if (
+          response.data.message ===
+          "Empréstimo/Parcelamento criado com sucesso!"
+        ) {
+          console.log("Empréstimo/Parcelamento criado com sucesso!");
 
-      if (response.data.message === "Transação criada com sucesso!") {
-        console.log("Transação criada com sucesso!");
+          toast.dismiss(loadingToast);
+          toast.success("Empréstimo/Parcelamento criado!");
+        }
 
-        toast.dismiss(loadingToast);
-        toast.success("Transação criada!");
+        // Invalida a consulta de transações para atualizar a UI
+        queryClient.invalidateQueries({ queryKey: ["userInfo", user?.id] });
+      } else {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/transaction/${user?.id}/${categoryId}`,
+          {
+            description: values.description,
+            amount: amountInBRL,
+            type: values.type,
+            date: values.date,
+          },
+        );
+
+        if (response.data.message === "Transação criada com sucesso!") {
+          console.log("Transação criada com sucesso!");
+
+          toast.dismiss(loadingToast);
+          toast.success("Transação criada!");
+        }
 
         // Invalida a consulta de transações para atualizar a UI
         queryClient.invalidateQueries({ queryKey: ["userInfo", user?.id] });
@@ -172,7 +199,6 @@ function NewTransactionDialog() {
       setLoading(false);
     }
 
-    console.log(values);
     setOpen(false);
     form.reset();
   }
