@@ -157,7 +157,7 @@ function NewTransactionDialog() {
             installmentRate: values.installmentRate / 100,
           },
         );
-        console.log(response);
+
         if (
           response.data.message ===
           "Empréstimo/Parcelamento criado com sucesso!"
