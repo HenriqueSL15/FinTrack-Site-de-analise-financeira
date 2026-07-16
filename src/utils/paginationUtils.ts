@@ -12,7 +12,7 @@ const getCurrentPageTransactions = (
   currentPage: number,
   data: Transaction[],
   search: string,
-  transactionsPerPage: number
+  transactionsPerPage: number,
 ): Transaction[] => {
   if (!data || data?.length < 1) return [];
   if (currentPage < 1) return [];
@@ -25,14 +25,23 @@ const getCurrentPageTransactions = (
   if (search) {
     filteredData = filteredData.filter(
       (transaction) =>
-        transaction.description.toLowerCase().includes(search.toLowerCase()) &&
-        transaction.type != "goal"
+        (transaction.description.toLowerCase().includes(search.toLowerCase()) ||
+          transaction.category.name
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          transaction.date
+            .split("T")[0]
+            .split("-")
+            .reverse()
+            .join("/")
+            .includes(search)) &&
+        transaction.type != "goal",
     );
 
     return filteredData;
   } else {
     filteredData = filteredData.filter(
-      (transaction) => transaction.type != "goal"
+      (transaction) => transaction.type != "goal",
     );
   }
 
@@ -43,7 +52,7 @@ const getCurrentPageTransactions = (
 const goToNextPage = (
   currentPage: number,
   totalPages: number,
-  setCurrentPage: (currentPage: number) => void
+  setCurrentPage: (currentPage: number) => void,
 ): void => {
   if (currentPage < totalPages) {
     setCurrentPage(currentPage + 1);
@@ -52,7 +61,7 @@ const goToNextPage = (
 
 const goToPreviousPage = (
   currentPage: number,
-  setCurrentPage: (currentPage: number) => void
+  setCurrentPage: (currentPage: number) => void,
 ): void => {
   if (currentPage > 1) {
     setCurrentPage(currentPage - 1);
